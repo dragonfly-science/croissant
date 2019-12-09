@@ -1,0 +1,32 @@
+{
+  "name": "croissant",
+  "private": true,
+  "dependencies": {
+    "@rails/actioncable": "^6.0.0",
+    "@rails/activestorage": "^6.0.0",
+    "@rails/ujs": "^6.0.0",
+    "@rails/webpacker": "4.2.2"
+  },
+  "version": "0.1.0",
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "lighthouse": "^5.6.0",
+    "prettier": "^1.19.1",
+    "prettier-config-ackama": "^0.1.1",
+    "sass-lint": "^1.13.1",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "prettier": "prettier-config-ackama",
+  "scripts": {
+    "js-lint": "eslint . --ignore-pattern '!.eslintrc.js' --ext js,ts,tsx,jsx",
+    "js-lint-fix": "eslint . --ignore-pattern '!.eslintrc.js' --ext js,ts,tsx,jsx --fix",
+    "format-check": "prettier --check './**/*.{json,md,js,ts,tsx,jsx}'",
+    "format-fix": "prettier --write './**/*.{json,md,js,ts,tsx,jsx}'"
+  }
+}
