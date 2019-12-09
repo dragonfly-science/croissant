@@ -59,6 +59,8 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.0)
+    autoprefixer-rails (9.7.3)
+      execjs
     axe-matchers (2.5.0)
       dumb_delegator (~> 0.8)
       virtus (~> 1.0)
@@ -68,6 +70,10 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
+    bootstrap (4.4.1)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 1.14.3, < 2)
+      sassc-rails (>= 2.0.0)
     brakeman (4.7.2)
     builder (3.2.3)
     bundler-audit (0.6.1)
@@ -100,6 +106,7 @@ GEM
     dumb_delegator (0.8.0)
     equalizer (0.0.11)
     erubi (1.9.0)
+    execjs (2.7.0)
     factory_bot (5.1.1)
       activesupport (>= 4.2.0)
     factory_bot_rails (5.1.1)
@@ -146,6 +153,7 @@ GEM
     parser (2.6.5.0)
       ast (~> 2.4.0)
     pg (1.1.4)
+    popper_js (1.14.5)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -291,6 +299,7 @@ PLATFORMS
 DEPENDENCIES
   axe-matchers
   bootsnap (>= 1.4.2)
+  bootstrap (~> 4.4.1)
   brakeman
   bundler-audit
   capybara (>= 2.15)
