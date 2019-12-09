@@ -15,12 +15,10 @@
     <!-- Croissant <%= Rails.application.config.version %> (<%= l(Rails.application.config.version_time) %>) -->
 
     <%# CSS should go closest to the top of the document as possible. %>
-    <%= stylesheet_pack_tag("application",
-                            media: "all",
-                            "data-turbolinks-track" => "reload") %>
+    <%= stylesheet_pack_tag "application" %>
 
     <%# JavaScript must be in head for Turbolinks to work. %>
-    <%= javascript_pack_tag "application", "data-turbolinks-track": "reload" %>
+    <%= javascript_pack_tag "application" %>
 
     <%= yield(:head) %>
 
@@ -37,6 +35,7 @@
 
     <%= render("application/flash") %>
     <%= yield %>
+
 
   </body>
 </html>
