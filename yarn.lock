@@ -7048,11 +7048,6 @@ prepend-http@^1.0.0, prepend-http@^1.0.1:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
   integrity sha1-1PRWKwzjaW5BrFLQ4ALlemNdxtw=
 
-prettier-config-ackama@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/prettier-config-ackama/-/prettier-config-ackama-0.1.1.tgz#225286d08df3a64d8f4ca5da57c095f7307a6a3b"
-  integrity sha512-GjuxfZrRZC6eLOxpdo06tMD7sHhSVGZ77//XGt426wrlvUwgv1R2g41aQ27Rkv6d0aVPQXchGNJRprKeoB5SyA==
-
 prettier-linter-helpers@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/prettier-linter-helpers/-/prettier-linter-helpers-1.0.0.tgz#d23d41fe1375646de2d0104d3454a3008802cf7b"

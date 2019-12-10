@@ -4,6 +4,7 @@ files:
     - "app/assets/stylesheets/foundation_and_overrides.scss"
     - "app/assets/stylesheets/_settings.scss"
     - "node_modules/**/*"
+    - "vendor/**/*.s+(a|c)ss"
 options:
   formatter: stylish
   # Default rules are visible at

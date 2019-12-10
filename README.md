@@ -4,8 +4,8 @@ Tagging for policy friends across government.
 
 ### Browser Support
 
-This tool is built for government agencies to use, and as such needs to be
-a little bit more expansive in its browser support.
+This tool is built for government agencies to use, and as such needs to be a
+little bit more expansive in its browser support.
 
 | **Browser**            | **Supported Versions** |
 | ---------------------- | ---------------------- |
@@ -21,21 +21,21 @@ a little bit more expansive in its browser support.
 
 ## Project Resources:
 
-| **Resource**    | **URL**                           |
-| --------------- | --------------------------------- |
-| Backlog URL     | [Trello](https://trello.com/b/76mWPkzx/croissant-papa-korero)   |
-| CI URL          | [Travis](https://travis-ci.org/ServiceInnovationLab/croissant/) |
+| **Resource**        | **URL**                                                                                      |
+| ------------------- | -------------------------------------------------------------------------------------------- |
+| Backlog URL         | [Trello](https://trello.com/b/76mWPkzx/croissant-papa-korero)                                |
+| CI URL              | [Travis](https://travis-ci.org/ServiceInnovationLab/croissant/)                              |
 | Google Drive folder | [Google Drive](https://drive.google.com/drive/u/0/folders/1HzhqcG_frJknxaQJYjUIllmMGyS7K3mc) |
 
 ## People Involved
 
-| **Role(s)**     | **Name(s)** |
-| --------------- | ----------- |
-| Tech Lead      | Merrin Macleod |
-| Developers      | Dan Morrison |
-| Designer        | Ross Patel        |
-| Scrum Master | Felipe Bohorquez-Perry        |
-| Product Owner   | Elias Wyber        |
+| **Role(s)**   | **Name(s)**            |
+| ------------- | ---------------------- |
+| Tech Lead     | Merrin Macleod         |
+| Developers    | Dan Morrison           |
+| Designer      | Ross Patel             |
+| Scrum Master  | Felipe Bohorquez-Perry |
+| Product Owner | Elias Wyber            |
 
 ## Comms:
 

@@ -1,0 +1,42 @@
+language: ruby
+dist: xenial
+cache:
+  bundler: true
+  yarn: true
+services:
+  - postgresql
+branches:
+  only:
+  - master
+addons:
+  postgresql: '10'
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
+    - chromium-chromedriver
+    - google-chrome-stable
+env:
+  global:
+  - RAILS_ENV=test
+before_install:
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64  >
+  ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- export PATH=$PWD/geckodriver:$PATH
+install:
+- nvm install 10
+- npm i -g yarn
+- bundle install
+- yarn install
+before_script:
+- cp example.env .env
+- cp config/database.example.yml config/database.yml
+- cp config/secrets.example.yml config/secrets.yml
+- RAILS_ENV=test bundle exec rake db:create db:migrate
+- bundle exec rails assets:precompile
+script:
+- bin/ci-run
+after_script:
+  - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT -t simplecov --id
+    $CC_TEST_REPORTER_ID"
