@@ -1,6 +1,6 @@
 class ConsultationsController < ApplicationController
   def index
-    @consultations = Consultation.order("name ASC")
+    @consultations = Consultation.alpahbetical_order
   end
 
   def show
