@@ -10,4 +10,4 @@ cd $APP_DIR
 echo "* ******************************************************"
 echo "* Running rspec feature specs"
 echo "* ******************************************************"
-bundle exec rake spec:system
+bundle exec rake spec:features

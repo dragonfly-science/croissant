@@ -1,0 +1,11 @@
+<h1>Consultations</h1>
+<table>
+  <th>Name</th>
+  <th>Type</th>
+  <% @consultations.each do |consultation| %>
+    <tr>
+      <td><%= link_to consultation.name, consultation %></td>
+      <td><%= consultation.consultation_type %></td>
+    </tr>
+  <% end %>
+</table>
