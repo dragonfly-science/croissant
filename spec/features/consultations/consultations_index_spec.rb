@@ -17,4 +17,9 @@ RSpec.feature "Consultations index page", js: true do
   it "renders links to each consultations show page" do
     expect(page).to have_link(consultations.first.name)
   end
+
+  it "clicking a consultation link takes you to its show page" do
+    find_link(consultations.first.name).click
+    expect(page).to have_css("h1", text: consultations.first.name)
+  end
 end
