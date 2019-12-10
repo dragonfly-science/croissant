@@ -22,6 +22,10 @@ RSpec.describe ConsultationsController, type: :request do
     it "responds with an ok status" do
       expect(response).to have_http_status(:ok)
     end
+
+    it "assigns a new instance of the consultation model" do
+      expect(assigns(:consultation)).to be_a_kind_of(Consultation)
+    end
   end
 
   describe "#create" do
@@ -39,13 +43,24 @@ RSpec.describe ConsultationsController, type: :request do
         subject
         expect(response).to have_http_status(:redirect)
       end
+
+      it "assigns a new instance of the consultation model with the provided params" do
+        subject
+        expect(assigns(:consultation)).to be_a_kind_of(Consultation)
+        expect(assigns(:consultation).name).to eq(params[:consultation][:name])
+      end
     end
   end
 
   describe "#show" do
+    before { get consultation_path(consultation) }
+
     it "responds with an ok status" do
-      get consultation_path(consultation)
       expect(response).to have_http_status(:ok)
+    end
+
+    it "assigns the correct consultation" do
+      expect(assigns(:consultation)).to eq(consultation)
     end
   end
 end
