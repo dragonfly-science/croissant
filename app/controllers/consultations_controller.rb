@@ -1,4 +1,8 @@
 class ConsultationsController < ApplicationController
+  def index
+    @consultations = Consultation.order("name ASC")
+  end
+
   def show
     @consultation = find_consultation
   end
