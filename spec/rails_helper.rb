@@ -6,7 +6,8 @@ require File.expand_path("../config/environment", __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require "rspec/rails"
 require "capybara/rspec"
-require "selenium-webdriver"
+require "selenium/webdriver"
+require "webdrivers"
 require "lighthouse/matchers/rspec"
 require "axe/rspec"
 
@@ -49,9 +50,13 @@ Capybara.register_driver :chrome do |app|
   # Docker compatibility
   options.add_argument("--headless")
   options.add_argument("--no-sandbox")
+  options.headless!
 
   Capybara::Selenium::Driver.new app, browser: :chrome, options: options
 end
+
+Capybara.javascript_driver = :chrome
+Lighthouse::Matchers.remote_debugging_port = 9222
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

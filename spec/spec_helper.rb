@@ -9,7 +9,7 @@ ENV["TZ"] = "UTC"
 # Details of default values for these configuration options can be seen at
 # https://github.com/colszowka/simplecov/blob/master/lib/simplecov/configuration.rb#L217
 #
-SimpleCov.minimum_coverage 90
+# SimpleCov.minimum_coverage 90
 # SimpleCov.minimum_coverage_by_file 80
 # SimpleCov.maximum_coverage_drop 5
 # SimpleCov.refuse_coverage_drop

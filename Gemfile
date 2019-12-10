@@ -38,6 +38,7 @@ end
 
 group :test do
   gem "capybara", ">= 2.15"
+  gem "faker"
   gem "mock_redis"
   gem "selenium-webdriver"
   gem "webdrivers"

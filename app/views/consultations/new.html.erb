@@ -1,0 +1,15 @@
+<% if @consultation.errors.any? %>
+  <ul>
+  <% @consultation.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+  <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @consultation, local: true do |f| %>
+  <%= f.label :name, t("consultation.name")%>
+  <%= f.text_field :name %><br>
+  <%= f.label :consultation_type, t("consultation.type")%>
+  <%= f.select :consultation_type, Consultation.consultation_types.keys %><br>
+  <%= f.submit %>
+<% end %>

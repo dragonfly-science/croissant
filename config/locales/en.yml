@@ -31,3 +31,8 @@
 
 en:
   hello: "Hello world"
+  consultation:
+    name: "Name"
+    type: "Consultation type"
+    create:
+      failure: "Failed to create consultation"
