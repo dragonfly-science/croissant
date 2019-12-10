@@ -9,6 +9,11 @@ RSpec.describe ConsultationsController, type: :request do
     it "responds with an ok status" do
       expect(response).to have_http_status(:ok)
     end
+
+    it "assigns and instance variable with all consultations ordered alphabetically" do
+      ordered_consultations = Consultation.order("name ASC")
+      expect(assigns(:consultations)).to eq(ordered_consultations)
+    end
   end
 
   describe "#new" do
