@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.feature "Consultation page", js: true do
+RSpec.feature "Consultations new page", js: true do
   before do
     visit new_consultation_path
   end
