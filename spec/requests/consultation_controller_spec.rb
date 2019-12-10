@@ -4,15 +4,20 @@ RSpec.describe ConsultationsController, type: :request do
   let(:consultation) { FactoryBot.create(:consultation) }
 
   describe "#index" do
-    before { get consultations_path }
+    subject { get consultations_path }
 
     it "responds with an ok status" do
+      subject
       expect(response).to have_http_status(:ok)
     end
 
     it "assigns and instance variable with all consultations ordered alphabetically" do
-      ordered_consultations = Consultation.order("name ASC")
-      expect(assigns(:consultations)).to eq(ordered_consultations)
+      consultation2 = FactoryBot.create(:consultation, name: "Be a banana")
+      consultation1 = FactoryBot.create(:consultation, name: "A hotdog")
+      consultation3 = FactoryBot.create(:consultation, name: "The only apple")
+
+      subject
+      expect(assigns(:consultations).to_a).to eq([consultation1, consultation2, consultation3])
     end
   end
 
