@@ -3,6 +3,14 @@ require "rails_helper"
 RSpec.describe ConsultationsController, type: :request do
   let(:consultation) { FactoryBot.create(:consultation) }
 
+  describe "#index" do
+    before { get consultations_path }
+
+    it "responds with an ok status" do
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe "#new" do
     before { get new_consultation_path }
 
