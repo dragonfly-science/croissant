@@ -32,8 +32,8 @@ Rails.application.routes.draw do
     require "sidekiq/web"
   end
 
-  root "home#index"
+  root "consultations#index"
 
-  resources :consultations, only: %i[show new create]
+  resources :consultations, only: %i[index show new create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
