@@ -15,6 +15,8 @@ gem "webpacker", "~> 4.0"
 
 gem "rack-canonical-host", "~> 0.2.3"
 
+gem "bootstrap_form", "~> 4.0"
+
 group :development do
   gem "bundler-audit", require: false
   gem "brakeman", require: false

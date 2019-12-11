@@ -68,6 +68,9 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
+    bootstrap_form (4.3.0)
+      actionpack (>= 5.0)
+      activemodel (>= 5.0)
     brakeman (4.7.2)
     builder (3.2.3)
     bundler-audit (0.6.1)
@@ -297,6 +300,7 @@ PLATFORMS
 DEPENDENCIES
   axe-matchers
   bootsnap (>= 1.4.2)
+  bootstrap_form (~> 4.0)
   brakeman
   bundler-audit
   capybara (>= 2.15)
