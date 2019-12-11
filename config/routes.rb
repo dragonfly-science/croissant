@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :taxonomies, only: :show do
+    resources :tags, only: %i[new create destroy]
+  end
+
   ##
   # Workaround a "bug" in lighthouse CLI
   #

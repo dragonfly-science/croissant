@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_09_225421) do
+ActiveRecord::Schema.define(version: 2019_12_10_034018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,4 +22,23 @@ ActiveRecord::Schema.define(version: 2019_12_09_225421) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.bigint "taxonomy_id", null: false
+    t.string "name"
+    t.bigint "parent_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["parent_id"], name: "index_tags_on_parent_id"
+    t.index ["taxonomy_id"], name: "index_tags_on_taxonomy_id"
+  end
+
+  create_table "taxonomies", force: :cascade do |t|
+    t.bigint "consultation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["consultation_id"], name: "index_taxonomies_on_consultation_id"
+  end
+
+  add_foreign_key "tags", "taxonomies"
+  add_foreign_key "taxonomies", "consultations"
 end

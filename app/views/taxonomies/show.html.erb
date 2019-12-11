@@ -1,0 +1,16 @@
+<h2>
+  <%= @taxonomy.consultation.name %>
+</h2>
+
+<%= link_to 'New tag', new_taxonomy_tag_path(taxonomy_id: @taxonomy.id) %>
+
+<section>
+  <h2>Tags</h2>
+  <ul>
+    <% @taxonomy.tags.each do |tag| %>
+      <li class="c-tag">
+        <%= render partial: tag %>
+      </li>
+    <% end %>
+  </ul>
+</section>

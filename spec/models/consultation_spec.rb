@@ -20,6 +20,10 @@ RSpec.describe Consultation, type: :model do
     expect { subject.consultation_type = "hotdog" }.to raise_error(ArgumentError)
   end
 
+  it "creates a new taxonomy when it is created" do
+    expect(subject.taxonomy).to be_an_instance_of(Taxonomy)
+  end
+
   context "alphabetical_order scope" do
     it "returns all consultations ordered alphabetically" do
       consultation2 = FactoryBot.create(:consultation, name: "Be a banana")
