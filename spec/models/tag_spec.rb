@@ -39,4 +39,14 @@ RSpec.describe Tag, type: :model do
       expect(Tag.new(taxonomy: taxonomy, name: "Trees")).to be_valid
     end
   end
+
+  context "parent_level scope" do
+    it "returns all scopes with a parent id of nil" do
+      parent_tag_1 = FactoryBot.create(:tag, taxonomy: taxonomy)
+      parent_tag_2 = FactoryBot.create(:tag, taxonomy: taxonomy)
+      child_tag_1 = FactoryBot.create(:tag, taxonomy: taxonomy, parent: parent_tag_1)
+      expect(described_class.parent_level).to include(parent_tag_1, parent_tag_2)
+      expect(described_class.parent_level).to_not include(child_tag_1)
+    end
+  end
 end

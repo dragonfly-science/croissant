@@ -7,7 +7,7 @@
 <section>
   <h2>Tags</h2>
   <ul>
-    <% @taxonomy.tags.each do |tag| %>
+    <% @taxonomy.tags.parent_level.each do |tag| %>
       <li class="c-tag">
         <%= render partial: tag %>
       </li>

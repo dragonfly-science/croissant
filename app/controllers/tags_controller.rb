@@ -37,6 +37,6 @@ class TagsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def tag_params
-    params.require(:tag).permit(:name).merge(taxonomy: @taxonomy)
+    params.require(:tag).permit(:name, :parent_id).merge(taxonomy: @taxonomy)
   end
 end

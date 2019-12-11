@@ -7,6 +7,8 @@ class Tag < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { scope: :taxonomy }
 
+  scope :parent_level, -> { where(parent_id: nil) }
+
   private
 
   def in_same_taxonomy?(other)

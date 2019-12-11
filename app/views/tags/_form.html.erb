@@ -10,6 +10,10 @@
       </ul>
     </div>
   <% end %>
+  <div class="field">
+    <%= form.label :parent_id, "Parent Tag" %>
+    <%= form.select :parent_id, options_from_collection_for_select(@taxonomy.tags, :id, :name) %>
+  </div>
 
   <div class="field">
     <%= form.label :name %>
