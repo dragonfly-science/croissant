@@ -42,7 +42,7 @@ after_script:
     $CC_TEST_REPORTER_ID"
 deploy:
   provider: heroku
-  skip_cleanup: true
+  cleanup: false
   on:
     repo: ServiceInnovationLab/croissant
   app:
