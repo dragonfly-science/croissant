@@ -11,8 +11,7 @@
     </div>
   <% end %>
   <div class="field">
-    <%= form.label :parent_id, "Parent Tag" %>
-    <%= form.select :parent_id, options_from_collection_for_select(@taxonomy.tags, :id, :name) %>
+    <%= form.select :parent_id, options_from_collection_for_select(@taxonomy.tags, :id, :name), include_blank: true %>
   </div>
 
   <div class="field">
