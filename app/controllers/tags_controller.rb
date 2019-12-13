@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
+  before_action :taxonomy
   before_action :set_tag, only: %i[destroy]
-  before_action :set_taxonomy
 
   # GET taxonomies/:taxonomy_id/tags/new
   def new
@@ -26,13 +26,12 @@ class TagsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_tag
-    @tag = Tag.find(params[:id])
+    @tag = taxonomy.tags.find(params[:id])
   end
 
-  def set_taxonomy
-    @taxonomy = Taxonomy.find(params[:taxonomy_id])
+  def taxonomy
+    @taxonomy ||= Taxonomy.find(params[:taxonomy_id])
   end
 
   # Only allow a trusted parameter "white list" through.

@@ -21,5 +21,12 @@ RSpec.describe "Tags", type: :request do
       delete taxonomy_tag_path(taxonomy_id: taxonomy.id, id: tag.id)
       expect(response).to have_http_status(302)
     end
+    it "errors if the taxonomy and tag don't match" do
+      other_taxonomy = FactoryBot.create(:consultation).taxonomy
+      tag = FactoryBot.create(:tag, taxonomy: taxonomy)
+      expect do
+        delete taxonomy_tag_path(taxonomy_id: other_taxonomy, id: tag.id)
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 end
