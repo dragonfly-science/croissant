@@ -7,7 +7,7 @@ class Tag < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { scope: :taxonomy }
 
-  scope :parent_level, -> { where(parent_id: nil) }
+  scope :top_level, -> { where(parent_id: nil) }
 
   private
 
