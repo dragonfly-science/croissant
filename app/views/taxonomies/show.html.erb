@@ -4,10 +4,10 @@
 
 <%= link_to 'New tag', new_taxonomy_tag_path(taxonomy_id: @taxonomy.id) %>
 
-<section class="col">
+<section class="col list-group">
   <h2>Tags</h2>
     <% @taxonomy.tags.top_level.each do |tag| %>
-      <div class="row">
+      <div class="row align-items-start">
         <%= render partial: tag %>
       </div>
     <% end %>

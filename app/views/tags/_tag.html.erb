@@ -1,11 +1,11 @@
-<div class="list-group-item col-sm-3">
+<button type="button" class="btn btn-outline-secondary btn-sm list-group-item col-sm-3 m-1 text-left font-weight-bold " data-toggle="collapse" href="#tag-group-<%= tag.id %>">
   <%= tag.name %>
   <%= link_to 'x', [tag.taxonomy, tag], method: :delete, data: { confirm: 'Are you sure you want to delete this tag?' } %>
-</div>
+</button>
 <% if tag.children.any? %>
-  <section class="col">
+  <section id="tag-group-<%= tag.id %>" class="col collapse">
     <% tag.children.each do |tag| %>
-      <div class="row">
+      <div class="row align-items-start">
         <%= render partial: tag %>
       </div>
     <% end %>
