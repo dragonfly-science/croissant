@@ -1,11 +1,14 @@
-<div>
+<div class="list-group-item col-sm-3">
   <%= tag.name %>
   <%= link_to 'x', [tag.taxonomy, tag], method: :delete, data: { confirm: 'Are you sure you want to delete this tag?' } %>
 </div>
-<ul>
-  <% tag.children.each do |tag| %>
-    <li class="c-tag">
-      <%= render partial: tag %>
-    </li>
-  <% end %>
-</ul>
+<% if tag.children.any? %>
+  <section class="col">
+    <% tag.children.each do |tag| %>
+      <div class="row">
+        <%= render partial: tag %>
+      </div>
+    <% end %>
+    </div>
+  </section>
+<% end %>
