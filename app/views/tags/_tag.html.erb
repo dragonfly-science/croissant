@@ -1,5 +1,5 @@
-<button type="button" class="btn btn-outline-secondary btn-sm col-sm-3 m-1 text-left font-weight-bold collapsed" data-toggle="button">
-  <span class="d-flex"data-toggle="collapse" data-target="#tag-group-<%= tag.id %>">
+<button type="button" class="tag btn btn-outline-secondary btn-sm col-sm-3 m-1 py-2 text-left font-weight-bold collapsed tag__colour--<%= tag_colour %>" data-toggle="button">
+  <span class="d-flex justify-content-between" data-toggle="collapse" data-target="#tag-group-<%= tag.id %>">
     <%= tag.name %>
     <%= link_to 'x', [tag.taxonomy, tag], method: :delete, data: { confirm: 'Are you sure you want to delete this tag?' } %>
   </span>
@@ -8,7 +8,7 @@
   <section id="tag-group-<%= tag.id %>" class="col collapse">
     <% tag.children.each do |tag| %>
       <div class="row align-items-start">
-        <%= render partial: tag %>
+        <%= render partial: tag, locals: {tag_colour: tag_colour} %>
       </div>
     <% end %>
   </section>
