@@ -6,18 +6,9 @@
 
 <section class="col list-group">
   <h2>Tags</h2>
-    <% @taxonomy.tags.top_level.each_with_index do |tag, index| %>
-      <div class="row align-items-start">
-        <%= render partial: tag, locals: { tag_colour: tag_colour(index) } %>
-      </div>
-    <% end %>
-    <div class="row">
-      <%= button_tag "+", class: "tag__new-button row rounded-circle
-                                  btn-outline-secondary font-weight-bold m-1 px-2",
-                          "data-toggle":"collapse", "data-target":"#new-tag-form"%>
+  <% @taxonomy.tags.top_level.each_with_index do |tag, index| %>
+    <div class="row align-items-start">
+      <%= render partial: tag, locals: { tag_colour: tag_colour(index) } %>
     </div>
-    <div id="new-tag-form" class="row p-2 collapse">
-      <%= render partial: "tags/form", locals: {tag: Tag.new, taxonomy: @taxonomy} %>
-    </div>
-  </ul>
+  <% end %>
 </section>
