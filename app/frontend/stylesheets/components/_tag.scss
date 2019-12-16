@@ -1,0 +1,43 @@
+.tag {
+  &__colour {
+    &--primary {
+      color: $primary;
+    }
+
+    &--success {
+      color: $success;
+    }
+
+    &--danger {
+      color: $danger;
+    }
+
+    &--warning {
+      color: $warning;
+    }
+
+    &--info {
+      color: $info;
+    }
+
+    &--orange {
+      color: $orange;
+    }
+
+    &--olive {
+      color: $olive;
+    }
+
+    &--violet {
+      color: $violet;
+    }
+
+    &--purple {
+      color: $purple;
+    }
+
+    &--pink {
+      color: $pink;
+    }
+  }
+}
