@@ -2,8 +2,6 @@
   <%= @taxonomy.consultation.name %>
 </h2>
 
-<%= link_to 'New tag', new_taxonomy_tag_path(taxonomy_id: @taxonomy.id) %>
-
 <section class="col list-group">
   <h2>Tags</h2>
     <% @taxonomy.tags.top_level.each_with_index do |tag, index| %>

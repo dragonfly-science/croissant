@@ -2,11 +2,6 @@ class TagsController < ApplicationController
   before_action :set_tag, only: %i[destroy]
   before_action :set_taxonomy
 
-  # GET taxonomies/:taxonomy_id/tags/new
-  def new
-    @tag = Tag.new(taxonomy: @taxonomy)
-  end
-
   # POST taxonomies/:taxonomy_id/tags
   def create
     @tag = Tag.new(tag_params)
