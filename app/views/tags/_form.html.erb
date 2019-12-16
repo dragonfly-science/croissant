@@ -1,5 +1,5 @@
 <%= bootstrap_form_with(model: Tag.new, url: [taxonomy, Tag.new],
-                        local: true, id: "new-tag-form-#{parent_id}", class:"collapse") do |form| %>
+                        local: true, id: "new-tag-form-#{parent_id}", class:("collapse" unless parent_id.nil?)) do |form| %>
   <% if tag.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(tag.errors.count, "error") %> prohibited this tag from being saved:</h2>
@@ -14,7 +14,7 @@
   <%= form.hidden_field :parent_id, value: parent_id %>
   <div class="row">
   <div class="field p-1">
-    <%= form.text_field :name, hide_label: true, placeholder: "Add a sub-tag" %>
+    <%= form.text_field :name, hide_label: true, placeholder: "Add a tag" %>
   </div>
 
   <div class="actions p-1">
