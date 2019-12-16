@@ -45,8 +45,8 @@ RSpec.describe Tag, type: :model do
       parent_tag_1 = FactoryBot.create(:tag, taxonomy: taxonomy)
       parent_tag_2 = FactoryBot.create(:tag, taxonomy: taxonomy)
       child_tag_1 = FactoryBot.create(:tag, taxonomy: taxonomy, parent: parent_tag_1)
-      expect(described_class.parent_level).to include(parent_tag_1, parent_tag_2)
-      expect(described_class.parent_level).to_not include(child_tag_1)
+      expect(described_class.top_level).to include(parent_tag_1, parent_tag_2)
+      expect(described_class.top_level).to_not include(child_tag_1)
     end
   end
 end
