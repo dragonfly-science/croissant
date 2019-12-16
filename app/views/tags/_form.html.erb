@@ -1,4 +1,5 @@
-<%= bootstrap_form_with(model: tag, url: [@taxonomy, @tag], local: true) do |form| %>
+<%= bootstrap_form_with(model: Tag.new, url: [taxonomy, Tag.new],
+                        local: true, id: "new-tag-form-#{parent_id}", class:"collapse") do |form| %>
   <% if tag.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(tag.errors.count, "error") %> prohibited this tag from being saved:</h2>
@@ -10,16 +11,14 @@
       </ul>
     </div>
   <% end %>
-  <div class="field">
-    <%= form.label :parent_id, "Parent Tag" %>
-    <%= form.select :parent_id, options_from_collection_for_select(@taxonomy.tags, :id, :name) %>
+  <%= form.hidden_field :parent_id, value: parent_id %>
+  <div class="row">
+  <div class="field p-1">
+    <%= form.text_field :name, hide_label: true, placeholder: "Add a sub-tag" %>
   </div>
 
-  <div class="field">
-    <%= form.text_field :name %>
+  <div class="actions p-1">
+    <%= form.submit "✔", class:"btn btn-light border-secondary" %>
   </div>
-
-  <div class="actions">
-    <%= form.submit %>
   </div>
 <% end %>

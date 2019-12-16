@@ -9,5 +9,13 @@
         <%= render partial: tag, locals: { tag_colour: tag_colour(index) } %>
       </div>
     <% end %>
+    <div class="row">
+      <%= button_tag "+", class: "tag__new-button row rounded-circle
+                                  btn-outline-secondary font-weight-bold m-1 px-2",
+                          "data-toggle":"collapse", "data-target":"#new-tag-form-#{nil}"%>
+    </div>
+    <div class="row p-2">
+      <%= render partial: "tags/form", locals: {tag: Tag.new, taxonomy: @taxonomy, parent_id: nil} %>
+    </div>
   </ul>
 </section>
