@@ -1,4 +1,8 @@
 .tag {
+  &__new-button {
+    border-width: 2px;
+  }
+
   &__colour {
     &--primary {
       color: $primary;
