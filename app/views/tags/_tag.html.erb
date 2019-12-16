@@ -18,13 +18,13 @@
     <div class="row">
       <%= button_tag "+", class: "tag__new-button row rounded-circle btn-outline-#{tag_colour} font-weight-bold m-1 px-2", "data-toggle":"collapse", "data-target":"#new-tag-form-#{tag.id}"%>
     </div>
-    <div class="row p-2">
-      <%= render partial: "tags/form", locals: {tag: tag, taxonomy: tag.taxonomy, parent_id: tag.id} %>
+    <div id="new-tag-form-<%= tag.id %>" class="row p-2 collapse">
+      <%= render partial: "tags/form", locals: {tag: tag, taxonomy: tag.taxonomy} %>
     </div>
   </section>
 <% else %>
   <%= button_tag "+", class: "tag__new-button rounded-circle btn-outline-#{tag_colour} font-weight-bold m-1 px-2", "data-toggle":"collapse", "data-target":"#new-tag-form-#{tag.id}"%>
-  <div class="row ml-3">
-    <%= render partial: "tags/form", locals: {tag: tag, taxonomy: tag.taxonomy, parent_id: tag.id} %>
+  <div id="new-tag-form-<%= tag.id %>" class="row ml-3 collapse">
+    <%= render partial: "tags/form", locals: {tag: tag, taxonomy: tag.taxonomy} %>
   </div>
 <% end %>
