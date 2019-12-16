@@ -3,12 +3,6 @@ require "rails_helper"
 RSpec.describe "Tags", type: :request do
   let!(:consultation) { FactoryBot.create(:consultation) }
   let!(:taxonomy) { consultation.taxonomy }
-  describe "GET /taxonomies/:id/tags/new" do
-    it "works" do
-      get new_taxonomy_tag_path(taxonomy)
-      expect(response).to have_http_status(200)
-    end
-  end
   describe "POST /taxonomies/:id/tags/create" do
     it "works" do
       post taxonomy_tags_path(taxonomy_id: taxonomy.id, tag: { name: "something" })
