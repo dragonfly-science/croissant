@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+rubocop -a
+npm run format-fix
