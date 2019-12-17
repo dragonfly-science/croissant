@@ -4,7 +4,7 @@ describe TagHelper, type: :helper do
   describe "#tag_colours" do
     it "returns the correct list of tag colours" do
       colour_array = %w[primary info success olive warning orange danger pink purple violet]
-      expect(helper.tag_colours).to eq(colour_array)
+      expect(TagHelper::TAG_COLOURS).to eq(colour_array)
     end
   end
 
