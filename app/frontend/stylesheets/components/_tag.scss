@@ -3,45 +3,43 @@
     border-width: 2px;
   }
 
-  &__colour {
-    &--primary {
-      color: $primary;
-    }
+  &--colour-primary {
+    color: $primary;
+  }
 
-    &--success {
-      color: $success;
-    }
+  &--colour-success {
+    color: $success;
+  }
 
-    &--danger {
-      color: $danger;
-    }
+  &--colour-danger {
+    color: $danger;
+  }
 
-    &--warning {
-      color: $warning;
-    }
+  &--colour-warning {
+    color: $warning;
+  }
 
-    &--info {
-      color: $info;
-    }
+  &--colour-info {
+    color: $info;
+  }
 
-    &--orange {
-      color: $orange;
-    }
+  &--colour-orange {
+    color: $orange;
+  }
 
-    &--olive {
-      color: $olive;
-    }
+  &--colour-olive {
+    color: $olive;
+  }
 
-    &--violet {
-      color: $violet;
-    }
+  &--colour-violet {
+    color: $violet;
+  }
 
-    &--purple {
-      color: $purple;
-    }
+  &--colour-purple {
+    color: $purple;
+  }
 
-    &--pink {
-      color: $pink;
-    }
+  &--colour-pink {
+    color: $pink;
   }
 }
