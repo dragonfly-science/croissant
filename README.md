@@ -45,8 +45,9 @@ The #croissant channel on the Service Innovation Lab Slack
 
 Before running this app and its tests locally you will need:
 
+1. Ruby
 1. PostgreSQL
-1. Docker
+1. Redis
 
 ### Running the app
 
@@ -58,6 +59,11 @@ Then run the following commands:
 ```
 # Terminal #1:
 bundle exec rails s
+```
+
+```
+# Terminal #2:
+bundle exec sidekiq
 ```
 
 ### Running the tests

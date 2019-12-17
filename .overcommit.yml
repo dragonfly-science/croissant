@@ -31,9 +31,6 @@ PreCommit:
   LocalPathsInGemfile:
     enabled: true
 
-  RailsSchemaUpToDate:
-    enabled: true
-
   RuboCop:
     enabled: true
     on_warn: fail

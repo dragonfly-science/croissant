@@ -5,6 +5,7 @@ cache:
   yarn: true
 services:
   - postgresql
+  - redis
 branches:
   only:
   - master
@@ -16,6 +17,7 @@ addons:
     - postgresql-client-10
     - chromium-chromedriver
     - google-chrome-stable
+    - redis-server
 env:
   global:
   - RAILS_ENV=test

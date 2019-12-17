@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<section class="pb-4">
+  <h2>Upload a submission</h2>
+  <%= render 'form', submission: Submission.new %>
+</section>
+
+<section class="pb-4">
+  <h2>Select a submission</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Filename</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @submissions.each do |submission| %>
+        <tr>
+          <td><%= link_to submission.name, [@consultation, submission] %></td>
+          <td><%= submission.description %></td>
+          <td><%= link_to 'Delete', [@consultation, submission], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

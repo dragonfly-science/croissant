@@ -13,6 +13,9 @@ gem "redis", "~> 4.0"
 gem "sidekiq", ">= 4.2.0"
 gem "webpacker", "~> 4.0"
 
+gem "activestorage-validator"
+gem "image_processing", "~> 1.0"
+
 gem "rack-canonical-host", "~> 0.2.3"
 
 gem "bootstrap_form", "~> 4.0"

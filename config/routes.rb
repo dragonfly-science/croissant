@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :consultations, only: %i[index show new create] do
+    resources :submissions, only: %i[index show create destroy]
+  end
+
   resources :taxonomies, only: :show do
     resources :tags, only: %i[create destroy]
   end
@@ -38,6 +42,5 @@ Rails.application.routes.draw do
 
   root "consultations#index"
 
-  resources :consultations, only: %i[index show new create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

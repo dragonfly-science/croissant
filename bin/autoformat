@@ -3,4 +3,5 @@
 set -e
 
 rubocop -a
+npm run js-lint-fix
 npm run format-fix

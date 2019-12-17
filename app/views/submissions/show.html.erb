@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+<%= link_to 'Back', consultation_submissions_path(@consultation) %>
+
+<div class="row">
+  <div class="col">
+    <% if @submission.file.previewable? %>
+      <%= image_tag @submission.file.preview(resize_to_limit:[800, 1200]), alt: 'Preview of file' %>
+    <% end %>
+  </div>
+  <div class="col">
+    <dl>
+      <dt>Filename</dt>
+      <dd><%= @submission.file.filename %></dd>
+      <% if @submission.description.present? %>
+        <dt>Description</dt>
+        <dd><%= @submission.description %></dd>
+      <% end %>
+      <dd><%= link_to "Download", rails_blob_path(@submission.file, disposition: 'attachment') %></dd>
+    </dl>
+  </div>
+</div>

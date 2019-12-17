@@ -1,5 +1,6 @@
 class Consultation < ApplicationRecord
   has_one :taxonomy, dependent: :destroy
+  has_many :submissions, dependent: :destroy
 
   after_initialize do |consultation|
     consultation.taxonomy ||= Taxonomy.new(consultation: consultation)
