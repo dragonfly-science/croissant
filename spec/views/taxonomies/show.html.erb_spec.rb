@@ -11,4 +11,12 @@ RSpec.describe "taxonomies/show", type: :view do
     render
     expect(rendered).to have_content(@tag.name)
   end
+
+  it "renders new tag form" do
+    render
+
+    assert_select "form[action=?][method=?]", taxonomy_tags_path(@consultation.taxonomy), "post" do
+      assert_select "input[name=?]", "tag[name]"
+    end
+  end
 end

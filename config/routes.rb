@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :taxonomies, only: :show do
-    resources :tags, only: %i[new create destroy]
+    resources :tags, only: %i[create destroy]
   end
 
   ##

@@ -1,16 +1,14 @@
 <h2>
-  <%= @taxonomy.consultation.name %>
+  Edit <%= @taxonomy.consultation.name %>
 </h2>
 
-<%= link_to 'New tag', new_taxonomy_tag_path(taxonomy_id: @taxonomy.id) %>
+<%= render partial: "tags/form", locals: {tag: Tag.new, taxonomy: @taxonomy} %>
 
-<section>
+<section class="col list-group">
   <h2>Tags</h2>
-  <ul>
-    <% @taxonomy.tags.parent_level.each do |tag| %>
-      <li class="c-tag">
-        <%= render partial: tag %>
-      </li>
-    <% end %>
-  </ul>
+  <% @taxonomy.tags.top_level.each_with_index do |tag, index| %>
+    <div class="row align-items-start">
+      <%= render partial: tag, locals: { tag_colour: tag_colour_for_index(index) } %>
+    </div>
+  <% end %>
 </section>
