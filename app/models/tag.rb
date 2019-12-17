@@ -5,7 +5,7 @@ class Tag < ApplicationRecord
   has_many :children, class_name: "Tag", foreign_key: "parent_id",
                       inverse_of: :parent, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: { scope: :taxonomy }
+  validates :name, presence: true, uniqueness: { scope: %i[taxonomy parent_id] }
 
   scope :top_level, -> { where(parent_id: nil) }
 

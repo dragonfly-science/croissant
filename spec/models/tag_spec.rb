@@ -38,6 +38,13 @@ RSpec.describe Tag, type: :model do
       FactoryBot.create(:tag, taxonomy: taxonomy2, name: "Trees")
       expect(Tag.new(taxonomy: taxonomy, name: "Trees")).to be_valid
     end
+
+    it "can be the same as a tag with a different parent in the same taxonomy" do
+      parent1 = FactoryBot.create(:tag, taxonomy: taxonomy, name: "Trees")
+      parent2 = FactoryBot.create(:tag, taxonomy: taxonomy, name: "Cows")
+      FactoryBot.create(:tag, taxonomy: taxonomy, name: "Good", parent: parent1)
+      expect(Tag.new(taxonomy: taxonomy, name: "Good", parent: parent2)).to be_valid
+    end
   end
 
   context "parent_level scope" do

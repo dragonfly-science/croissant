@@ -9,7 +9,8 @@ class TagsController < ApplicationController
     if @tag.save
       redirect_to taxonomy_url(@taxonomy), notice: "Tag was successfully created."
     else
-      render :new
+      redirect_to taxonomy_url(@taxonomy),
+                  notice: "There was an error creating the tag: #{@tag.errors.full_messages.join(", ")}"
     end
   end
 
