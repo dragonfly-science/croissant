@@ -1,4 +1,4 @@
-<%= bootstrap_form_with(model: Tag.new, url: [taxonomy, Tag.new], local: true) do |form| %>
+<%= bootstrap_form_with(model: tag, url: [taxonomy, tag], local: true) do |form| %>
   <% if tag.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(tag.errors.count, "error") %> prohibited this tag from being saved:</h2>
@@ -11,12 +11,12 @@
     </div>
   <% end %>
 
-  <%= form.hidden_field :parent_id, value: tag.id, id: "tag_parent_id_#{tag.id}" %>
+  <%= form.hidden_field :parent_id, value: tag.parent_id, id: "tag_parent_id_#{tag.parent_id}" %>
 
   <div class="row">
     <div class="field p-1">
       <%= form.text_field :name, hide_label: true, placeholder: "Add a tag",
-                                 id: "tag_name_#{tag.id}" %>
+                                 id: "tag_name_#{tag.parent_id}" %>
     </div>
 
     <div class="actions p-1">
