@@ -11,4 +11,8 @@ class Submission < ApplicationRecord
   def name
     file.filename
   end
+
+  def text
+    file.analyzed? ? file.metadata[:text] : ""
+  end
 end

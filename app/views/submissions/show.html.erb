@@ -17,5 +17,8 @@
       <% end %>
       <dd><%= link_to "Download", rails_blob_path(@submission.file, disposition: 'attachment') %></dd>
     </dl>
+    <div>
+      <%= simple_format(@submission.text) %>
+    </div>
   </div>
 </div>

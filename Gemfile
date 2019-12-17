@@ -15,6 +15,7 @@ gem "webpacker", "~> 4.0"
 
 gem "activestorage-validator"
 gem "image_processing", "~> 1.0"
+gem "pdf-reader"
 
 gem "rack-canonical-host", "~> 0.2.3"
 
@@ -32,6 +33,8 @@ group :development do
   # Required in Rails 5 by ActiveSupport::EventedFileUpdateChecker
   gem "listen", ">= 3.0.5"
   gem "overcommit", ">= 0.37.0", require: false
+  gem "better_errors"
+  gem "binding_of_caller"
 end
 
 group :development, :test do
@@ -48,7 +51,6 @@ group :test do
   gem "rails-controller-testing"
   gem "selenium-webdriver"
   gem "webdrivers"
-
-gem "lighthouse-matchers"
-gem "axe-matchers"
+  gem "lighthouse-matchers"
+  gem "axe-matchers"
 end
