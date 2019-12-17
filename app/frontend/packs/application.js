@@ -18,4 +18,3 @@ require('jquery');
 require.context('../images', true);
 import 'bootstrap';
 import '../stylesheets/application.scss';
-
