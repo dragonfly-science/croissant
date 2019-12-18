@@ -6,7 +6,7 @@ RSpec.describe Submission, type: :model do
     it "converts the PDF to text" do
       submission = FactoryBot.create(:submission, file: file)
       submission.file.analyze
-      expect(submission.text).to eq("Text on page 1")
+      expect(submission.raw_text).to eq("Text on page 1")
     end
   end
 end

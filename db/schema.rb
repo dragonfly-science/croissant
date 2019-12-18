@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_16_012000) do
+ActiveRecord::Schema.define(version: 2019_12_17_225247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2019_12_16_012000) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "text"
     t.text "description"
+    t.string "state"
     t.index ["consultation_id"], name: "index_submissions_on_consultation_id"
   end
 

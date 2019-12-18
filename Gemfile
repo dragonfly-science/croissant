@@ -17,6 +17,8 @@ gem "activestorage-validator"
 gem "image_processing", "~> 1.0"
 gem "pdf-reader"
 
+gem 'state_machines-activerecord'
+
 gem "rack-canonical-host", "~> 0.2.3"
 
 gem "bootstrap_form", "~> 4.0"

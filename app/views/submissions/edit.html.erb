@@ -1,0 +1,39 @@
+<%= bootstrap_form_with(model: @submission, url: @submission, local: true) do |form| %>
+  <% if @submission.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@submission.errors.count, "error") %> prohibited this @submission from being saved:</h2>
+
+      <ul>
+        <% @submission.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h2>Process submission</h2>
+  <section>
+    <div class="row">
+      <div class="col col-3">
+        <h3>Metadata</h3>
+        <div class="pb-4">
+          <label>Original file</label>
+          <%= link_to @submission.file.filename, rails_blob_path(@submission.file, disposition: 'attachment') %>
+        </div>
+        <%= form.text_field :description %>
+      </div>
+      <% if @submission.can_process? %>
+        <div class="col">
+          <h3>Text</h3>
+          <%= form.text_area :text, class: 'tall-textarea' %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

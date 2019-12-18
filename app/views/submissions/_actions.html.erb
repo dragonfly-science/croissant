@@ -1,0 +1,12 @@
+<% if submission.can_process? %>
+  <%= link_to('Edit text', edit_submission_path(submission), class: 'btn btn-primary') %>
+<% end %>
+<% if submission.can_tag? %>
+  <%# Tag link %>
+<% end %>
+<% if submission.can_complete_tagging? %>
+  <%# Mark complete %>
+<% end %>
+<% if submission.can_qa_reject? %>
+  <%# Reject %>
+<% end %>

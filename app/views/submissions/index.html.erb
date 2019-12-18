@@ -13,6 +13,7 @@
       <tr>
         <th>Filename</th>
         <th>Description</th>
+        <th>State</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -20,9 +21,14 @@
     <tbody>
       <% @submissions.each do |submission| %>
         <tr>
-          <td><%= link_to submission.name, [@consultation, submission] %></td>
+          <td><%= link_to submission.name, submission %></td>
           <td><%= submission.description %></td>
-          <td><%= link_to 'Delete', [@consultation, submission], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= submission.state %></td>
+          <td>
+            <%= render partial: 'actions', locals: { submission: submission } %>
+            <%= link_to 'Delete', [@consultation, submission], method: :delete, class: 'btn btn-danger',
+                data: { confirm: 'Are you sure?' } %>
+          </td>
         </tr>
       <% end %>
     </tbody>

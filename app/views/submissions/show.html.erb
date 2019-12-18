@@ -1,5 +1,4 @@
-<p id="notice"><%= notice %></p>
-<%= link_to 'Back', consultation_submissions_path(@consultation) %>
+<%= link_to 'Back', consultation_submissions_path(@submission.consultation) %>
 
 <div class="row">
   <div class="col">
@@ -18,7 +17,18 @@
       <dd><%= link_to "Download", rails_blob_path(@submission.file, disposition: 'attachment') %></dd>
     </dl>
     <div>
-      <%= simple_format(@submission.text) %>
+      <% if @submission.can_process? %>
+        <h3>Submission text</h3>
+        <%= link_to('Edit', edit_submission_path(@submission), class: 'btn btn-primary') %>
+        <%= link_to('Mark as ready', process_submission_path(@submission), class: 'btn btn-success',
+            method: :put, data: { confirm: 'Are you sure? This will prevent further edits to the text.' }) %>
+      <% end %>
+      <% if @submission.text.present? %>
+        <%= simple_format(@submission.text) %>
+      <% else %>
+        <h4>Raw text</h4>
+        <%= simple_format(@submission.raw_text) %>
+      <% end %>
     </div>
   </div>
 </div>
