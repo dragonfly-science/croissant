@@ -18,8 +18,8 @@ RSpec.feature "Consultations index page", js: true do
     expect(page).to have_link(consultations.first.name)
   end
 
-  it "clicking a consultation link takes you to its show page" do
+  it "clicking a consultation link takes you to the submissions page" do
     find_link(consultations.first.name).click
-    expect(page).to have_css("h1", text: consultations.first.name)
+    expect(page).to have_css("#consultation-nav .navbar-brand", text: consultations.first.name)
   end
 end

@@ -14,7 +14,7 @@ class ConsultationsController < ApplicationController
   def create
     @consultation = Consultation.new(consultation_params)
     if @consultation.save
-      redirect_to consultation_path(@consultation)
+      redirect_to consultation_submissions_path(@consultation)
     else
       flash.now[:alert] = t("consultation.create.failure")
       render :new

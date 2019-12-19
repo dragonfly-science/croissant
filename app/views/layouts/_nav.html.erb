@@ -1,14 +1,23 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Croissant</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <%= link_to(root_path, class: 'navbar-brand') do %>
+    <%= image_tag('logo-transparent', alt: 'Croissant') %>
+  <% end %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#top-level-nav-target" aria-controls="top-level-nav-target" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+  <div class="collapse navbar-collapse" id="top-level-nav-target">
+    <ul class="navbar-nav ml-auto">
       <li class="nav-item active">
         <%= link_to('Home', root_path, class: 'nav-link') %>
       </li>
     </ul>
   </div>
 </nav>
+<% if @consultation.present? && @consultation.persisted? %>
+  <%= render partial: 'layouts/consultation_nav', locals: { consultation: @consultation } %>
+<% elsif @submission.present? %>
+  <%= render partial: 'layouts/consultation_nav', locals: { consultation: @submission.consultation } %>
+<% elsif @taxonomy.present? %>
+  <%= render partial: 'layouts/consultation_nav', locals: { consultation: @taxonomy.consultation } %>
+<% end %>
