@@ -63,6 +63,22 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     afm (0.2.2)
     ast (2.4.0)
+    aws-eventstream (1.0.3)
+    aws-partitions (1.257.0)
+    aws-sdk-core (3.86.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.239.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-kms (1.27.0)
+      aws-sdk-core (~> 3, >= 3.71.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.60.0)
+      aws-sdk-core (~> 3, >= 3.83.0)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.1.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
     axe-matchers (2.5.0)
       dumb_delegator (~> 0.8)
       virtus (~> 1.0)
@@ -133,6 +149,7 @@ GEM
       ruby-vips (>= 2.0.13, < 3)
     iniparse (1.4.4)
     jaro_winkler (1.5.4)
+    jmespath (1.4.0)
     json (2.3.0)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -332,6 +349,7 @@ PLATFORMS
 
 DEPENDENCIES
   activestorage-validator
+  aws-sdk-s3
   axe-matchers
   better_errors
   binding_of_caller

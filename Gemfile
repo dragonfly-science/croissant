@@ -16,6 +16,7 @@ gem "webpacker", "~> 4.0"
 gem "activestorage-validator"
 gem "image_processing", "~> 1.0"
 gem "pdf-reader"
+gem "aws-sdk-s3", require: false
 
 gem 'state_machines-activerecord'
 
