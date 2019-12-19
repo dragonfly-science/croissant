@@ -14,3 +14,8 @@
 .tall-textarea {
   min-height: 80vh;
 }
+
+.tall-scrolling-area {
+  max-height: 100vh;
+  overflow: scroll;
+}

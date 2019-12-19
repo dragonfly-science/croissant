@@ -1,5 +1,7 @@
 <% if submission.can_process? %>
   <%= link_to('Edit text', edit_submission_path(submission), class: 'btn btn-primary') %>
+<% else %>
+  <%= link_to('Edit metadata', edit_submission_path(submission), class: 'btn btn-primary') %>
 <% end %>
 <% if submission.can_tag? %>
   <%# Tag link %>
@@ -7,6 +9,6 @@
 <% if submission.can_complete_tagging? %>
   <%# Mark complete %>
 <% end %>
-<% if submission.can_qa_reject? %>
+<% if submission.can_reject? %>
   <%# Reject %>
 <% end %>

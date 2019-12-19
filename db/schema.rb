@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_17_225247) do
+ActiveRecord::Schema.define(version: 2019_12_19_115229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,25 @@ ActiveRecord::Schema.define(version: 2019_12_17_225247) do
     t.text "text"
     t.text "description"
     t.string "state"
+    t.datetime "submitted_at"
+    t.string "channel"
+    t.string "source"
+    t.string "name"
+    t.string "email_address"
+    t.string "address"
+    t.string "phone_number"
+    t.string "query_type"
+    t.string "anonymise"
+    t.string "submitter_type"
+    t.string "file_hash"
+    t.boolean "exemplar"
+    t.boolean "maori_perspective"
+    t.boolean "pacific_perspective"
+    t.boolean "high_impact_stakeholder"
+    t.boolean "high_relevance_stakeholder"
+    t.string "age_bracket"
+    t.string "ethnicity"
+    t.string "gender"
     t.index ["consultation_id"], name: "index_submissions_on_consultation_id"
   end
 

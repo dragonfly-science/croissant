@@ -70,10 +70,11 @@ class SubmissionsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def create_submission_params
-    params.require(:submission).permit(:file, :description).merge(consultation: consultation)
+    params.require(:submission).permit(%i[file].concat(Submission::METADATA_FIELDS))
+          .merge(consultation: consultation)
   end
 
   def edit_submission_params
-    params.require(:submission).permit(:description, :text)
+    params.require(:submission).permit(%i[text].concat(Submission::METADATA_FIELDS))
   end
 end

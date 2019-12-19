@@ -1,4 +1,11 @@
 class Submission < ApplicationRecord
+  METADATA_FIELDS = %i[description submitted_at channel source name submitter_type
+                       email_address address phone_number query_type anonymise
+                       exemplar maori_perspective pacific_perspective high_impact_stakeholder
+                       high_relevance_stakeholder age_bracket ethnicity gender].freeze
+
+  SUBMITTER_TYPES = %w[individual group].freeze
+
   belongs_to :consultation
   has_one_attached :file
 
@@ -8,13 +15,11 @@ class Submission < ApplicationRecord
                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
   }
 
-  state_machine :state, initial: :incoming do
-    event :analyze do
-      transition incoming: :analyzed
-    end
+  validates :submitter_type, inclusion: { in: SUBMITTER_TYPES }, allow_blank: true
 
+  state_machine :state, initial: :incoming do
     event :process do
-      transition %i[incoming analyzed] => :ready
+      transition incoming: :ready
     end
 
     event :tag do
@@ -25,14 +30,12 @@ class Submission < ApplicationRecord
       transition started: :finished
     end
 
-    event :qa_reject do
+    event :reject do
       transition finished: :started
     end
   end
 
-  def name
-    file.filename
-  end
+  delegate :filename, to: :file
 
   def raw_text
     file.analyzed? ? file.metadata[:text] : ""

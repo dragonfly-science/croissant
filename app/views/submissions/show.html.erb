@@ -1,33 +1,49 @@
-<%= link_to 'Back', consultation_submissions_path(@submission.consultation) %>
-
 <div class="row">
   <div class="col">
-    <% if @submission.file.previewable? %>
-      <%= image_tag @submission.file.preview(resize_to_limit:[800, 1200]), alt: 'Preview of file' %>
-    <% end %>
+    <%= link_to 'Back', consultation_submissions_path(@submission.consultation) %>
   </div>
-  <div class="col">
+  <div class="col text-right">
+    <%= render partial: 'actions', locals: { submission: @submission } %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col col-3">
+    <h3>Metadata</h3>
+    <dl>
+      <% Submission::METADATA_FIELDS.each do |field| %>
+        <% if @submission.send(field).present? %>
+          <dt><%= t(field) %></dt>
+          <dd><%= @submission.send(field) %></dd>
+        <% end %>
+      <% end %>
+    </dl>
     <dl>
       <dt>Filename</dt>
       <dd><%= @submission.file.filename %></dd>
-      <% if @submission.description.present? %>
-        <dt>Description</dt>
-        <dd><%= @submission.description %></dd>
-      <% end %>
       <dd><%= link_to "Download", rails_blob_path(@submission.file, disposition: 'attachment') %></dd>
     </dl>
+    <% if @submission.file.previewable? %>
+      <%= image_tag @submission.file.preview(resize_to_limit:[200, 1200]), alt: 'Preview of file' %>
+    <% end %>
+  </div>
+  <div class="col">
     <div>
       <% if @submission.can_process? %>
         <h3>Submission text</h3>
         <%= link_to('Edit', edit_submission_path(@submission), class: 'btn btn-primary') %>
         <%= link_to('Mark as ready', process_submission_path(@submission), class: 'btn btn-success',
             method: :put, data: { confirm: 'Are you sure? This will prevent further edits to the text.' }) %>
-      <% end %>
-      <% if @submission.text.present? %>
+      <% elsif @submission.text.present? %>
+        <h3>Submission text</h3>
         <%= simple_format(@submission.text) %>
       <% else %>
         <h4>Raw text</h4>
-        <%= simple_format(@submission.raw_text) %>
+        <% if @submission.file.analyzed? %>
+          <%= simple_format(@submission.raw_text) %>
+        <% else %>
+          <p>This submission hasn't been converted to text yet - check back later</p>
+        <% end %>
       <% end %>
     </div>
   </div>

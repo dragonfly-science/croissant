@@ -21,13 +21,34 @@
           <%= link_to @submission.file.filename, rails_blob_path(@submission.file, disposition: 'attachment') %>
         </div>
         <%= form.text_field :description %>
+        <%= form.datetime_field :submitted_at %>
+        <%= form.select :submitter_type, Submission::SUBMITTER_TYPES, include_blank: true %>
+        <%= form.text_field :channel %>
+        <%= form.text_field :source %>
+        <%= form.text_field :query_type %>
+        <%= form.check_box :high_impact_stakeholder %>
+        <%= form.check_box :high_relevance_stakeholder %>
+        <%= form.check_box :exemplar %>
+        <%= form.check_box :maori_perspective %>
+        <%= form.check_box :pacific_perspective %>
+        <%= form.text_field :name %>
+        <%= form.text_field :age_bracket %>
+        <%= form.text_field :gender %>
+        <%= form.text_field :ethnicity %>
+        <%= form.text_field :email_address %>
+        <%= form.text_field :phone_number %>
+        <%= form.text_field :address %>
       </div>
-      <% if @submission.can_process? %>
-        <div class="col">
-          <h3>Text</h3>
+      <div class="col">
+        <h3>Text</h3>
+        <% if @submission.can_process? %>
           <%= form.text_area :text, class: 'tall-textarea' %>
-        </div>
-      <% end %>
+        <% else %>
+          <div class="tall-scrolling-area">
+            <%= simple_format(@submission.text) %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </section>
 
