@@ -29,16 +29,19 @@
   </div>
   <div class="col">
     <div>
-      <% if @submission.can_process? %>
+      <% if @submission.text.present? %>
         <h3>Submission text</h3>
-        <%= link_to('Edit', edit_submission_path(@submission), class: 'btn btn-primary') %>
-        <%= link_to('Mark as ready', process_submission_path(@submission), class: 'btn btn-success',
-            method: :put, data: { confirm: 'Are you sure? This will prevent further edits to the text.' }) %>
-      <% elsif @submission.text.present? %>
-        <h3>Submission text</h3>
+        <% if @submission.can_process? %>
+          <%= link_to('Edit', edit_submission_path(@submission), class: 'btn btn-primary') %>
+          <%= link_to('Mark as ready', process_submission_path(@submission), class: 'btn btn-success',
+              method: :put, data: { confirm: 'Are you sure? This will prevent further edits to the text.' }) %>
+        <% end %>
         <%= simple_format(@submission.text) %>
       <% else %>
         <h4>Raw text</h4>
+        <% if @submission.can_process? %>
+          <%= link_to('Edit', edit_submission_path(@submission), class: 'btn btn-primary') %>
+        <% end %>
         <% if @submission.file.analyzed? %>
           <%= simple_format(@submission.raw_text) %>
         <% else %>

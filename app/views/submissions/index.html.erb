@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <section class="pb-4">
   <h2>Upload a submission</h2>
   <%= render 'form', submission: Submission.new %>
@@ -23,7 +21,10 @@
         <tr>
           <td><%= link_to submission.filename, submission %></td>
           <td><%= submission.description %></td>
-          <td><%= submission.state %></td>
+          <td>
+            <%= submission.state %>
+            <%= "⏸" unless submission.file.analyzed? %>
+          </td>
           <td class="text-right">
             <%= render partial: 'actions', locals: { submission: submission } %>
             <%= link_to 'Delete', [@consultation, submission], method: :delete, class: 'btn btn-danger',

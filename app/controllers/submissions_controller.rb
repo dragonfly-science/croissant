@@ -13,14 +13,10 @@ class SubmissionsController < ApplicationController
 
   # POST /submissions
   def create
-    @submission = Submission.new(create_submission_params)
-    @submission.file.attach(create_submission_params[:file])
-
-    if @submission.save
-      redirect_to @submission, notice: "Submission was successfully created."
-    else
-      render :new
-    end
+    creator = SubmissionCreator.new(create_submission_params: create_submission_params,
+                                    file_upload_params: file_upload_params)
+    creator.create!
+    redirect_to consultation_submissions_url(@consultation), notice: creator.notice
   end
 
   # DELETE /submissions/1
@@ -76,5 +72,9 @@ class SubmissionsController < ApplicationController
 
   def edit_submission_params
     params.require(:submission).permit(%i[text].concat(Submission::METADATA_FIELDS))
+  end
+
+  def file_upload_params
+    params[:submission][:file]
   end
 end
