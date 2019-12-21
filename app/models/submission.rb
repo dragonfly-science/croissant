@@ -8,6 +8,8 @@ class Submission < ApplicationRecord
 
   belongs_to :consultation
   has_one_attached :file
+  has_many :submission_tags, dependent: :destroy
+  has_many :tags, through: :submission_tags
 
   validates :file, presence: true, blob: {
     content_type: ["application/pdf",
@@ -19,7 +21,7 @@ class Submission < ApplicationRecord
 
   state_machine :state, initial: :incoming do
     event :process do
-      transition incoming: :ready
+      transition incoming: :ready, unless: :text_blank?
     end
 
     event :tag do
@@ -45,4 +47,6 @@ class Submission < ApplicationRecord
     self.text = raw_text if file.analyzed? && text.blank?
     save
   end
+
+  delegate :blank?, to: :text, prefix: true
 end

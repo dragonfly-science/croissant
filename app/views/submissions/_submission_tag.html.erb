@@ -1,0 +1,17 @@
+<li class="w-75 d-flex">
+  <button type="button" class="submission-tag btn-block btn btn-light btn-sm m-1 py-2 text-left font-weight-bold collapsed tag--colour-<%= tag_colour %>"
+          data-tag-id="<%= tag.id %>"
+          data-tag-name="<%= tag.name %>"
+          data-tag-colour="<%= tag_colour %>">
+    <%= tag.name %>
+  </button>
+  <%= button_tag "+", class: "tag__new-button rounded-circle btn-outline-#{tag_colour} font-weight-bold m-2 px-2", "data-toggle":"collapse", "data-target":"#tag-group-#{tag.id}" if tag.children.any?%>
+</li>
+
+<% if tag.children.any? %>
+  <ul id="tag-group-<%= tag.id %>" class="col list-unstyled collapse">
+    <% tag.children.each do |tag| %>
+      <%= render partial: "submission_tag", locals: { tag_colour: tag_colour, tag: tag } %>
+    <% end %>
+  </ul>
+<% end %>

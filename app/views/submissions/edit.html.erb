@@ -41,7 +41,7 @@
       </div>
       <div class="col">
         <h3>Text</h3>
-        <% if @submission.can_process? %>
+        <% if @submission.incoming? %>
           <%= form.text_area :text, class: 'tall-textarea' %>
         <% else %>
           <div class="tall-scrolling-area">

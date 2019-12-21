@@ -1,6 +1,6 @@
 class SubmissionsController < ApplicationController
-  before_action :consultation, only: %i[index create destroy]
-  before_action :set_submission, only: %i[show destroy edit update mark_process]
+  before_action :consultation, only: %i[index create destroy tag]
+  before_action :set_submission, only: %i[show destroy edit update mark_process tag]
 
   # GET /submissions
   def index
@@ -25,9 +25,14 @@ class SubmissionsController < ApplicationController
     redirect_to consultation_submissions_url(@consultation), notice: "Submission was successfully destroyed."
   end
 
+  # GET /submissions/1/tag
+  def tag
+    @submission_tags = SubmissionTag.where(submission: @submission)
+  end
+
   # GET /submissions/1/edit
   def edit
-    @submission.populate_text_from_file_if_present if @submission.can_process?
+    @submission.populate_text_from_file_if_present if @submission.incoming?
   end
 
   # PUT/PATCH /submissions/1
@@ -53,10 +58,12 @@ class SubmissionsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_submission
+    submission_id = params[:id] || params[:submission_id]
+
     @submission = if @consultation.present?
-                    consultation.submissions.find(params[:id])
+                    consultation.submissions.find(submission_id)
                   else
-                    Submission.find(params[:id])
+                    Submission.find(submission_id)
                   end
   end
 

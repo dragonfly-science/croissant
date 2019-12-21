@@ -1,13 +1,18 @@
 Rails.application.routes.draw do
   resources :consultations, only: %i[index show new create] do
-    resources :submissions, only: %i[index new create destroy]
+    resources :submissions, only: %i[index new create destroy] do
+      get "/tag", to: "submissions#tag"
+    end
     resources :submissions, only: %i[show edit update], shallow: true
   end
+
   put "submissions/:id/process", to: "submissions#mark_process", as: :process_submission
 
   resources :taxonomies, only: :show do
     resources :tags, only: %i[create destroy]
   end
+
+  resources :submission_tags, only: %i[create destroy]
 
   ##
   # Workaround a "bug" in lighthouse CLI

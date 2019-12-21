@@ -80,6 +80,6 @@ module.exports = {
         exceptions: ['#endregion']
       }
     ],
-    'camelcase': 'error'
+    'camelcase': 'warn'
   }
 };

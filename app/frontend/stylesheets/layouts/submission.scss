@@ -1,0 +1,47 @@
+.submission {
+  &__taggable-text {
+    white-space: pre-wrap;
+
+    & .tagged {
+      &--colour-primary {
+        background-color: rgba($primary, 0.4);
+      }
+
+      &--colour-success {
+        background-color: rgba($success, 0.4);
+      }
+
+      &--colour-danger {
+        background-color: rgba($danger, 0.4);
+      }
+
+      &--colour-warning {
+        background-color: rgba($warning, 0.4);
+      }
+
+      &--colour-info {
+        background-color: rgba($info, 0.4);
+      }
+
+      &--colour-orange {
+        background-color: rgba($orange, 0.4);
+      }
+
+      &--colour-olive {
+        background-color: rgba($olive, 0.4);
+      }
+
+      &--colour-violet {
+        background-color: rgba($violet, 0.4);
+      }
+
+      &--colour-purple {
+        background-color: rgba($purple, 0.4);
+      }
+
+      &--colour-pink {
+        background-color: rgba($pink, 0.4);
+      }
+    }
+  }
+}

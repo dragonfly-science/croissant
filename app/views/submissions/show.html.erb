@@ -50,4 +50,13 @@
       <% end %>
     </div>
   </div>
+  <% if @submission.submission_tags.any? %>
+    <div class="col">
+      <% @submission.submission_tags.each do |st| %>
+        <dl>
+          <%= render partial: 'tag_with_text', locals: { submission_tag: st } %>
+        </dl>
+      <% end %>
+    </div>
+  <% end %>
 </div>

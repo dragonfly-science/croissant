@@ -30,7 +30,7 @@
   </head>
   <body>
     <%= render("layouts/nav") %>
-    <main class="container pt-4 pb-4">
+    <main class="container<%= yield :container_modifier %> pt-4 pb-4">
       <%= render("application/flash") %>
       <%= yield %>
     </main>

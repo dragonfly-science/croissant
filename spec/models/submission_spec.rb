@@ -9,4 +9,10 @@ RSpec.describe Submission, type: :model do
       expect(submission.raw_text).to eq("Text on page 1")
     end
   end
+  it "only allows processing if there is text" do
+    submission = FactoryBot.create(:submission, file: file)
+    expect(submission.can_process?).to eq(false)
+    submission.update(text: "something")
+    expect(submission.can_process?).to eq(true)
+  end
 end

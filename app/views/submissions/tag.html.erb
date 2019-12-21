@@ -1,0 +1,26 @@
+<% content_for :container_modifier, "-fluid" %>
+<h2>Tagging submission: <%= link_to(@submission.filename, @submission) %></h2>
+<div class="row submission">
+  <section class="col-3">
+    <h4 class="mb-4">Submission Metadata</h4>
+  </section>
+
+  <section class="col-6">
+    <h4 class="mb-4"><%= @submission.name %></h4>
+    <div class="submission__taggable-text shadow p-3 js-taggable-submission-text"
+         data-submission-id="<%= @submission.id %>">
+      <p>
+        <%= @submission.text%>
+      </p>
+    </div>
+  </section>
+
+  <section class="col-3 position-fixed submission-tags">
+    <h4 class="mb-4">Consultation Taxonomy</h4>
+    <ul class="border rounded list-group list-unstyled overflow-auto submission-tags__list">
+      <% @consultation.taxonomy.tags.top_level.each_with_index do |tag, index| %>
+        <%= render partial: "submission_tag", locals: { tag: tag, tag_colour: tag_colour_for_index(index) } %>
+      <% end %>
+    </div>
+  </section>
+</div>
