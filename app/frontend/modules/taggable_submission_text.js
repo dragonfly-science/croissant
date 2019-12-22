@@ -24,8 +24,8 @@ class TaggableSubmissionText {
         // focusOffset is where the user ended the selection
         let selectionStart = getSelection().anchorOffset;
         let selectionEnd = getSelection().focusOffset;
-        let startChar = Math.min([selectionStart, selectionEnd]);
-        let endChar = Math.min([selectionStart, selectionEnd]);
+        let startChar = Math.min(selectionStart, selectionEnd);
+        let endChar = Math.min(selectionStart, selectionEnd);
 
         let tagDataset = $(tag)[0].dataset;
         let tagId = tagDataset.tagId;
