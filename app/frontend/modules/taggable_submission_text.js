@@ -17,12 +17,21 @@ class TaggableSubmissionText {
       try {
         let span = document.createElement('span');
         let textRange = getSelection().getRangeAt(0);
-        let startChar = getSelection().anchorOffset;
-        let endChar = getSelection().focusOffset;
+
         let text = getSelection().toString();
-        let tagId = $(tag)[0].dataset.tagId;
-        let tagName = $(tag)[0].dataset.tagName;
-        let tagColour = $(tag)[0].dataset.tagColour;
+
+        // anchorOffset is where the user started the selection
+        // focusOffset is where the user ended the selection
+        let selectionStart = getSelection().anchorOffset;
+        let selectionEnd = getSelection().focusOffset;
+        let startChar = Math.min([selectionStart, selectionEnd]);
+        let endChar = Math.min([selectionStart, selectionEnd]);
+
+        let tagDataset = $(tag)[0].dataset;
+        let tagId = tagDataset.tagId;
+        let tagName = tagDataset.tagName;
+        let tagColour = tagDataset.tagColour;
+
         let submissionId = $('.submission__taggable-text')[0].dataset
           .submissionId;
 
