@@ -56,4 +56,29 @@ RSpec.describe Tag, type: :model do
       expect(described_class.top_level).to_not include(child_tag_1)
     end
   end
+
+  context "deleting" do
+    let(:used_tag) { FactoryBot.create(:tag, taxonomy: taxonomy) }
+    let(:unused_tag) { FactoryBot.create(:tag, taxonomy: taxonomy) }
+    let(:tagged_submission) { FactoryBot.create(:submission, :ready_to_tag, consultation: taxonomy.consultation) }
+    let(:untagged_submission) { FactoryBot.create(:submission, :ready_to_tag, consultation: taxonomy.consultation) }
+    before do
+      start_char = 0
+      end_char = 3
+      text = tagged_submission.text[start_char, end_char]
+      tagged_submission.add_tag(tag: used_tag, start_char: start_char, end_char: end_char, text: text)
+    end
+    it "will not allow tags to be deleted if they have been used" do
+      expect(used_tag.deletable?).to eq(false)
+    end
+    it "will raise an error if you try to delete a used tag" do
+      expect { used_tag.destroy! }.to raise_error(ActiveRecord::RecordNotDestroyed)
+    end
+    it "will allow tags to be deleted if they have not been used" do
+      expect(unused_tag.deletable?).to eq(true)
+    end
+    it "will be fine with it if you delete an unused tag" do
+      expect { unused_tag.destroy! }.not_to raise_error
+    end
+  end
 end

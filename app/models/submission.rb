@@ -26,6 +26,7 @@ class Submission < ApplicationRecord
 
     event :tag do
       transition ready: :started
+      transition started: :started # so can_tag?
     end
 
     event :complete_tagging do
@@ -46,6 +47,13 @@ class Submission < ApplicationRecord
   def populate_text_from_file_if_present
     self.text = raw_text if file.analyzed? && text.blank?
     save
+  end
+
+  def add_tag(params)
+    return false unless can_tag?
+
+    st = submission_tags.new(params)
+    st.save ? st : false
   end
 
   delegate :blank?, to: :text, prefix: true
