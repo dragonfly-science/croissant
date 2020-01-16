@@ -27,7 +27,7 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/1/tag
   def tag
-    @submission_tags = SubmissionTag.where(submission: @submission)
+    @submission_tags = @submission.submission_tags
   end
 
   # GET /submissions/1/edit
@@ -56,12 +56,11 @@ class SubmissionsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_submission
     submission_id = params[:id] || params[:submission_id]
 
     @submission = if @consultation.present?
-                    consultation.submissions.find(submission_id)
+                    @consultation.submissions.find(submission_id)
                   else
                     Submission.find(submission_id)
                   end

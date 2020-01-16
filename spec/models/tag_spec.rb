@@ -8,15 +8,30 @@ RSpec.describe Tag, type: :model do
   let(:taxonomy2) { consultation2.taxonomy }
 
   context "descendents" do
-    let!(:parent_tag) { FactoryBot.create(:tag, taxonomy: taxonomy) }
-    let!(:child_tag) { FactoryBot.create(:tag, parent: parent_tag, taxonomy: taxonomy) }
+    let!(:grandparent_tag) { FactoryBot.create(:tag, taxonomy: taxonomy, name: "Livestock") }
+    let!(:parent_tag) { FactoryBot.create(:tag, parent: grandparent_tag, taxonomy: taxonomy, name: "Cows") }
+    let!(:child_tag) { FactoryBot.create(:tag, parent: parent_tag, taxonomy: taxonomy, name: "Good") }
 
     it "can have a parent" do
       expect(child_tag.parent).to eq(parent_tag)
+      expect(parent_tag.parent).to eq(grandparent_tag)
     end
 
     it "can have children" do
-      expect(parent_tag.children.first).to eq(child_tag)
+      expect(parent_tag.children.to_a).to eq([child_tag])
+      expect(grandparent_tag.children.to_a).to eq([parent_tag])
+    end
+
+    it "constructs a full name based on its parents" do
+      expect(grandparent_tag.full_name).to eq("Livestock")
+      expect(parent_tag.full_name).to eq("Livestock > Cows")
+      expect(child_tag.full_name).to eq("Livestock > Cows > Good")
+    end
+
+    it "constructs a full number based on its parents" do
+      expect(grandparent_tag.full_number).to eq("1")
+      expect(parent_tag.full_number).to eq("1.1")
+      expect(child_tag.full_number).to eq("1.1.1")
     end
   end
 

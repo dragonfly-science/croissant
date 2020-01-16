@@ -1,4 +1,7 @@
-<dt><%= submission_tag.tag.name %></dt>
+<dt>
+  <%= submission_tag.tag.full_number %>
+  <%= submission_tag.tag.full_name %>
+</dt>
 <dd><%= submission_tag.text %></dd>
 <%= link_to 'Remove', submission_tag, method: :delete, class: 'btn btn-danger',
     data: { confirm: 'Are you sure?' } %>

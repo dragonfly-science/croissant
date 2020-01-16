@@ -36,7 +36,9 @@
           <%= link_to('Mark as ready', process_submission_path(@submission), class: 'btn btn-success',
               method: :put, data: { confirm: 'Are you sure? This will prevent further edits to the text.' }) %>
         <% end %>
-        <%= simple_format(@submission.text) %>
+        <section class="submission__taggable-text">
+          <%= submission_text_with_tags(@submission.text, @submission.submission_tags).html_safe %>
+        </section>
       <% else %>
         <h4>Raw text</h4>
         <% if @submission.can_process? %>

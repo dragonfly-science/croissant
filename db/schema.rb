@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_20_233657) do
+ActiveRecord::Schema.define(version: 2020_01_14_213211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 2019_12_20_233657) do
     t.bigint "parent_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "number"
     t.index ["parent_id"], name: "index_tags_on_parent_id"
     t.index ["taxonomy_id"], name: "index_tags_on_taxonomy_id"
   end

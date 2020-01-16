@@ -19,6 +19,11 @@ class Submission < ApplicationRecord
 
   validates :submitter_type, inclusion: { in: SUBMITTER_TYPES }, allow_blank: true
 
+  before_update :remove_forced_carriage_returns_from_text
+
+  delegate :filename, to: :file
+  delegate :blank?, to: :text, prefix: true
+
   state_machine :state, initial: :incoming do
     event :process do
       transition incoming: :ready, unless: :text_blank?
@@ -38,8 +43,6 @@ class Submission < ApplicationRecord
     end
   end
 
-  delegate :filename, to: :file
-
   def raw_text
     file.analyzed? ? file.metadata[:text] : ""
   end
@@ -56,5 +59,9 @@ class Submission < ApplicationRecord
     st.save ? st : false
   end
 
-  delegate :blank?, to: :text, prefix: true
+  private
+
+  def remove_forced_carriage_returns_from_text
+    text&.gsub!(/\r\n/, "\n")
+  end
 end

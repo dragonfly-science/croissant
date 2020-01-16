@@ -2,44 +2,5 @@
   &__new-button {
     border-width: 2px;
   }
-
-  &--colour-primary {
-    color: $primary;
-  }
-
-  &--colour-success {
-    color: $success;
-  }
-
-  &--colour-danger {
-    color: $danger;
-  }
-
-  &--colour-warning {
-    color: $warning;
-  }
-
-  &--colour-info {
-    color: $info;
-  }
-
-  &--colour-orange {
-    color: $orange;
-  }
-
-  &--colour-olive {
-    color: $olive;
-  }
-
-  &--colour-violet {
-    color: $violet;
-  }
-
-  &--colour-purple {
-    color: $purple;
-  }
-
-  &--colour-pink {
-    color: $pink;
-  }
+  @include tag-colours(color, 1);
 }

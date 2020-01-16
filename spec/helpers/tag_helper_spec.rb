@@ -1,28 +1,35 @@
 require "rails_helper"
 
 describe TagHelper, type: :helper do
-  describe "#tag_colours" do
-    it "returns the correct list of tag colours" do
-      colour_array = %w[primary info success olive warning orange danger pink purple violet]
-      expect(TagHelper::TAG_COLOURS).to eq(colour_array)
+  describe "#submission_text_with_tags" do
+    let(:text) { "ABC\nDEF\nGHI\nJKL" }
+    let(:tag1) do
+      instance_double("SubmissionTag",
+                      start_char: 0,
+                      end_char: 5,
+                      text: "ABC\nDE",
+                      colour_number: 0,
+                      name: "Tag 1")
     end
-  end
-
-  describe "#tag_colour_for_index(index)" do
-    context "when provided with an single digit index argument" do
-      it "returns the colour at that index of the tag_colours array" do
-        expect(helper.tag_colour_for_index(0)).to eq("primary")
-        expect(helper.tag_colour_for_index(4)).to eq("warning")
-        expect(helper.tag_colour_for_index(9)).to eq("violet")
-      end
+    let(:tag2) do
+      instance_double("SubmissionTag",
+                      start_char: 6,
+                      end_char: 10,
+                      text: "F\nGHI",
+                      colour_number: 1,
+                      name: "Tag 2")
     end
+    subject { submission_text_with_tags(text, [tag1, tag2]) }
 
-    context "when provided with an index argument greater than one digit" do
-      it "uses the arguments last digit to return a colour" do
-        expect(helper.tag_colour_for_index(20)).to eq("primary")
-        expect(helper.tag_colour_for_index(34)).to eq("warning")
-        expect(helper.tag_colour_for_index(559)).to eq("violet")
-      end
+    it "puts a span in the appropriate places the tags" do
+      expect(subject).to include(">ABC\nDE</span>")
+      expect(subject).to include(">F\nGHI</span>\nJKL")
+    end
+    it "includes data about the tags" do
+      expect(subject).to include("tagged--colour-0")
+      expect(subject).to include("tagged--colour-1")
+      expect(subject).to include("Tag 1")
+      expect(subject).to include("Tag 2")
     end
   end
 end

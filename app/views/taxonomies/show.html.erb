@@ -6,9 +6,9 @@
 
 <section class="col list-group">
   <h2>Tags</h2>
-  <% @taxonomy.tags.top_level.each_with_index do |tag, index| %>
+  <% @taxonomy.tags.top_level.each do |tag| %>
     <div class="row align-items-start">
-      <%= render partial: tag, locals: { tag_colour: tag_colour_for_index(index) } %>
+      <%= render partial: tag, locals: { tag_colour: tag.colour_number } %>
     </div>
   <% end %>
 </section>

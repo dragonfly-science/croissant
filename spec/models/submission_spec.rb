@@ -15,4 +15,11 @@ RSpec.describe Submission, type: :model do
     submission.update(text: "something")
     expect(submission.can_process?).to eq(true)
   end
+  it "removes forced carriage returns on save" do
+    carriage_returny_text = "Your submission to Zero Carbon Bill\r\n\r\nAnonymous\r\n\r\n\r\n\r\n\r\nReference no: 15"
+    submission = FactoryBot.create(:submission, file: file)
+    submission.text = carriage_returny_text
+    submission.save
+    expect(submission.text).to eq(carriage_returny_text.gsub(/\r\n/, "\n"))
+  end
 end

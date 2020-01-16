@@ -15,22 +15,29 @@ class TaggableSubmissionText {
 
     function selectHTML(tag) {
       try {
-        let span = document.createElement('span');
-        let textRange = getSelection().getRangeAt(0);
-
         let text = getSelection().toString();
+        let previousSibling = getSelection().anchorNode.previousElementSibling;
+
+        let siblingOffset = 0;
+        if (previousSibling !== null) {
+          siblingOffset = parseInt(previousSibling.dataset.endCharacter, 10);
+        }
 
         // anchorOffset is where the user started the selection
-        // focusOffset is where the user ended the selection
-        let selectionStart = getSelection().anchorOffset;
-        let selectionEnd = getSelection().focusOffset;
+        let selectionStart = getSelection().anchorOffset + siblingOffset;
+        if (previousSibling !== null) {
+          selectionStart += 1;
+        }
+        // focusOffset is the character after the selections end
+        let selectionEnd = getSelection().focusOffset + siblingOffset;
+        if (previousSibling === null) {
+          selectionEnd -= 1;
+        }
+
         let startChar = Math.min(selectionStart, selectionEnd);
-        let endChar = Math.min(selectionStart, selectionEnd);
+        let endChar = Math.max(selectionStart, selectionEnd);
 
         let tagDataset = $(tag)[0].dataset;
-        let tagId = tagDataset.tagId;
-        let tagName = tagDataset.tagName;
-        let tagColour = tagDataset.tagColour;
 
         let submissionId = $('.submission__taggable-text')[0].dataset
           .submissionId;
@@ -38,7 +45,7 @@ class TaggableSubmissionText {
         let params = {
           submission_tag: {
             submission_id: submissionId,
-            tag_id: tagId,
+            tag_id: tagDataset.tagId,
             start_char: startChar,
             end_char: endChar,
             text: text
@@ -47,8 +54,14 @@ class TaggableSubmissionText {
 
         persistTag(params);
 
-        span.setAttribute('class', 'tagged tagged--colour-' + tagColour);
-        span.setAttribute('data-tag-name', tagName);
+        let textRange = getSelection().getRangeAt(0);
+        let span = document.createElement('span');
+
+        span.setAttribute(
+          'class',
+          'tagged tagged--colour-' + tagDataset.tagColour
+        );
+        span.setAttribute('data-tag-name', tagDataset.tagName);
         span.setAttribute('data-start-character', startChar);
         span.setAttribute('data-end-character', endChar);
 
