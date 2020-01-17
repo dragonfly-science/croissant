@@ -3,7 +3,10 @@
           data-tag-id="<%= tag.id %>"
           data-tag-name="<%= tag.name %>"
           data-tag-colour="<%= tag.colour_number %>">
-    <%= tag.name %>
+    <div>
+      <span class="tag-number tag-number--colour-<%= tag.colour_number %>"><%= tag.full_number %></span>
+      <%= tag.name %>
+    </div>
   </button>
   <%= button_tag "+", class: "tag__new-button rounded-circle btn-outline-#{tag_colour} font-weight-bold m-2 px-2", "data-toggle":"collapse", "data-target":"#tag-group-#{tag.id}" if tag.children.any?%>
 </li>

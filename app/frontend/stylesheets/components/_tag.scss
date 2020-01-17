@@ -2,5 +2,29 @@
   &__new-button {
     border-width: 2px;
   }
-  @include tag-colours(color, 1);
+  @include tag-colours(color, 1, "&--colour-");
+}
+
+.tag-number {
+  border-radius: 0.2em 0 0 0.2em;
+  color: #fff;
+  display: inline-block;
+  height: 2em;
+  margin-right: 2em;
+  padding: 0.2em 1em;
+  position: relative;
+
+  &::after {
+    border-bottom: 1em solid transparent;
+    border-left: 1em solid;
+    border-top: 1em solid transparent;
+    content: "";
+    height: 0;
+    position: absolute;
+    right: -1em;
+    top: 0;
+    width: 0;
+  }
+  @include tag-colours(border-left-color, 1, "&--colour-", "::after");
+  @include tag-colours(background-color, 1, "&--colour-");
 }

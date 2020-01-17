@@ -3,7 +3,7 @@
     white-space: pre-wrap;
 
     & .tagged {
-      @include tag-colours(background-color, 0.4);
+      @include tag-colours(background-color, 0.4, "&--colour-");
     }
   }
 }
