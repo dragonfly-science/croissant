@@ -96,4 +96,29 @@ RSpec.describe Tag, type: :model do
       expect { unused_tag.destroy! }.not_to raise_error
     end
   end
+
+  context "numbers" do
+    let!(:tag1) { FactoryBot.create(:tag, taxonomy: taxonomy) }
+    let!(:tag11) { FactoryBot.create(:tag, parent: tag1, taxonomy: taxonomy) }
+    let!(:tag2) { FactoryBot.create(:tag, taxonomy: taxonomy) }
+    let!(:tag21) { FactoryBot.create(:tag, parent: tag2, taxonomy: taxonomy) }
+    let!(:tag12) { FactoryBot.create(:tag, parent: tag1, taxonomy: taxonomy) }
+    let!(:tag22) { FactoryBot.create(:tag, parent: tag2, taxonomy: taxonomy) }
+    let!(:tag111) { FactoryBot.create(:tag, parent: tag11, taxonomy: taxonomy) }
+    let!(:tag221) { FactoryBot.create(:tag, parent: tag22, taxonomy: taxonomy) }
+
+    it "creates full numbers" do
+      expect(tag1.full_number).to eq("1")
+      expect(tag11.full_number).to eq("1.1")
+      expect(tag12.full_number).to eq("1.2")
+      expect(tag2.full_number).to eq("2")
+      expect(tag21.full_number).to eq("2.1")
+      expect(tag22.full_number).to eq("2.2")
+    end
+    it "orders by full numbers" do
+      expect(taxonomy.tags.number_order.to_a).to eq(
+        [tag1, tag11, tag111, tag12, tag2, tag21, tag22, tag221]
+      )
+    end
+  end
 end

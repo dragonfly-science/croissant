@@ -125,4 +125,10 @@ RSpec.describe TagNumberer do
     child_tag2.update(number: "3")
     expect(TagNumberer.new_number_for(parent_tag1.children)).to eq(4)
   end
+
+  it "does not overwrite existing numbers" do
+    child_tag2.update(number: "99")
+    TagNumberer.call(taxonomy)
+    expect(child_tag2.number).to eq("99")
+  end
 end

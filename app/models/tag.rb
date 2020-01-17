@@ -13,13 +13,10 @@ class Tag < ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: %i[taxonomy parent_id] }
 
   scope :top_level, -> { where(parent_id: nil) }
+  scope :number_order, -> { order(:full_number) }
 
   def deletable?
     submissions.none?
-  end
-
-  def full_number
-    @full_number ||= calculate_full_number
   end
 
   def full_name
@@ -32,6 +29,10 @@ class Tag < ApplicationRecord
 
   def numbering_context
     parent.present? ? parent.children : taxonomy.tags.top_level
+  end
+
+  def update_full_number!
+    update(full_number: calculate_full_number)
   end
 
   private
@@ -50,6 +51,7 @@ class Tag < ApplicationRecord
 
   def create_number
     self.number ||= TagNumberer.new_number_for(numbering_context)
+    self.full_number ||= calculate_full_number
   end
 
   def check_deletability

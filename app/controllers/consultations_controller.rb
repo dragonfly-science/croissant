@@ -1,11 +1,11 @@
 class ConsultationsController < ApplicationController
+  before_action :consultation, only: %i[show export]
+
   def index
     @consultations = Consultation.alphabetical_order
   end
 
-  def show
-    @consultation = find_consultation
-  end
+  def show; end
 
   def new
     @consultation = Consultation.new
@@ -21,10 +21,28 @@ class ConsultationsController < ApplicationController
     end
   end
 
+  def export # rubocop:disable Metrics/MethodLength
+    respond_to do |format|
+      format.csv do
+        case params[:type]
+        when "taxonomy"
+          exporter = TaxonomyExporter.new(@consultation.taxonomy)
+        when "tags"
+          exporter = SubmissionTagExporter.new(@consultation)
+        when "submissions"
+          exporter = SubmissionMetadataExporter.new(@consultation)
+        else
+          fail ActionController::BadRequest
+        end
+        send_data(exporter.export, filename: exporter.filename)
+      end
+    end
+  end
+
   private
 
-  def find_consultation
-    Consultation.find(params[:id])
+  def consultation
+    @consultation ||= params[:id] ? Consultation.find(params[:id]) : Consultation.find(params[:consultation_id])
   end
 
   def consultation_params

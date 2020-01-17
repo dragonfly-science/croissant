@@ -68,4 +68,27 @@ RSpec.describe ConsultationsController, type: :request do
       expect(assigns(:consultation)).to eq(consultation)
     end
   end
+
+  describe "#export" do
+    it "downloads a tag csv" do
+      get consultation_export_path(consultation, format: :csv, type: "tags")
+      expect(response.header["Content-Type"]).to include "text/csv"
+    end
+    it "downloads a submission csv" do
+      get consultation_export_path(consultation, format: :csv, type: "submissions")
+      expect(response.header["Content-Type"]).to include "text/csv"
+    end
+    it "downloads a taxonomy csv" do
+      get consultation_export_path(consultation, format: :csv, type: "taxonomy")
+      expect(response.header["Content-Type"]).to include "text/csv"
+    end
+    it "doesn't respond to html" do
+      expect do
+        get consultation_export_path(consultation, format: :html, type: "taxonomy")
+      end.to raise_error(ActionController::UnknownFormat)
+    end
+    it "doesn't respond if not given a type" do
+      expect { get consultation_export_path(consultation, format: :csv) }.to raise_error(ActionController::BadRequest)
+    end
+  end
 end

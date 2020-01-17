@@ -4,8 +4,10 @@ class TagNumberer
   end
 
   def self.recursively_number_tags(tags)
-    tags.each_with_index do |tag, index|
-      tag.update(number: index + 1)
+    tags.each do |tag|
+      tag.update(number: new_number_for(tag.numbering_context)) if tag.number.blank?
+
+      tag.update_full_number!
       TagNumberer.recursively_number_tags(tag.children)
     end
   end
