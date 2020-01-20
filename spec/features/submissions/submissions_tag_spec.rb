@@ -14,6 +14,7 @@ RSpec.feature "Tagging a submission", js: true do
   end
 
   it "renders the submissions text" do
+    expect(page).to have_content(submission.text)
   end
 
   describe "" do
