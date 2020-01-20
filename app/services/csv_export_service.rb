@@ -1,19 +1,19 @@
 require "csv"
 
 class CsvExportService
-  def initialize
-  end
-
   def columns
     # define in subclasses
+    fail NotImplementedError
   end
 
   def items
     # define in subclasses
+    fail NotImplementedError
   end
 
   def filename
-    # define in subclass
+    # define in subclasses
+    fail NotImplementedError
   end
 
   def export
@@ -22,7 +22,7 @@ class CsvExportService
       items.each do |result|
         row = []
         columns.each do |column|
-          value = column.blank? ? "" : result.send(column.call_method).to_s
+          value = column.blank? ? nil : result.send(column.call_method).to_s
           row << value
         end
         csv << row

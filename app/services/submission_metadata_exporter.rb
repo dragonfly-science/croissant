@@ -1,8 +1,9 @@
 class SubmissionMetadataExporter < CsvExportService
-  def initialize(consultation)
+  def initialize(consultation, character_limit: 32_000)
     @consultation = consultation
     @name = consultation.name
     @submissions = @consultation.submissions
+    @character_limit = character_limit
   end
 
   def items
@@ -22,7 +23,7 @@ class SubmissionMetadataExporter < CsvExportService
   end
 
   def filename
-    "#{Time.zone.today.iso8601}-#{@name}-submissions.csv"
+    "#{Time.zone.today.iso8601}-#{@name.parameterize}-submissions.csv"
   end
 
   private
@@ -31,7 +32,7 @@ class SubmissionMetadataExporter < CsvExportService
     all_parts = []
 
     @submissions.each do |submission|
-      separator = SubmissionSeparator.new(submission)
+      separator = SubmissionSeparator.new(submission, character_limit: @character_limit)
       all_parts.concat(separator.parts)
     end
 
