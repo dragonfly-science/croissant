@@ -9,7 +9,7 @@
     <h4 class="mb-4"><%= @submission.name %></h4>
     <div class="submission__taggable-text shadow p-3 js-taggable-submission-text"
          data-submission-id="<%= @submission.id %>">
-      <p><%= submission_text_with_tags(@submission.text, @submission_tags).html_safe %></p>
+      <p id="submissionText"><%= submission_text_with_tags(@submission.text, @submission_tags).html_safe %></p>
     </div>
   </section>
 
