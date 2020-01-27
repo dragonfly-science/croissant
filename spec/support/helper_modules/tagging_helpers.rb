@@ -1,7 +1,4 @@
 module TaggingHelpers
-  # this has a quirk where the actual highlighted area is from the range_start provided
-  # until the character BEFORE the range end provided.
-  # e.g calling it with a range_start of 10 and a range_end of 20 would highlight characters 10..19
   def highlight_selection(range_start, range_end)
     page.execute_script(<<~JS, range_start, range_end)
       (function(rangeStart, rangeEnd) {
@@ -12,14 +9,14 @@ module TaggingHelpers
 
         range.selectNodeContents(submissionText);
 
-        for (let i = 0, textNode; textNode = textNodes[i++]; ) {
+        for (let i = 0, textNode; textNode = textNodes[i]; i++ ) {
           endCharCount = charCount + textNode.length;
           if (!foundStart && rangeStart >= charCount && (rangeStart < endCharCount || (rangeStart == endCharCount && i <= textNodes.length))) {
               range.setStart(textNode, rangeStart - charCount);
               foundStart = true;
           }
           if (foundStart && rangeEnd <= endCharCount) {
-              range.setEnd(textNode, rangeEnd - charCount);
+              range.setEnd(textNode, rangeEnd - charCount + 1);
               break;
           }
           charCount = endCharCount;

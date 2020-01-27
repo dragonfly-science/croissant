@@ -23,13 +23,13 @@ RSpec.feature "Tagging a submission", js: true do
   describe "tagging", js: true do
     context "with highlighted text" do
       it "applies a visual tag when one of the tags in the taxonomy list is selected" do
-        highlight_selection(4, 19)
+        highlight_selection(5, 18)
         find(".submission-tag[data-tag-name='#{tags.first.name}']").click
         expect(find(".tagged")).to have_text("dogs and sheep")
       end
 
       it "can apply multiple tags to a piece of text" do
-        highlight_selection(4, 19)
+        highlight_selection(5, 18)
         find(".submission-tag[data-tag-name='#{tags.first.name}']").click
         find(".submission-tag[data-tag-name='#{tags.second.name}']").click
         expect(find(".tagged[data-tag-name='#{tags.first.name}']")).to have_text("dogs and sheep")
@@ -40,16 +40,16 @@ RSpec.feature "Tagging a submission", js: true do
     end
 
     xit "can remove tags that are applied to specific bits of text" do
-      highlight_selection(4, 19)
+      highlight_selection(5, 18)
       find(".submission-tag[data-tag-name='#{tags.first.name}']").click
       expect(find(".tagged[data-tag-name='#{tags.first.name}']")).to have_text("dogs and sheep")
       # still need functionality to remove tags in situ
     end
 
     it "refreshing the page displays existing tags" do
-      highlight_selection(5, 19)
+      highlight_selection(5, 18)
       find(".submission-tag[data-tag-name='#{tags.first.name}']").click
-      highlight_selection(20, 32)
+      highlight_selection(20, 31)
       find(".submission-tag[data-tag-name='#{tags.third.name}']").click
       visit consultation_submission_tag_path(consultation, submission)
       expect(find(".tagged[data-tag-name='#{tags.first.name}']")).to have_text("dogs and sheep")
