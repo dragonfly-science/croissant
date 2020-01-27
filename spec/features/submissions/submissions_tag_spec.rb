@@ -46,14 +46,16 @@ RSpec.feature "Tagging a submission", js: true do
       # still need functionality to remove tags in situ
     end
 
-    it "refreshing the page displays existing tags" do
-      highlight_selection(5, 18)
-      find(".submission-tag[data-tag-name='#{tags.first.name}']").click
-      highlight_selection(20, 31)
-      find(".submission-tag[data-tag-name='#{tags.third.name}']").click
-      visit consultation_submission_tag_path(consultation, submission)
-      expect(find(".tagged[data-tag-name='#{tags.first.name}']")).to have_text("dogs and sheep")
-      expect(find(".tagged[data-tag-name='#{tags.third.name}']")).to have_text("in the ocean")
+    context "when revisiting a submission with existing tags" do
+      it "displays existing tags" do
+        highlight_selection(5, 18)
+        find(".submission-tag[data-tag-name='#{tags.first.name}']").click
+        highlight_selection(20, 31)
+        find(".submission-tag[data-tag-name='#{tags.third.name}']").click
+        visit consultation_submission_tag_path(consultation, submission)
+        expect(find(".tagged[data-tag-name='#{tags.first.name}']")).to have_text("dogs and sheep")
+        expect(find(".tagged[data-tag-name='#{tags.third.name}']")).to have_text("in the ocean")
+      end
     end
   end
 end
