@@ -1,4 +1,6 @@
 module TaggingHelpers
+  # Takes the index of the first and last characters for selection and
+  # highlights them as you manually would with a mouse click and drag.
   def highlight_selection(range_start, range_end)
     page.execute_script(<<~JS, range_start, range_end)
       (function(rangeStart, rangeEnd) {
