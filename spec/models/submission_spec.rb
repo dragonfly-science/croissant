@@ -22,4 +22,24 @@ RSpec.describe Submission, type: :model do
     submission.save
     expect(submission.text).to eq(carriage_returny_text.gsub(/\r\n/, "\n"))
   end
+  describe "file upload" do
+    it "allows PDFs" do
+      file = Rack::Test::UploadedFile.new("spec/support/example_files/single-page.pdf",
+                                          "application/pdf")
+      submission = FactoryBot.create(:submission, file: file)
+      expect(submission.valid?).to eq(true)
+    end
+    it "allows .doc files" do
+      file = Rack::Test::UploadedFile.new("spec/support/example_files/single-page.doc",
+                                          "application/msword")
+      submission = FactoryBot.create(:submission, file: file)
+      expect(submission.valid?).to eq(true)
+    end
+    it "allows the long mimetype of .docx files" do
+      file = Rack::Test::UploadedFile.new("spec/support/example_files/single-page.docx",
+                                          "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+      submission = FactoryBot.create(:submission, file: file)
+      expect(submission.valid?).to eq(true)
+    end
+  end
 end

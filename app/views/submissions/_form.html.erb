@@ -10,10 +10,10 @@
       </ul>
     </div>
   <% end %>
-
+  <p class="lead">Select one or more files to add new submissions.</p>
   <div class="row">
     <div class="col col-sm-4">
-      <%= form.file_field :file, multiple: true %>
+      <%= form.file_field :file, multiple: true, accept: Submission::SUBMISSION_FILE_TYPES.join(',') %>
     </div>
     <div class="col">
       <%= form.text_field :description %>
@@ -21,6 +21,6 @@
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Upload" %>
   </div>
 <% end %>
