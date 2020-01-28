@@ -71,11 +71,17 @@ class TaggableSubmissionText {
           );
         })
         .fail(response => {
-          displayErrors(response.errors);
+          displayErrors(response.responseJSON.errors);
         });
     }
 
-    function displayErrors(errors) {}
+    function displayErrors(errors) {
+      errors.forEach(error => {
+        $('#error_explanation ul').append(
+          `<li class="list-group-item list-group-item-danger">${error}</li>`
+        );
+      });
+    }
 
     function renderTag(tagNumber, tagName, startChar, endChar) {
       let textRange = getSelection().getRangeAt(0);

@@ -8,8 +8,8 @@ class SubmissionTagsController < ApplicationController
     if @submission_tag.save
       render json: @submission_tag, include: :tag
     else
-      errors = ["tag failed to save"].concat(@submission_tag.errors.full_messages)
-      render json: { errors: errors, status: :internal_server_error }
+      errors = ["Tag failed to save"].concat(@submission_tag.errors.full_messages)
+      render json: { errors: errors }, status: :internal_server_error
     end
   end
 

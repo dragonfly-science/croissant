@@ -15,6 +15,10 @@
 
   <section class="col-3 position-fixed submission-tags">
     <h4 class="mb-4">Consultation Taxonomy</h4>
+    <div id="error_explanation">
+      <ul class="list-group mb-3">
+      </ul>
+    </div>
     <ul class="border rounded list-group list-unstyled overflow-auto submission-tags__list">
       <% @consultation.taxonomy.tags.top_level.each do |tag| %>
         <%= render partial: "submission_tag", locals: { tag: tag, tag_colour: tag.colour_number } %>
