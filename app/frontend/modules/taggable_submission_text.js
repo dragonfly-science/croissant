@@ -7,13 +7,17 @@ class TaggableSubmissionText {
     }
 
     $('.submission-tag').on('click', function() {
-      selectHTML($(this).data("tag-id"));
+      selectHTML($(this).data('tag-id'));
     });
 
     function selectHTML(tagId) {
+      const selection = getSelection();
+
       try {
-        const selection = getSelection();
-        const [selectionStart, selectionEnd] = getStartAndEndCharactersForSelection(selection)
+        const [
+          selectionStart,
+          selectionEnd
+        ] = getStartAndEndCharactersForSelection(selection);
         const text = selection.toString();
         const startChar = Math.min(selectionStart, selectionEnd);
         const endChar = Math.max(selectionStart, selectionEnd);
@@ -37,17 +41,19 @@ class TaggableSubmissionText {
     }
 
     function getStartAndEndCharactersForSelection(selection) {
-      const selectionAnchorIsTextContainer = (selection.anchorNode.id === "js-submissionText")
-      let start = 0
-      let end = 0
+      const selectionAnchorIsTextContainer =
+        selection.anchorNode.id === 'js-submissionText';
+      let start = 0;
+      let end = 0;
 
       if (selectionAnchorIsTextContainer) {
         // This occurs when trying to add multiple tags sequentially to the same
         // piece of highlighted text. Set the start and end values to mimic the span that is
         // generated after the first successful tag.
-        const currentNode = selection.anchorNode.childNodes[selection.anchorOffset]
-        start = currentNode.dataset.startCharacter
-        end = currentNode.dataset.endCharacter
+        const currentNode =
+          selection.anchorNode.childNodes[selection.anchorOffset];
+        start = currentNode.dataset.startCharacter;
+        end = currentNode.dataset.endCharacter;
       } else {
         let previousSibling = selection.anchorNode.previousElementSibling;
 
@@ -68,7 +74,7 @@ class TaggableSubmissionText {
         }
       }
 
-      return [start, end]
+      return [start, end];
     }
 
     function persistSubmissionTag(params) {
