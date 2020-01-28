@@ -7,13 +7,13 @@ class TaggableSubmissionText {
     }
 
     $('.submission-tag').on('click', function() {
-      selectHTML(this);
+      selectHTML($(this).data("tag-id"));
       // add tag pressed text content as data attr to span
       // get start and end character
       // send tag id + start and end character to endpoint for persistance
     });
 
-    function selectHTML(tag) {
+    function selectHTML(tagId) {
       try {
         let previousSibling = getSelection().anchorNode.previousElementSibling;
 
@@ -36,7 +36,6 @@ class TaggableSubmissionText {
         const text = getSelection().toString();
         const startChar = Math.min(selectionStart, selectionEnd);
         const endChar = Math.max(selectionStart, selectionEnd);
-        const tagId = $(tag)[0].dataset.tagId;
         const submissionId = $('.submission__taggable-text')[0].dataset
           .submissionId;
 
