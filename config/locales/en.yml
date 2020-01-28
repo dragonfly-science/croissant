@@ -36,3 +36,9 @@ en:
     type: "Consultation type"
     create:
       failure: "Failed to create consultation"
+  submission:
+    state:
+      incoming: "Incoming"
+      ready: "Ready to tag"
+      started: "Tagging started"
+      finished: "Tagging completed"

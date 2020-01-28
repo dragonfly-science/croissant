@@ -1,0 +1,12 @@
+<% if submission.can_process? %>
+  <%= link_to('Mark as ready', process_submission_path(submission), class: 'btn btn-outline-primary',
+      method: :put, data: { confirm: 'Are you sure? This will prevent further edits to the text.' }) %>
+<% end %>
+<% if submission.can_complete_tagging? %>
+  <%= link_to('Mark as completed', complete_submission_path(submission), class: 'btn btn-outline-success',
+      method: :put, data: { confirm: 'Are you sure? This will prevent further tagging.' }) %>
+<% end %>
+<% if submission.can_reject? %>
+  <%= link_to('Reject', reject_submission_path(submission), class: 'btn btn-outline-danger',
+      method: :put, data: { confirm: 'Are you sure? This will allow tagging again.' }) %>
+<% end %>

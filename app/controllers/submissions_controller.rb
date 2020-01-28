@@ -1,6 +1,7 @@
 class SubmissionsController < ApplicationController
   before_action :consultation, only: %i[index create destroy tag]
-  before_action :set_submission, only: %i[show destroy edit update mark_process tag]
+  before_action :set_submission, only: %i[show destroy edit update tag
+                                          mark_process mark_complete mark_reject ]
 
   # GET /submissions
   def index
@@ -51,6 +52,24 @@ class SubmissionsController < ApplicationController
       redirect_to submission_url(@submission, notice: "Submission is ready to tag")
     else
       redirect_back(notice: "Submission failed to process")
+    end
+  end
+
+  # PUT /submissions/:id/complete
+  def mark_complete
+    if @submission.complete_tagging
+      redirect_to submission_url(@submission, notice: "Submission is marked as complete")
+    else
+      redirect_back(notice: "Submission failed to complete")
+    end
+  end
+
+  # PUT /submissions/:id/reject
+  def mark_reject
+    if @submission.reject
+      redirect_to submission_url(@submission, notice: "Submission has been rejected, can be tagged again")
+    else
+      redirect_back(notice: "Submission failed to reject")
     end
   end
 

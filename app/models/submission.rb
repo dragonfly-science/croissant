@@ -5,6 +5,8 @@ class Submission < ApplicationRecord
                        high_relevance_stakeholder age_bracket ethnicity gender].freeze
 
   SUBMITTER_TYPES = %w[individual group].freeze
+  SUBMISSION_FILE_TYPES = %w[application/pdf application/msword
+                             application/vnd.openxmlformats-officedocument.wordprocessingml.document].freeze
 
   belongs_to :consultation
   has_one_attached :file
@@ -12,9 +14,7 @@ class Submission < ApplicationRecord
   has_many :tags, through: :submission_tags
 
   validates :file, presence: true, blob: {
-    content_type: ["application/pdf",
-                   "application/msword",
-                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
+    content_type: SUBMISSION_FILE_TYPES
   }
 
   validates :submitter_type, inclusion: { in: SUBMITTER_TYPES }, allow_blank: true
@@ -43,6 +43,14 @@ class Submission < ApplicationRecord
     end
   end
 
+  def can_delete?
+    incoming?
+  end
+
+  def can_edit?
+    incoming? && file.analyzed?
+  end
+
   def raw_text
     file.analyzed? ? file.metadata[:text] : ""
   end
@@ -55,6 +63,7 @@ class Submission < ApplicationRecord
   def add_tag(params)
     return false unless can_tag?
 
+    tag
     st = submission_tags.new(params)
     st.save ? st : false
   end

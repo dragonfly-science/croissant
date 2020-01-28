@@ -3,7 +3,8 @@
     <%= link_to 'Back', consultation_submissions_path(@submission.consultation) %>
   </div>
   <div class="col text-right">
-    <%= render partial: 'actions', locals: { submission: @submission } %>
+    <%= render partial: 'edit_actions', locals: { submission: @submission } %>
+    <%= render partial: 'state_actions', locals: { submission: @submission } %>
   </div>
 </div>
 
@@ -31,11 +32,6 @@
     <div>
       <% if @submission.text.present? %>
         <h3>Submission text</h3>
-        <% if @submission.can_process? %>
-          <%= link_to('Edit', edit_submission_path(@submission), class: 'btn btn-primary') %>
-          <%= link_to('Mark as ready', process_submission_path(@submission), class: 'btn btn-success',
-              method: :put, data: { confirm: 'Are you sure? This will prevent further edits to the text.' }) %>
-        <% end %>
         <section class="submission__taggable-text">
           <%= submission_text_with_tags(@submission.text, @submission.submission_tags).html_safe %>
         </section>
