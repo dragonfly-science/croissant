@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   end
 
   put "submissions/:id/process", to: "submissions#mark_process", as: :process_submission
+  put "submissions/:id/complete", to: "submissions#mark_complete", as: :complete_submission
+  put "submissions/:id/reject", to: "submissions#mark_reject", as: :reject_submission
 
   resources :taxonomies, only: :show do
     resources :tags, only: %i[create destroy]

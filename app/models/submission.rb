@@ -43,6 +43,14 @@ class Submission < ApplicationRecord
     end
   end
 
+  def can_delete?
+    incoming?
+  end
+
+  def can_edit?
+    incoming? && file.analyzed?
+  end
+
   def raw_text
     file.analyzed? ? file.metadata[:text] : ""
   end
@@ -55,6 +63,7 @@ class Submission < ApplicationRecord
   def add_tag(params)
     return false unless can_tag?
 
+    tag
     st = submission_tags.new(params)
     st.save ? st : false
   end

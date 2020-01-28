@@ -1,11 +1,12 @@
 class SubmissionTagsController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
   before_action :set_submission_tag, only: :destroy
+  before_action :set_submission, only: :create
 
   def create
-    @submission_tag = SubmissionTag.new(submission_tag_params)
+    @submission_tag = @submission.add_tag(submission_tag_params)
 
-    if @submission_tag.save
+    if @submission_tag && @submission_tag.save
       render json: @submission_tag
     else
       render json: { reason: "tagging failed", status: :internal_server_error }
@@ -22,6 +23,10 @@ class SubmissionTagsController < ApplicationController
   end
 
   private
+
+  def set_submission
+    @submission = Submission.find(submission_tag_params[:submission_id])
+  end
 
   def set_submission_tag
     @submission_tag = SubmissionTag.find(params[:id])
