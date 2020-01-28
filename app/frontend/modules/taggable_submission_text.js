@@ -13,34 +13,7 @@ class TaggableSubmissionText {
     function selectHTML(tagId) {
       try {
         const selection = getSelection();
-        let selectionStart = 0
-        let selectionEnd = 0
-        const sameSelection = (selection.anchorNode.id === "js-submissionText")
-
-        if (sameSelection) {
-          const currentNode = selection.anchorNode.childNodes[selection.anchorOffset]
-          selectionStart = currentNode.dataset.startCharacter
-          selectionEnd = currentNode.dataset.endCharacter
-        } else {
-          let previousSibling = selection.anchorNode.previousElementSibling;
-
-          let siblingOffset = 0;
-          if (previousSibling !== null) {
-            siblingOffset = parseInt(previousSibling.dataset.endCharacter, 10);
-          }
-          // anchorOffset is where the user started the selection
-          selectionStart = selection.anchorOffset + siblingOffset;
-
-          if (previousSibling !== null) {
-            selectionStart += 1;
-          }
-          // focusOffset is the character after the selections end
-          selectionEnd = selection.focusOffset + siblingOffset;
-          if (previousSibling === null) {
-            selectionEnd -= 1;
-          }
-        }
-
+        const [selectionStart, selectionEnd] = getStartAndEndCharactersForSelection(selection)
         const text = selection.toString();
         const startChar = Math.min(selectionStart, selectionEnd);
         const endChar = Math.max(selectionStart, selectionEnd);
@@ -61,6 +34,41 @@ class TaggableSubmissionText {
       } catch (e) {
         return selection;
       }
+    }
+
+    function getStartAndEndCharactersForSelection(selection) {
+      const selectionAnchorIsTextContainer = (selection.anchorNode.id === "js-submissionText")
+      let start = 0
+      let end = 0
+
+      if (selectionAnchorIsTextContainer) {
+        // This occurs when trying to add multiple tags sequentially to the same
+        // piece of highlighted text. Set the start and end values to mimic the span that is
+        // generated after the first successful tag.
+        const currentNode = selection.anchorNode.childNodes[selection.anchorOffset]
+        start = currentNode.dataset.startCharacter
+        end = currentNode.dataset.endCharacter
+      } else {
+        let previousSibling = selection.anchorNode.previousElementSibling;
+
+        let siblingOffset = 0;
+        if (previousSibling !== null) {
+          siblingOffset = parseInt(previousSibling.dataset.endCharacter, 10);
+        }
+        // anchorOffset is where the user started the selection
+        start = selection.anchorOffset + siblingOffset;
+
+        if (previousSibling !== null) {
+          start += 1;
+        }
+        // focusOffset is the character after the selections end
+        end = selection.focusOffset + siblingOffset;
+        if (previousSibling === null) {
+          end -= 1;
+        }
+      }
+
+      return [start, end]
     }
 
     function persistSubmissionTag(params) {
