@@ -62,29 +62,26 @@ class TaggableSubmissionText {
         type: 'POST',
         data: params
       })
-        .done(function(response) {
-          renderTag(response.tag.number,
-                    response.tag.name,
-                    response.start_char,
-                    response.end_char)
+        .done(response => {
+          renderTag(
+            response.tag.number,
+            response.tag.name,
+            response.start_char,
+            response.end_char
+          );
         })
-        .fail(function(response) {
-          displayErrors(response.errors)
-        })
+        .fail(response => {
+          displayErrors(response.errors);
+        });
     }
 
-    function displayErrors(errors) {
-
-    }
+    function displayErrors(errors) {}
 
     function renderTag(tagNumber, tagName, startChar, endChar) {
       let textRange = getSelection().getRangeAt(0);
       let span = document.createElement('span');
 
-      span.setAttribute(
-        'class',
-        `tagged tagged--colour-${tagNumber}`
-      );
+      span.setAttribute('class', `tagged tagged--colour-${tagNumber}`);
       span.setAttribute('data-tag-name', tagName);
       span.setAttribute('data-start-character', startChar);
       span.setAttribute('data-end-character', endChar);
