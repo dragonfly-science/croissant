@@ -50,6 +50,9 @@ RSpec.feature "Tagging a submission", js: true do
       it "displays existing tags" do
         highlight_selection(5, 18)
         find(".submission-tag[data-tag-name='#{tags.first.name}']").click
+        # highlight_selection can run a little slow so we need to assert that tagging has completed
+        # before moving onto the next tag
+        expect(find(".tagged[data-tag-name='#{tags.first.name}']")).to have_text("dogs and sheep")
         highlight_selection(20, 31)
         find(".submission-tag[data-tag-name='#{tags.third.name}']").click
         visit consultation_submission_tag_path(consultation, submission)
