@@ -15,7 +15,6 @@ class TaggableSubmissionText {
 
     function selectHTML(tag) {
       try {
-        let text = getSelection().toString();
         let previousSibling = getSelection().anchorNode.previousElementSibling;
 
         let siblingOffset = 0;
@@ -34,57 +33,65 @@ class TaggableSubmissionText {
           selectionEnd -= 1;
         }
 
-        let startChar = Math.min(selectionStart, selectionEnd);
-        let endChar = Math.max(selectionStart, selectionEnd);
-
-        let tagDataset = $(tag)[0].dataset;
-
-        let submissionId = $('.submission__taggable-text')[0].dataset
+        const text = getSelection().toString();
+        const startChar = Math.min(selectionStart, selectionEnd);
+        const endChar = Math.max(selectionStart, selectionEnd);
+        const tagId = $(tag)[0].dataset.tagId;
+        const submissionId = $('.submission__taggable-text')[0].dataset
           .submissionId;
 
         let params = {
           submission_tag: {
             submission_id: submissionId,
-            tag_id: tagDataset.tagId,
+            tag_id: tagId,
             start_char: startChar,
             end_char: endChar,
             text: text
           }
         };
 
-        persistTag(params);
-
-        let textRange = getSelection().getRangeAt(0);
-        let span = document.createElement('span');
-
-        span.setAttribute(
-          'class',
-          'tagged tagged--colour-' + tagDataset.tagColour
-        );
-        span.setAttribute('data-tag-name', tagDataset.tagName);
-        span.setAttribute('data-start-character', startChar);
-        span.setAttribute('data-end-character', endChar);
-
-        textRange.surroundContents(span);
-
-        return span.innerHTML;
+        persistSubmissionTag(params);
       } catch (e) {
         return getSelection();
       }
     }
 
-    function persistTag(params) {
+    function persistSubmissionTag(params) {
       $.ajax({
         url: '/submission_tags',
         type: 'POST',
         data: params
       })
-        .done(data => {
-          console.log(data);
+        .done(function(response) {
+          renderTag(response.tag.number,
+                    response.tag.name,
+                    response.start_char,
+                    response.end_char)
         })
-        .fail(data => {
-          console.log(data);
-        });
+        .fail(function(response) {
+          displayErrors(response.errors)
+        })
+    }
+
+    function displayErrors(errors) {
+
+    }
+
+    function renderTag(tagNumber, tagName, startChar, endChar) {
+      let textRange = getSelection().getRangeAt(0);
+      let span = document.createElement('span');
+
+      span.setAttribute(
+        'class',
+        `tagged tagged--colour-${tagNumber}`
+      );
+      span.setAttribute('data-tag-name', tagName);
+      span.setAttribute('data-start-character', startChar);
+      span.setAttribute('data-end-character', endChar);
+
+      textRange.surroundContents(span);
+
+      return span.innerHTML;
     }
   }
 }
