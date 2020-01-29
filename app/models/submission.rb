@@ -64,8 +64,7 @@ class Submission < ApplicationRecord
     return false unless can_tag?
 
     tag
-    st = submission_tags.new(params)
-    st.save ? st : false
+    submission_tags.create(params)
   end
 
   private

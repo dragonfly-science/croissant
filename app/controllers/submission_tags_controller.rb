@@ -6,10 +6,11 @@ class SubmissionTagsController < ApplicationController
   def create
     @submission_tag = @submission.add_tag(submission_tag_params)
 
-    if @submission_tag && @submission_tag.save
-      render json: @submission_tag
+    if @submission_tag.errors.none?
+      render json: @submission_tag, include: :tag
     else
-      render json: { reason: "tagging failed", status: :internal_server_error }
+      errors = ["Tag failed to save"].concat(@submission_tag.errors.full_messages)
+      render json: { errors: errors }, status: :internal_server_error
     end
   end
 
