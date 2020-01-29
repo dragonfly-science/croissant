@@ -97,11 +97,14 @@ class TaggableSubmissionText {
     }
 
     function displayErrors(errors) {
-      errors.forEach(error => {
-        $('#error_explanation ul').append(
-          `<li class="list-group-item list-group-item-danger">${error}</li>`
-        );
-      });
+      let errorList = $(`<ul class="pl-5 mb-3 alert alert-danger alert-dismissible" role="alert">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                           </button>
+                         </ul>`)
+
+      errors.forEach(error => { errorList.append(`<li>${error}</li>`); });
+      $('#error_explanation').append(errorList)
     }
 
     function renderTag(tagNumber, tagName, startChar, endChar) {
