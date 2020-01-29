@@ -17,10 +17,11 @@ class TaggableSubmissionText {
         const [
           selectionStart,
           selectionEnd
-        ] = getStartAndEndCharactersForSelection(selection);
+        ] = getFirstAndLastCharactersForSelection(selection);
         const text = selection.toString();
         const startChar = Math.min(selectionStart, selectionEnd);
         const endChar = Math.max(selectionStart, selectionEnd);
+
         const submissionId = $('.submission__taggable-text')[0].dataset
           .submissionId;
 
@@ -40,11 +41,11 @@ class TaggableSubmissionText {
       }
     }
 
-    function getStartAndEndCharactersForSelection(selection) {
+    function getFirstAndLastCharactersForSelection(selection) {
       const selectionAnchorIsTextContainer =
         selection.anchorNode.id === 'js-submissionText';
-      let start = 0;
-      let end = 0;
+    let firstTagCharacter = 0;
+    let lastTagCharacter = 0;
 
       if (selectionAnchorIsTextContainer) {
         // This occurs when trying to add multiple tags sequentially to the same
@@ -52,8 +53,8 @@ class TaggableSubmissionText {
         // generated after the first successful tag.
         const currentNode =
           selection.anchorNode.childNodes[selection.anchorOffset];
-        start = currentNode.dataset.startCharacter;
-        end = currentNode.dataset.endCharacter;
+        firstTagCharacter = currentNode.dataset.startCharacter;
+        lastTagCharacter = currentNode.dataset.endCharacter;
       } else {
         let previousSibling = selection.anchorNode.previousElementSibling;
 
@@ -62,19 +63,23 @@ class TaggableSubmissionText {
           siblingOffset = parseInt(previousSibling.dataset.endCharacter, 10);
         }
         // anchorOffset is where the user started the selection
-        start = selection.anchorOffset + siblingOffset;
+        // if the user starts from the end of the tag we want firstTagCharacter to
+        // equal the beggining (or smaller) character
+        firstTagCharacter = Math.min(selection.anchorOffset, selection.focusOffset) + siblingOffset;
 
         if (previousSibling !== null) {
-          start += 1;
+          firstTagCharacter += 1;
         }
         // focusOffset is the character after the selections end
-        end = selection.focusOffset + siblingOffset;
+        // if the user starts from the end of the tag we want lastTagCharacter to
+        // equal the end (or larger) character
+        lastTagCharacter = Math.max(selection.anchorOffset, selection.focusOffset) + siblingOffset;
         if (previousSibling === null) {
-          end -= 1;
+          lastTagCharacter -= 1;
         }
       }
 
-      return [start, end];
+      return [firstTagCharacter, lastTagCharacter];
     }
 
     function persistSubmissionTag(params) {
