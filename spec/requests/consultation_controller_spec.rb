@@ -2,6 +2,10 @@ require "rails_helper"
 
 RSpec.describe ConsultationsController, type: :request do
   let(:consultation) { FactoryBot.create(:consultation) }
+  let(:user) { FactoryBot.create(:user) }
+  before do
+    sign_in(user)
+  end
 
   describe "#index" do
     subject { get consultations_path }

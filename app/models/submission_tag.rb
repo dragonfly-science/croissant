@@ -5,6 +5,8 @@ class SubmissionTag < ApplicationRecord
   delegate :name, :colour_number, :full_number, to: :tag
   delegate :filename, to: :submission
 
+  before_create { submission.tag }
+
   validates_numericality_of :start_char, less_than: ->(st) { st.end_char }
 
   def calculated_text

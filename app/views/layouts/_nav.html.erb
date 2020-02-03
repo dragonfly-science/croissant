@@ -8,9 +8,18 @@
 
   <div class="collapse navbar-collapse" id="top-level-nav-target">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
-        <%= link_to('Home', root_path, class: 'nav-link') %>
-      </li>
+      <% if current_user %>
+        <li class="nav-item active">
+          <span class='nav-link'><%= current_user.email %></span>
+        </li>
+        <li class="nav-item active">
+          <%= link_to('Log out', destroy_user_session_path, method: 'DELETE', class: 'nav-link') %>
+        </li>
+      <% else %>
+        <li class="nav-item active">
+          <%= link_to('Log in', new_user_session_path, class: 'nav-link') %>
+        </li>
+      <% end %>
     </ul>
   </div>
 </nav>

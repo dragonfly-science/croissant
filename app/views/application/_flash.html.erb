@@ -1,9 +1,9 @@
 <%# Notice %>
-<% if flash[:notice].present? %>
-  <div class="alert alert-success"><%= flash[:notice] %></div>
+<% if flash[:notice].present? || notice.present? %>
+  <div class="alert alert-success"><%= flash[:notice] || notice %></div>
 <% end %>
 
 <%# Alert %>
-<% if flash[:alert].present? %>
-  <div class="alert alert-danger"><%= flash[:alert] %></div>
+<% if flash[:alert].present? || alert.present? %>
+  <div class="alert alert-danger"><%= flash[:alert] || alert %></div>
 <% end %>

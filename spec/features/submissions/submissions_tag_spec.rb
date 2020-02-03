@@ -1,12 +1,14 @@
 require "rails_helper"
 
 RSpec.feature "Tagging a submission", js: true do
+  let(:user) { FactoryBot.create(:user) }
   let!(:consultation) { FactoryBot.create(:consultation, :with_taxonomy_tags) }
   let!(:submission) do
     FactoryBot.create(:submission, :ready_to_tag, consultation: consultation,
                                                   text: "cows dogs and sheep in the ocean riding waves")
   end
   let!(:tags) { consultation.taxonomy.tags }
+  before { sign_in(user) }
 
   before do
     visit consultation_submission_tag_path(consultation, submission)

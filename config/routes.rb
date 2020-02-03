@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :consultations, only: %i[index show new create] do
     resources :submissions, only: %i[index new create destroy] do
       get "/tag", to: "submissions#tag"
