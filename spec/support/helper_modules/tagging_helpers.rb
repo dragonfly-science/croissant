@@ -4,7 +4,7 @@ module TaggingHelpers
   def highlight_selection(range_start, range_end)
     page.execute_script(<<~JS, range_start, range_end)
       (function(rangeStart, rangeEnd) {
-        const submissionText = document.getElementById("js-submissionText")
+        const submissionText = document.getElementById("jsSubmissionText")
         const range = document.createRange();
         const textNodes = getTextNodesIn(submissionText);
         let foundStart = false;

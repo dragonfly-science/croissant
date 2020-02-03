@@ -43,7 +43,7 @@ class TaggableSubmissionText {
 
     function getFirstAndLastCharactersForSelection(selection) {
       const selectionAnchorIsTextContainer =
-        selection.anchorNode.id === 'js-submissionText';
+        selection.anchorNode.id === 'jsSubmissionText';
       let firstTagCharacter = 0;
       let lastTagCharacter = 0;
 
@@ -55,35 +55,51 @@ class TaggableSubmissionText {
           selection.anchorNode.childNodes[selection.anchorOffset];
         firstTagCharacter = currentNode.dataset.startCharacter;
         lastTagCharacter = currentNode.dataset.endCharacter;
-      } else {
-        let previousSibling = selection.anchorNode.previousElementSibling;
 
-        let siblingOffset = 0;
-        if (previousSibling !== null) {
-          siblingOffset = parseInt(previousSibling.dataset.endCharacter, 10);
-        }
-        // anchorOffset is where the user started the selection
-        // if the user starts from the end of the tag we want firstTagCharacter to
-        // equal the beggining (or smaller) character
-        firstTagCharacter =
-          Math.min(selection.anchorOffset, selection.focusOffset) +
-          siblingOffset;
-
-        if (previousSibling !== null) {
-          firstTagCharacter += 1;
-        }
-        // focusOffset is the character after the selections end
-        // if the user starts from the end of the tag we want lastTagCharacter to
-        // equal the end (or larger) character
-        lastTagCharacter =
-          Math.max(selection.anchorOffset, selection.focusOffset) +
-          siblingOffset;
-        if (previousSibling === null) {
-          lastTagCharacter -= 1;
-        }
+        return [firstTagCharacter, lastTagCharacter];
       }
+      // selection.anchorOffset and selection.focusOffset are relative to their parent and sibling nodes.
+      // This means that if a new selection is made after or within an existing tag, the offset provided will
+      // start at 0 from the end of the sibling or the start of the parent node rather than the beginning of the
+      // main text container. Here we need to calculate the actual offset based on the start or end values of those
+      // sibling and parent nodes before adding it to the offsets provided to the get actual character values.
+      const additionalAnchorOffset = getOffsetForNode(selection.anchorNode);
+      const additionalFocusOffset = getOffsetForNode(selection.focusNode);
+      const anchorCharacter = selection.anchorOffset + additionalAnchorOffset;
+      const focusCharacter = selection.focusOffset + additionalFocusOffset;
+
+      // Anchor is where the selection was started (where the initial click was made) and focus where
+      // it was finished (where the mouse was released). Because of this we can't rely on either to consistently be the
+      // sequential first or last character so we need to min/max in order to return accurate figures.
+      const firstSelectionCharacter = Math.min(anchorCharacter, focusCharacter);
+
+      // The selection offsets used above have some quirks when other html tags are present which mean
+      // that characters can be added to the beginning and end of the character count in a few different ways.
+      // To resolve that we check the string's index inside the larger body of text starting from
+      // the first tag character calculated then use that and the selection's length to figure out the end position.
+      const bodyText = $('#jsSubmissionText').text();
+      const selectionText = selection.toString();
+      firstTagCharacter = bodyText.indexOf(
+        selectionText,
+        firstSelectionCharacter
+      );
+      lastTagCharacter = firstTagCharacter + selectionText.length - 1;
 
       return [firstTagCharacter, lastTagCharacter];
+    }
+
+    function getOffsetForNode(node) {
+      if (node.previousSibling !== null) {
+        // If the node has a previous sibling use its endCharacter as the offset
+        return parseInt(node.previousSibling.dataset.endCharacter, 10);
+      } else if (node.parentNode.id !== 'jsSubmissionText') {
+        // If the nodes parent is another tag
+        // (i.e it's nested within or overlapping into another tag)
+        // use that parent's startCharacter as the offset.
+        return parseInt(node.parentNode.dataset.startCharacter, 10);
+      }
+
+      return 0;
     }
 
     function persistSubmissionTag(params) {
