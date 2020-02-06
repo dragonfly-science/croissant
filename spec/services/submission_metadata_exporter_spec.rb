@@ -36,6 +36,16 @@ RSpec.describe SubmissionMetadataExporter do
     expect(subject.filename).to eq("#{Time.zone.today.iso8601}-with-a-space-submissions.csv")
   end
 
+  context "for submissions with macrons" do
+    let!(:submission1) do
+      FactoryBot.create(:submission, :ready_to_tag, text: "Kia ora whānau", consultation: consultation)
+    end
+    it "can deal with them" do
+      csv = subject.export
+      expect(csv).to include("#{submission1.id},00988_Anonymous.pdf,1,#{submission1.text},#{submission1.state},,")
+    end
+  end
+
   context "for long text" do
     let!(:submission1) do
       FactoryBot.create(:submission, :ready_to_tag, consultation: consultation,

@@ -17,7 +17,7 @@ class CsvExportService
   end
 
   def export
-    CSV.generate do |csv|
+    CSV.generate(encoding: "UTF-8") do |csv|
       csv << columns.map(&:header)
       items.each do |result|
         row = []
