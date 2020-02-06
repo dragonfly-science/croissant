@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     resources :tags, only: %i[create destroy]
   end
 
+  patch "taxonomies/:id/upload", to: "taxonomies#upload", as: :upload_taxonomy
+
   resources :submission_tags, only: %i[create destroy]
 
   ##

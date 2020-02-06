@@ -11,6 +11,7 @@ class Tag < ApplicationRecord
   before_destroy :check_deletability, prepend: true
 
   validates :name, presence: true, uniqueness: { scope: %i[taxonomy parent_id] }
+  validates :number, uniqueness: { scope: %i[taxonomy parent_id] }
 
   scope :top_level, -> { where(parent_id: nil) }
   scope :number_order, -> { order(:full_number) }

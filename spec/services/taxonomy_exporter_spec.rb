@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe TaxonomyExporter do
   let(:consultation) { FactoryBot.create(:consultation, name: "With a Space") }
   let(:taxonomy) { consultation.taxonomy }
-  let!(:tag1) { FactoryBot.create(:tag, taxonomy: taxonomy, name: "Bears") }
+  let!(:tag1) { FactoryBot.create(:tag, taxonomy: taxonomy, name: "Bears", description: "Ahh!") }
   let!(:tag11) { FactoryBot.create(:tag, taxonomy: taxonomy, name: "Polar", parent: tag1) }
   let!(:tag2) { FactoryBot.create(:tag, taxonomy: taxonomy, name: "Wolves") }
   let!(:tag12) { FactoryBot.create(:tag, taxonomy: taxonomy, name: "Grizzly", parent: tag1) }
@@ -13,9 +13,9 @@ RSpec.describe TaxonomyExporter do
 
   subject { TaxonomyExporter.new(taxonomy) }
 
-  it "creates a CSV with tag_id, number and name columns" do
+  it "creates a CSV with tag_id, number, name, and description columns" do
     csv = subject.export
-    expect(csv).to start_with("tag_id,number,name\n")
+    expect(csv).to start_with("tag_id,number,name,description\n")
   end
 
   it "includes all tags in number order" do
@@ -26,10 +26,10 @@ RSpec.describe TaxonomyExporter do
 
   it "includes the full number, name and ID for each tag" do
     csv = subject.export
-    expect(csv.lines[1]).to eq("#{tag1.id},1,Bears\n")
-    expect(csv.lines[2]).to eq("#{tag11.id},1.1,Polar\n")
-    expect(csv.lines[3]).to eq("#{tag111.id},1.1.1,Friendly\n")
-    expect(csv.lines[4]).to eq("#{tag112.id},1.1.2,Mean\n")
+    expect(csv.lines[1]).to eq("#{tag1.id},1,Bears,Ahh!\n")
+    expect(csv.lines[2]).to eq("#{tag11.id},1.1,Polar,\"\"\n")
+    expect(csv.lines[3]).to eq("#{tag111.id},1.1.1,Friendly,\"\"\n")
+    expect(csv.lines[4]).to eq("#{tag112.id},1.1.2,Mean,\"\"\n")
   end
 
   it "includes the date and consultation name in the filename" do

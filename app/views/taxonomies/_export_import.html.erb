@@ -1,0 +1,33 @@
+<div class="row export-import">
+  <div class="col export-import__export p-4 justify-content-end">
+    <%= link_to('⤴️ Export', consultation_export_path(taxonomy.consultation, type: 'taxonomy', format: :csv), class: 'btn btn-info btn-block') %>
+  </div>
+  <div class="col export-import__import p-4 justify-content-end">
+    <button type="button" class="btn btn-block btn-info" data-toggle="modal" data-target="#upload_taxonomy_modal">
+      ⤵️ Import
+    </button>
+  </div>
+</div>
+<div class="modal fade" id="upload_taxonomy_modal">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <%= bootstrap_form_with(model: taxonomy, url: upload_taxonomy_path(taxonomy), local: true) do |form| %>
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Upload a taxonomy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="lead">Upload a file to create and update tags in bulk.</p>
+        <%= form.file_field :file, accept: '.csv', hide_label: true %>
+        <p class="form-text text-muted">This should be a CSV file in the same format as the export file.</p>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <%= form.submit "Upload", class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+</div>

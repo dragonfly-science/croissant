@@ -5,5 +5,14 @@
 
 <%# Alert %>
 <% if flash[:alert].present? || alert.present? %>
-  <div class="alert alert-danger"><%= flash[:alert] || alert %></div>
+  <div class="alert alert-danger">
+    <%= flash[:alert] || alert %>
+    <% if flash[:error_list].present? %>
+      <ul>
+        <% flash[:error_list].each do |error| %>
+          <li><%= error %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
 <% end %>

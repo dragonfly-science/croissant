@@ -1,5 +1,5 @@
 @mixin tag-colours($attribute, $opacity, $before-pattern, $after-pattern: "") {
-  $colours: $primary, $info, $success, $olive, $warning, $orange, $danger, $pink, $purple, $violet;
+  $colours: $primary, $teal, $success, $olive, $warning, $orange, $danger, $pink, $purple, $violet;
 
   @for $index from 1 through 10 {
     $colour: nth($colours, $index);

@@ -12,7 +12,8 @@ class TaxonomyExporter < CsvExportService
     [
       CsvExportColumn.new(:tag_id, :id),
       CsvExportColumn.new(:number, :full_number),
-      CsvExportColumn.new(:name, :name)
+      CsvExportColumn.new(:name, :name),
+      CsvExportColumn.new(:description, :description)
     ]
   end
 
