@@ -22,7 +22,7 @@ class SubmissionSeparator
 
     until io.eof?
       chunk = io.read(@character_limit)
-      part = SubmissionPart.new(@submission, part_number, chunk)
+      part = SubmissionPart.new(@submission, part_number, chunk.force_encoding("UTF-8"))
       parts << part
       part_number += 1
     end
