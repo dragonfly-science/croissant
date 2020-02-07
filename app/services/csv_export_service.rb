@@ -22,7 +22,7 @@ class CsvExportService
       items.each do |result|
         row = []
         columns.each do |column|
-          value = column.blank? ? nil : result.send(column.call_method).to_s
+          value = column.blank? ? "" : result.send(column.call_method).to_s
           row << value
         end
         csv << row

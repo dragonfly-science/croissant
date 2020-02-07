@@ -28,8 +28,8 @@ RSpec.describe SubmissionMetadataExporter do
 
   it "includes the full number, name and ID for each tag" do
     csv = subject.export
-    expect(csv).to include("#{submission1.id},00988_Anonymous.pdf,1,#{submission1.text},#{submission1.state},,")
-    expect(csv).to include("#{submission2.id},00988_Anonymous.pdf,1,#{submission2.text},#{submission2.state},,")
+    expect(csv).to include("#{submission1.id},00988_Anonymous.pdf,1,#{submission1.text},#{submission1.state},\"\",")
+    expect(csv).to include("#{submission2.id},00988_Anonymous.pdf,1,#{submission2.text},#{submission2.state},\"\",")
   end
 
   it "includes the date and consultation name in the filename" do
@@ -42,7 +42,7 @@ RSpec.describe SubmissionMetadataExporter do
     end
     it "can deal with them" do
       csv = subject.export
-      expect(csv).to include("#{submission1.id},00988_Anonymous.pdf,1,#{submission1.text},#{submission1.state},,")
+      expect(csv).to include("#{submission1.id},00988_Anonymous.pdf,1,#{submission1.text},#{submission1.state},\"\",")
     end
   end
 
