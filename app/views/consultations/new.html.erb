@@ -1,10 +1,4 @@
-<% if @consultation.errors.any? %>
-  <ul>
-  <% @consultation.errors.full_messages.each do |msg| %>
-    <li><%= msg %></li>
-  <% end %>
-  </ul>
-<% end %>
+<%= render "shared/error_messages", resource: @consultation %>
 
 <%= bootstrap_form_with model: @consultation, local: true do |f| %>
   <%= f.text_field :name %><br>

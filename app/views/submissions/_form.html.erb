@@ -1,15 +1,5 @@
 <%= bootstrap_form_with(model: submission, url: [@consultation, submission], local: true) do |form| %>
-  <% if submission.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
-
-      <ul>
-        <% submission.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "shared/error_messages", resource: submission %>
   <p class="lead">Select one or more files to add new submissions.</p>
   <div class="row">
     <div class="col col-sm-4">

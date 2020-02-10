@@ -20,6 +20,15 @@ Rails.application.routes.draw do
 
   resources :submission_tags, only: %i[create destroy]
 
+  authenticate :user do
+    namespace :admin do
+      resources :users
+      put "users/:id/approve", to: "users#approve", as: :approve_user
+      put "users/:id/suspend", to: "users#suspend", as: :suspend_user
+      put "users/:id/reactivate", to: "users#reactivate", as: :reactivate_user
+    end
+  end
+
   ##
   # Workaround a "bug" in lighthouse CLI
   #

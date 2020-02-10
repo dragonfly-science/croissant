@@ -12,6 +12,11 @@
         <li class="nav-item active">
           <span class='nav-link'><%= current_user.email %></span>
         </li>
+        <% if current_user.admin? || current_user.superadmin? %>
+          <li class="nav-item active">
+            <%= link_to("Admin", admin_users_path, class: 'nav-link')%>
+          </li>
+        <% end %>
         <li class="nav-item active">
           <%= link_to('Log out', destroy_user_session_path, method: 'DELETE', class: 'nav-link') %>
         </li>

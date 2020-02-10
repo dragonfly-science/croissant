@@ -1,0 +1,12 @@
+<% if user.pending? %>
+  <%= link_to('approve', admin_approve_user_path(user), class: 'btn btn-outline-success',
+                                                        method: :put) %>
+<% end %>
+<% if user.active? || user.pending?%>
+  <%= link_to('suspend', admin_suspend_user_path(user), class: 'btn btn-outline-danger',
+                                                        method: :put, data: { confirm: 'Are you sure you want to suspend this user?' }) %>
+<% end %>
+<% if user.inactive? || user.on_hold? %>
+  <%= link_to('reactivate', admin_reactivate_user_path(user), class: 'btn btn-outline-primary',
+                                                        method: :put) %>
+<% end %>

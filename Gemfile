@@ -13,6 +13,7 @@ gem "redis", "~> 4.0"
 gem "sidekiq", ">= 4.2.0"
 gem "webpacker", "~> 4.0"
 gem "devise"
+gem "pundit"
 
 gem "activestorage-validator"
 gem "image_processing", "~> 1.0"

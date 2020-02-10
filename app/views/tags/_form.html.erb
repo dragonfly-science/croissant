@@ -1,15 +1,5 @@
 <%= bootstrap_form_with(model: tag, url: [taxonomy, tag], local: true) do |form| %>
-  <% if tag.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(tag.errors.count, "error") %> prohibited this tag from being saved:</h2>
-
-      <ul>
-        <% tag.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "shared/error_messages", resource: tag %>
 
   <%= form.hidden_field :parent_id, value: tag.parent_id, id: "tag_parent_id_#{tag.parent_id}" %>
 

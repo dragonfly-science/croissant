@@ -42,3 +42,6 @@ en:
       ready: "Ready to tag"
       started: "Tagging started"
       finished: "Tagging completed"
+  user:
+    update:
+      failure: "Failed to update user"

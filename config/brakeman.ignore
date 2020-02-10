@@ -1,6 +1,26 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "01a88a0a17848e70999c17f6438a636b00e01da39a2c0aa0c46f20f0685c7202",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/admin/users_controller.rb",
+      "line": 61,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::UsersController",
+        "method": "user_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 2,
       "fingerprint": "03576ff5f7a6a8a3ec059eac62ecc612229b896623a88cf8a374095739cb83af",
@@ -15,7 +35,7 @@
           "type": "controller",
           "class": "SubmissionsController",
           "method": "tag",
-          "line": 31,
+          "line": 32,
           "file": "app/controllers/submissions_controller.rb",
           "rendered": {
             "name": "submissions/tag",
@@ -32,13 +52,33 @@
       "note": ""
     },
     {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "98c3bd3d242c92dbc71d4f0e717255b57d7d94d6a9f122301b4e715738bd4f02",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/admin/users_controller.rb",
+      "line": 31,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:role, :approved_at, :suspended_at)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::UsersController",
+        "method": "user_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 2,
       "fingerprint": "a0a276b29da007dd4ff306ef94131fbf4f7a50a4fbeaa9429bfbae7d01057d62",
       "check_name": "CrossSiteScripting",
       "message": "Unescaped parameter value",
       "file": "app/views/submissions/show.html.erb",
-      "line": 40,
+      "line": 36,
       "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
       "code": "submission_text_with_tags((@consultation.submissions.find((params[:id] or params[:submission_id])) or Submission.find((params[:id] or params[:submission_id]))).text, (@consultation.submissions.find((params[:id] or params[:submission_id])) or Submission.find((params[:id] or params[:submission_id]))).submission_tags)",
       "render_path": [
@@ -46,7 +86,7 @@
           "type": "controller",
           "class": "SubmissionsController",
           "method": "show",
-          "line": 13,
+          "line": 14,
           "file": "app/controllers/submissions_controller.rb",
           "rendered": {
             "name": "submissions/show",
@@ -63,6 +103,6 @@
       "note": ""
     }
   ],
-  "updated": "2020-01-16 17:58:01 +1300",
+  "updated": "2020-02-10 10:58:13 +1300",
   "brakeman_version": "4.7.2"
 }
