@@ -15,13 +15,23 @@ RSpec.describe ConsultationsController, type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it "assigns and instance variable with all consultations ordered alphabetically" do
+    it "assigns an instance variable with all consultations ordered alphabetically" do
       consultation2 = FactoryBot.create(:consultation, name: "Be a banana")
       consultation1 = FactoryBot.create(:consultation, name: "A hotdog")
       consultation3 = FactoryBot.create(:consultation, name: "The only apple")
 
       subject
       expect(assigns(:consultations).to_a).to eq([consultation1, consultation2, consultation3])
+    end
+
+    it "does not include archived consultations in the consultations instance varaible" do
+      consultation2 = FactoryBot.create(:consultation, name: "Cheesy pizza")
+      consultation1 = FactoryBot.create(:consultation, name: "Sausage roll")
+      archived_consultation = FactoryBot.create(:consultation, name: "Brussel Sprout", state: "archived")
+
+      subject
+      expect(assigns(:consultations).to_a).to include(consultation1, consultation2)
+      expect(assigns(:consultations).to_a).to_not include(archived_consultation)
     end
   end
 

@@ -13,9 +13,16 @@
           <span class='nav-link'><%= current_user.email %></span>
         </li>
         <% if current_user.admin? || current_user.superadmin? %>
-          <li class="nav-item active">
-            <%= link_to("Admin", admin_users_path, class: 'nav-link')%>
+          <li class="dropdown show nav-item active">
+            <a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Admin
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <%= link_to("Users", admin_users_path, class: "nav-link dropdown-item")%>
+              <%= link_to("Consultations", admin_consultations_path, class: "nav-link dropdown-item")%>
+            </div>
           </li>
+
         <% end %>
         <li class="nav-item active">
           <%= link_to('Log out', destroy_user_session_path, method: 'DELETE', class: 'nav-link') %>

@@ -2,7 +2,7 @@ class ConsultationsController < ApplicationController
   before_action :consultation, only: %i[show export]
 
   def index
-    @consultations = Consultation.alphabetical_order
+    @consultations = Consultation.active.alphabetical_order
   end
 
   def show; end

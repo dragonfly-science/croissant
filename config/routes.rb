@@ -26,6 +26,10 @@ Rails.application.routes.draw do
       put "users/:id/approve", to: "users#approve", as: :approve_user
       put "users/:id/suspend", to: "users#suspend", as: :suspend_user
       put "users/:id/reactivate", to: "users#reactivate", as: :reactivate_user
+
+      resources :consultations, only: %i[index]
+      put "consultations/:id/archive", to: "consultations#archive", as: :archive_consultation
+      put "consultations/:id/restore", to: "consultations#restore", as: :restore_consultation
     end
   end
 

@@ -33,4 +33,36 @@ RSpec.describe Consultation, type: :model do
       expect(Consultation.alphabetical_order.to_a).to eq([consultation1, consultation2, consultation3])
     end
   end
+
+  context "active scope" do
+    it "returns all consultations with an active state" do
+      consultation2 = FactoryBot.create(:consultation, name: "Be a banana")
+      consultation1 = FactoryBot.create(:consultation, name: "A hotdog")
+      archived_consultation = FactoryBot.create(:consultation, name: "The only apple",
+                                                               state: "archived")
+
+      expect(Consultation.active.to_a).to include(consultation1, consultation2)
+      expect(Consultation.active.to_a).to_not include(archived_consultation)
+    end
+  end
+
+  describe "#state_changes" do
+    context "with an active consultation" do
+      let(:active_consultation) { FactoryBot.create(:consultation) }
+
+      it "can change state to archived" do
+        active_consultation.archive!
+        expect(active_consultation.archived?).to eq(true)
+      end
+    end
+
+    context "with an archived consultation" do
+      let(:archived_consultation) { FactoryBot.create(:consultation, state: "archived") }
+
+      it "can change state to active" do
+        archived_consultation.restore!
+        expect(archived_consultation.active?).to eq(true)
+      end
+    end
+  end
 end

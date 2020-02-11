@@ -15,4 +15,14 @@ class Consultation < ApplicationRecord
   validates :consultation_type, presence: true, inclusion: { in: consultation_types.keys }
 
   scope :alphabetical_order, -> { order("name ASC") }
+  scope :active, -> { where(state: "active") }
+
+  state_machine :state, initial: :active do
+    event :archive do
+      transition active: :archived
+    end
+    event :restore do
+      transition archived: :active
+    end
+  end
 end
