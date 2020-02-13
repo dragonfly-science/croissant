@@ -13,6 +13,10 @@ class SubmissionTag < ApplicationRecord
     submission.text[(start_char)..(end_char)]
   end
 
+  def dissonant?
+    text != calculated_text
+  end
+
   delegate :id, to: :submission, prefix: true
 
   delegate :id, to: :tag, prefix: true

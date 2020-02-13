@@ -8,6 +8,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>ID</th>
         <th>Filename</th>
         <th>Description</th>
         <th>State</th>
@@ -19,6 +20,7 @@
     <tbody>
       <% @submissions.each do |submission| %>
         <tr>
+          <td><%= link_to submission.id, submission %></td>
           <td><%= link_to submission.filename, submission %></td>
           <td><%= submission.description %></td>
           <td>

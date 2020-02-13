@@ -2,6 +2,7 @@ class SubmissionsController < ApplicationController
   before_action :consultation, only: %i[index create destroy tag]
   before_action :set_submission, only: %i[show destroy edit update tag
                                           mark_process mark_complete mark_reject ]
+  before_action :markup_submission, only: %i[show tag]
 
   # GET /submissions
   def index
@@ -83,6 +84,13 @@ class SubmissionsController < ApplicationController
                   else
                     Submission.find(submission_id)
                   end
+  end
+
+  def markup_submission
+    return unless @submission && @submission.text.present?
+
+    markup_service = SubmissionTagMarkupService.new(@submission)
+    @marked_up_text = markup_service.markup
   end
 
   def consultation

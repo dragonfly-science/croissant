@@ -4,6 +4,13 @@
 
     & .tagged {
       @include tag-colours(background-color, 0.4, "&--colour-");
+      @include tag-colours(border-bottom-color, 0.4, "&--secondary-colour-");
+      background-clip: padding-box;
+      border-bottom: 4px solid #fff;
+    }
+
+    .js-tag-milestone {
+      display: none;
     }
   }
 }

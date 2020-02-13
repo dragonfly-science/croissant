@@ -1,17 +1,17 @@
 import $ from 'jquery';
 
 class TaggableSubmissionText {
-  constructor(selector) {
+  constructor(selector, taggedSubmissionText) {
     if ($(selector).length === 0) {
       return;
     }
-
     $('.submission-tag').on('click', function() {
       selectHTML($(this).data('tag-id'));
     });
 
     function selectHTML(tagId) {
       const selection = getSelection();
+      const range = selection.getRangeAt(0);
 
       try {
         const [
@@ -21,7 +21,6 @@ class TaggableSubmissionText {
         const text = selection.toString();
         const startChar = Math.min(selectionStart, selectionEnd);
         const endChar = Math.max(selectionStart, selectionEnd);
-
         const submissionId = $('.submission__taggable-text')[0].dataset
           .submissionId;
 
@@ -35,7 +34,7 @@ class TaggableSubmissionText {
           }
         };
 
-        persistSubmissionTag(params);
+        persistSubmissionTag(params, range);
       } catch (e) {
         return selection;
       }
@@ -58,6 +57,7 @@ class TaggableSubmissionText {
 
         return [firstTagCharacter, lastTagCharacter];
       }
+
       // selection.anchorOffset and selection.focusOffset are relative to their parent and sibling nodes.
       // This means that if a new selection is made after or within an existing tag, the offset provided will
       // start at 0 from the end of the sibling or the start of the parent node rather than the beginning of the
@@ -77,7 +77,8 @@ class TaggableSubmissionText {
       // that characters can be added to the beginning and end of the character count in a few different ways.
       // To resolve that we check the string's index inside the larger body of text starting from
       // the first tag character calculated then use that and the selection's length to figure out the end position.
-      const bodyText = $('#jsSubmissionText').text();
+      const bodyText = $('.js-taggable-submission-text')[0].dataset
+        .submissionText;
       const selectionText = selection.toString();
       firstTagCharacter = bodyText.indexOf(
         selectionText,
@@ -102,19 +103,14 @@ class TaggableSubmissionText {
       return 0;
     }
 
-    function persistSubmissionTag(params) {
+    function persistSubmissionTag(params, range) {
       $.ajax({
         url: '/submission_tags',
         type: 'POST',
         data: params
       })
         .done(response => {
-          renderTag(
-            response.tag.number,
-            response.tag.name,
-            response.start_char,
-            response.end_char
-          );
+          renderTag(response.id, response.tag_id, response.tag.number, range);
         })
         .fail(response => {
           displayErrors(response.responseJSON.errors);
@@ -134,22 +130,36 @@ class TaggableSubmissionText {
       $('#error_explanation').append(errorList);
     }
 
-    function renderTag(tagNumber, tagName, startChar, endChar) {
-      let textRange = getSelection().getRangeAt(0);
-      let span = document.createElement('span');
+    function renderTag(submissionTagId, tagId, tagNumber, range) {
+      let textRange = range;
 
-      span.setAttribute('class', `tagged tagged--colour-${tagNumber}`);
-      span.setAttribute('data-tag-name', tagName);
-      span.setAttribute('data-start-character', startChar);
-      span.setAttribute('data-end-character', endChar);
+      // put in a milestone before the startChar
+      let startMilestone = document.createElement('hr');
+      startMilestone.setAttribute('class', 'js-tag-milestone');
+      startMilestone.setAttribute('data-colour', tagNumber);
+      startMilestone.setAttribute('data-type', 'tag-start');
+      startMilestone.setAttribute('data-id', submissionTagId);
+      startMilestone.setAttribute('data-tag-id', tagId);
 
-      textRange.surroundContents(span);
+      // put in a milestone after the endChar
+      let endMilestone = document.createElement('hr');
+      endMilestone.setAttribute('class', 'js-tag-milestone');
+      endMilestone.setAttribute('data-colour', tagNumber);
+      endMilestone.setAttribute('data-type', 'tag-end');
+      endMilestone.setAttribute('data-id', submissionTagId);
+      endMilestone.setAttribute('data-tag-id', tagId);
 
-      return span.innerHTML;
+      let endRange = document.createRange();
+
+      endRange.setStart(textRange.endContainer, textRange.endOffset);
+      endRange.setEnd(textRange.endContainer, textRange.endOffset);
+
+      endRange.insertNode(endMilestone);
+      textRange.insertNode(startMilestone);
+
+      taggedSubmissionText.rerenderTags(startMilestone, endMilestone);
     }
   }
 }
 
-$(document).ready(() => {
-  new TaggableSubmissionText('.js-taggable-submission-text');
-});
+export default TaggableSubmissionText;

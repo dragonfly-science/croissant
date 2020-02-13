@@ -1,5 +1,5 @@
 <% content_for :container_modifier, "-fluid" %>
-<h2>Tagging submission: <%= link_to(@submission.filename, @submission) %></h2>
+<h2>Tagging submission <%= @submission.id %>: <%= link_to(@submission.filename, @submission) %></h2>
 <div class="row submission">
   <section class="col-3">
     <h4 class="mb-4">Submission Metadata</h4>
@@ -8,8 +8,9 @@
   <section class="col-6">
     <h4 class="mb-4"><%= @submission.name %></h4>
     <div class="submission__taggable-text shadow p-3 js-taggable-submission-text"
-         data-submission-id="<%= @submission.id %>">
-      <p id="jsSubmissionText"><%= submission_text_with_tags(@submission.text, @submission_tags).html_safe %></p>
+         data-submission-id="<%= @submission.id %>"
+         data-submission-text="<%= @submission.text %>">
+     <div class="js-tagged-submission" id="jsSubmissionText"><%= @marked_up_text.html_safe %></div>
     </div>
   </section>
 

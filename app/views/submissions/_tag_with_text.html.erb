@@ -1,7 +1,14 @@
-<dt>
-  <%= submission_tag.tag.full_number %>
-  <%= submission_tag.tag.full_name %>
-</dt>
-<dd><%= submission_tag.text %></dd>
-<%= link_to 'Remove', submission_tag, method: :delete, class: 'btn btn-danger',
-    data: { confirm: 'Are you sure?' } %>
+<div class="d-flex justify-content-between js-submission-tag" data-st-id="<%= submission_tag.id %>" data-tag-id="<%= submission_tag.tag.id %>">
+  <dl>
+    <dt>
+      <span class="tag-number tag-number--colour-<%= submission_tag.tag.colour_number %>"><%= submission_tag.tag.full_number %></span>
+      <%= "⚠️" if submission_tag.dissonant? %>
+      <%= submission_tag.tag.full_name %>
+    </dt>
+    <dd>
+      <%= submission_tag.text %>
+    </dd>
+  </dl>
+  <%= link_to 'x', submission_tag, method: :delete, class: 'text-danger',
+  data: { confirm: 'Are you sure you want to delete this tag?' } %>
+</div>

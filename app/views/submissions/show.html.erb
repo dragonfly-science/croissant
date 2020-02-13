@@ -7,7 +7,7 @@
     <%= render partial: 'state_actions', locals: { submission: @submission } %>
   </div>
 </div>
-
+<h2>Submission <%= @submission.id %></h2>
 <div class="row">
   <div class="col col-3">
     <h3>Metadata</h3>
@@ -27,13 +27,21 @@
     <% if @submission.file.previewable? %>
       <%= image_tag @submission.file.preview(resize_to_limit:[200, 1200]), alt: 'Preview of file' %>
     <% end %>
+    <% if @submission.submission_tags.any? %>
+      <section>
+        <h3>Tags</h3>
+        <% @submission.submission_tags.order(:start_char).each do |st| %>
+        <%= render partial: 'tag_with_text', locals: { submission_tag: st } %>
+        <% end %>
+      </section>
+    <% end %>
   </div>
   <div class="col">
     <div>
       <% if @submission.text.present? %>
         <h3>Submission text</h3>
         <section class="submission__taggable-text">
-          <%= submission_text_with_tags(@submission.text, @submission.submission_tags).html_safe %>
+          <div class="js-tagged-submission"><%= @marked_up_text.html_safe %></div>
         </section>
       <% else %>
         <h4>Raw text</h4>
@@ -48,13 +56,4 @@
       <% end %>
     </div>
   </div>
-  <% if @submission.submission_tags.any? %>
-    <div class="col">
-      <% @submission.submission_tags.each do |st| %>
-        <dl>
-          <%= render partial: 'tag_with_text', locals: { submission_tag: st } %>
-        </dl>
-      <% end %>
-    </div>
-  <% end %>
 </div>
