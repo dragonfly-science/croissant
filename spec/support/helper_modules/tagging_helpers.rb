@@ -1,4 +1,10 @@
 module TaggingHelpers
+  def tag_for_text(text, tag)
+    start_char = submission_text.index(text)
+    end_char = start_char + text.length - 1
+    { tag: tag, text: text, start_char: start_char, end_char: end_char }
+  end
+
   # Takes the index of the first and last characters for selection and
   # highlights them as you manually would with a mouse click and drag.
   def highlight_selection(range_start, range_end)
