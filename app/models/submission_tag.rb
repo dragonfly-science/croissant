@@ -26,7 +26,7 @@ class SubmissionTag < ApplicationRecord
     return nil unless text_in_submission?
 
     start_position = submission.text.index(text)
-    end_position = start_position + text.length
+    end_position = start_position + text.length - 1
     [start_position, end_position]
   end
 
