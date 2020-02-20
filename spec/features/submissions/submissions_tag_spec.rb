@@ -37,6 +37,14 @@ RSpec.feature "Tagging a submission", js: true do
         expect(find(".tagged")).to have_text("dogs and sheep")
       end
 
+      it "saves the user as the tagger" do
+        expect do
+          highlight_selection(5, 18)
+          find(".submission-tag[data-tag-name='#{tags.first.name}']").click
+          sleep(0.5) # give it a moment to run through, or it'll be flaky
+        end.to change { user.submission_tags.count }.by(1)
+      end
+
       xit "can apply tags that overlap" do
         highlight_selection(5, 18)
         find(".submission-tag[data-tag-name='#{tags.first.name}']").click

@@ -6,7 +6,15 @@
       <%= submission_tag.tag.full_name %>
     </dt>
     <dd>
-      <%= submission_tag.text %>
+      <p class="small">
+        Tagged <%= time_ago_in_words(submission_tag.created_at) %> ago
+        <% if submission_tag.tagger.present? %>
+          by <%= submission_tag.tagger_email %>
+        <% end %>
+      </p>
+      <p>
+        <%= submission_tag.text %>
+      </p>
     </dd>
   </dl>
   <%= link_to 'x', submission_tag, method: :delete, class: 'text-danger',

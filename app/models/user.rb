@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :submission_tags, inverse_of: "tagger", foreign_key: "tagger_id", dependent: :nullify
+
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@]+@[^@]+\z/ }
   validates :role, presence: true
 

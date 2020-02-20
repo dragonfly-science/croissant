@@ -1,10 +1,9 @@
 class SubmissionTagsController < ApplicationController
-  protect_from_forgery unless: -> { request.format.json? }
   before_action :set_submission_tag, only: :destroy
   before_action :set_submission, only: :create
 
   def create
-    @submission_tag = @submission.add_tag(submission_tag_params)
+    @submission_tag = @submission.add_tag(submission_tag_params.merge(tagger: current_user))
 
     if @submission_tag.errors.none?
       render json: @submission_tag, include: :tag
@@ -20,7 +19,7 @@ class SubmissionTagsController < ApplicationController
   end
 
   def submission_tag_params
-    params.require(:submission_tag).permit(:submission_id, :tag_id, :start_char, :end_char, :text)
+    params.require(:submission_tag).permit(:submission_id, :tag_id, :start_char, :end_char, :text, :tagger_id)
   end
 
   private

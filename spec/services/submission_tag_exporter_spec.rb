@@ -8,13 +8,14 @@ RSpec.describe SubmissionTagExporter do
   let!(:tag2) { FactoryBot.create(:tag, taxonomy: taxonomy, name: "Wolves") }
   let(:submission1) { FactoryBot.create(:submission, :ready_to_tag, consultation: consultation) }
   let(:submission2) { FactoryBot.create(:submission, :ready_to_tag, consultation: consultation) }
+  let(:tagger) { FactoryBot.create(:user) }
 
   # to test for false positive inclusions
   let!(:other_consult) { FactoryBot.create(:consultation) }
   let!(:other_tag) { FactoryBot.create(:tag, taxonomy: other_consult.taxonomy, name: "Trees") }
   let!(:other_submission) { FactoryBot.create(:submission, :ready_to_tag, consultation: other_consult) }
 
-  let!(:st1) { submission1.add_tag(tag: tag1, start_char: 0, end_char: 4, text: "bear") }
+  let!(:st1) { submission1.add_tag(tag: tag1, start_char: 0, end_char: 4, text: "bear", tagger: tagger) }
   let!(:st2) { submission1.add_tag(tag: tag11, start_char: 5, end_char: 10, text: "polar") }
   let!(:st3) { submission2.add_tag(tag: tag1, start_char: 0, end_char: 4, text: "roar") }
   let!(:st4) { submission2.add_tag(tag: tag2, start_char: 0, end_char: 4, text: "roar") }
@@ -37,7 +38,9 @@ RSpec.describe SubmissionTagExporter do
 
   it "includes the full number, name and ID for each tag" do
     csv = subject.export
-    expect(csv).to include("#{submission1.id},#{tag1.id},00988_Anonymous.pdf,Bears,1,bear,0,4,\"\",#{st1.created_at}")
+    expect(csv).to include(
+      "#{submission1.id},#{tag1.id},00988_Anonymous.pdf,Bears,1,bear,0,4,#{tagger.email},#{st1.created_at}"
+    )
     expect(csv).to include(
       "#{submission1.id},#{tag11.id},00988_Anonymous.pdf,Polar,1.1,polar,5,10,\"\",#{st2.created_at}"
     )

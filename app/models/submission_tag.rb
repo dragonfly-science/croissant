@@ -1,11 +1,14 @@
 class SubmissionTag < ApplicationRecord
   belongs_to :submission
   belongs_to :tag
+  belongs_to :tagger, class_name: "User", foreign_key: "tagger_id",
+                      optional: true, inverse_of: "submission_tags"
 
   delegate :name, :colour_number, :full_number, to: :tag
   delegate :filename, to: :submission
   delegate :id, to: :submission, prefix: true
   delegate :id, to: :tag, prefix: true
+  delegate :email, to: :tagger, prefix: true, allow_nil: true
 
   before_validation do
     remove_forced_carriage_returns_from_text

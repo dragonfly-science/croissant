@@ -18,7 +18,7 @@ class SubmissionTagExporter < CsvExportService
       CsvExportColumn.new(:quote, :text),
       CsvExportColumn.new(:start_char, :start_char),
       CsvExportColumn.new(:end_char, :end_char),
-      CsvExportColumn.new(:tagger, ""),
+      CsvExportColumn.new(:tagger, :tagger_email),
       CsvExportColumn.new(:tagtime, :created_at)
     ]
   end
