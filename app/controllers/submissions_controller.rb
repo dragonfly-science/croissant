@@ -3,6 +3,7 @@ class SubmissionsController < ApplicationController
   before_action :set_submission, only: %i[show destroy edit update tag
                                           mark_process mark_complete mark_reject ]
   before_action :markup_submission, only: %i[show tag]
+  before_action :submission_crumbs, only: %i[index show edit update tag]
 
   # GET /submissions
   def index
@@ -11,6 +12,7 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/1
   def show
+    breadcrumb "Submission #{@submission.id}", :submission_path
   end
 
   # POST /submissions
@@ -29,11 +31,15 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/1/tag
   def tag
+    breadcrumb "Submission #{@submission.id}", submission_path(@submission)
+    breadcrumb "Tag", :consultation_submission_tag_path
     @submission_tags = @submission.submission_tags
   end
 
   # GET /submissions/1/edit
   def edit
+    breadcrumb "Submission #{@submission.id}", submission_path(@submission)
+    breadcrumb "Edit", edit_submission_path(id: @submission.id)
     @submission.populate_text_from_file_if_present if @submission.incoming?
   end
 
@@ -79,11 +85,12 @@ class SubmissionsController < ApplicationController
   def set_submission
     submission_id = params[:id] || params[:submission_id]
 
-    @submission = if @consultation.present?
-                    @consultation.submissions.find(submission_id)
-                  else
-                    Submission.find(submission_id)
-                  end
+    if @consultation.present?
+      @submission = @consultation.submissions.find(submission_id)
+    else
+      @submission = Submission.find(submission_id)
+      @consultation = @submission.consultation
+    end
   end
 
   def markup_submission
@@ -109,5 +116,10 @@ class SubmissionsController < ApplicationController
 
   def file_upload_params
     params[:submission][:file]
+  end
+
+  def submission_crumbs
+    breadcrumb "Consultations", :consultations_path, match: :exclusive
+    breadcrumb @consultation.name, consultation_submissions_path(consultation_id: @consultation.id), match: :exclusive
   end
 end

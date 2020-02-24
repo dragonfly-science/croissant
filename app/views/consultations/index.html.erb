@@ -6,7 +6,7 @@
   <th>Description</th>
   <% @consultations.each do |consultation| %>
     <tr>
-      <td><%= link_to consultation.name, consultation_path(consultation) %></td>
+      <td><%= link_to consultation.name, consultation_submissions_path(consultation) %></td>
       <td><%= consultation.consultation_type %></td>
       <td><%= consultation.description %></td>
     </tr>

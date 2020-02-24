@@ -1,6 +1,8 @@
 module Admin
   class UsersController < ApplicationController
     before_action :find_user, except: %i[index]
+    breadcrumb "Admin", :root_path
+    breadcrumb "Users", :admin_users_path, match: :exclusive
 
     def index
       @users = User.all.order(:state)
@@ -9,6 +11,7 @@ module Admin
 
     def edit
       authorize @user
+      breadcrumb @user.email.to_s, :edit_admin_user_path, match: :exclusive
     end
 
     def update

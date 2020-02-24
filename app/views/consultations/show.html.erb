@@ -1,11 +1,7 @@
 <h1><%= @consultation.name %></h1>
-<p>Type: <%= @consultation.consultation_type %> </p>
-<p><%= link_to('Taxonomy', @consultation.taxonomy) %></p>
-<p><%= link_to('Submissions', consultation_submissions_path(@consultation)) %></p>
 <p>Export:</p>
 <ul>
   <li><%= link_to('Taxonomy', consultation_export_path(@consultation, type: 'taxonomy', format: :csv)) %></li>
   <li><%= link_to('Submissions', consultation_export_path(@consultation, type: 'submissions', format: :csv)) %></li>
   <li><%= link_to('Tags', consultation_export_path(@consultation, type: 'tags', format: :csv)) %></li>
 </ul>
-<p></p>

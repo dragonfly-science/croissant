@@ -1,6 +1,8 @@
 module Admin
   class ConsultationsController < ApplicationController
     before_action :find_consultation, only: %i[archive restore]
+    breadcrumb "Admin", :root_path
+    breadcrumb "Consultations", :admin_consultations_path, match: :exclusive
 
     def index
       @consultations = Consultation.all.order(consultation_order)

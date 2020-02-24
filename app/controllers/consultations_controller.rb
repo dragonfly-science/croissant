@@ -1,11 +1,14 @@
 class ConsultationsController < ApplicationController
   before_action :consultation, only: %i[show export]
+  breadcrumb "Consultations", :consultations_path, match: :exclusive
 
   def index
     @consultations = Consultation.active.alphabetical_order
   end
 
-  def show; end
+  def show
+    breadcrumb @consultation.name, :consultation_path
+  end
 
   def new
     @consultation = Consultation.new

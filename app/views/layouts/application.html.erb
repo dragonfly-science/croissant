@@ -31,6 +31,7 @@
   <body>
     <%= render("layouts/nav") %>
     <main class="container<%= yield :container_modifier %> pt-4 pb-4">
+      <%= render("layouts/breadcrumbs") %>
       <%= render("application/flash") %>
       <%= yield %>
     </main>

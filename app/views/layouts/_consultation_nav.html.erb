@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary" id="consultation-nav">
-  <%= link_to consultation.name, consultation_path(consultation), class: 'navbar-brand' %>
+  <%= link_to consultation.name, consultation_submissions_path(consultation), class: 'navbar-brand' %>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#consultation-nav-target" aria-controls="consultation-nav-target" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -11,6 +11,9 @@
       </li>
       <li class="nav-item">
         <%= link_to('Submissions', consultation_submissions_path(consultation), class: 'nav-link active') %>
+      </li>
+      <li class="nav-item">
+        <%= link_to('Export', consultation_path(consultation), class: 'nav-link active') %>
       </li>
     </ul>
   </div>
