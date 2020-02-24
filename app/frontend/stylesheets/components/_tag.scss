@@ -1,5 +1,7 @@
 .tag {
   &__new-button {
+    align-self: center;
+    border-color: lighten($secondary, 40);
     border-width: 2px;
   }
   @include tag-colours(color, 1, "&--colour-");

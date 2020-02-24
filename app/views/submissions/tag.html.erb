@@ -14,13 +14,15 @@
     </div>
   </section>
 
-  <section class="col-3 position-fixed submission-tags">
+  <section class="col-3 submission-taxonomy">
     <h4 class="mb-4">Consultation Taxonomy</h4>
     <div id="error_explanation"></div>
-    <ul class="border rounded list-group list-unstyled overflow-auto submission-tags__list">
-      <% @consultation.taxonomy.tags.top_level.each do |tag| %>
+    <div class="submission-taxonomy__list-container">
+      <ul class="list-group list-unstyled submission-taxonomy__list">
+        <% @consultation.taxonomy.tags.top_level.each do |tag| %>
         <%= render partial: "submission_tag", locals: { tag: tag, tag_colour: tag.colour_number } %>
-      <% end %>
+        <% end %>
+      </ul>
     </div>
   </section>
 </div>
