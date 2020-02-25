@@ -21,7 +21,19 @@ class ApplicationPolicy
 
   private
 
-  def user_is_admin_level?
-    user.admin? || user.superadmin?
+  def user_has_consultation_access?
+    user.superadmin? || consultation_user.present?
+  end
+
+  def consultation_user_has_access?
+    user.superadmin? || !consultation_user.viewer?
+  end
+
+  def user_is_admin_for_consultations?
+    ConsultationUser.where(user: user).any?(&:admin?)
+  end
+
+  def consultation_user
+    ConsultationUser.find_by(user: user, consultation: record.consultation)
   end
 end

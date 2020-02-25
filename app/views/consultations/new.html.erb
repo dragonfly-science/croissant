@@ -1,8 +1,2 @@
 <%= render "shared/error_messages", resource: @consultation %>
-
-<%= bootstrap_form_with model: @consultation, local: true do |f| %>
-  <%= f.text_field :name %><br>
-  <%= f.select :consultation_type, Consultation.consultation_types.keys %><br>
-  <%= f.text_field :description %><br>
-  <%= f.submit %>
-<% end %>
+<%= render "form", url: @consultation %>

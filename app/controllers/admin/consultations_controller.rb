@@ -1,12 +1,26 @@
 module Admin
-  class ConsultationsController < ApplicationController
-    before_action :find_consultation, only: %i[archive restore]
+  class ConsultationsController < AdminController
+    before_action :find_consultation, only: %i[edit update archive restore]
     breadcrumb "Admin", :root_path
     breadcrumb "Consultations", :admin_consultations_path, match: :exclusive
 
     def index
-      @consultations = Consultation.all.order(consultation_order)
-      authorize @consultations
+      @consultations = UserConsultationsService.admin_consultations(current_user, params[:order])
+      authorize Consultation
+    end
+
+    def edit
+      authorize @consultation
+    end
+
+    def update
+      authorize @consultation
+      @consultation.update(update_consultation_params)
+      if @consultation.save
+        redirect_to edit_admin_consultation_url(@consultation), notice: "Consultation was updated"
+      else
+        render :edit
+      end
     end
 
     def archive
@@ -33,10 +47,9 @@ module Admin
       @consultation = Consultation.find(params[:id])
     end
 
-    def consultation_order
-      return params[:order] if params[:order]
-
-      "name ASC"
+    def update_consultation_params
+      params.require(:consultation)
+            .permit(:name, :consultation_type, :description)
     end
   end
 end

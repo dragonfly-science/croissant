@@ -3,19 +3,24 @@ class ConsultationsController < ApplicationController
   breadcrumb "Consultations", :consultations_path, match: :exclusive
 
   def index
-    @consultations = Consultation.active.alphabetical_order
+    authorize Consultation
+    @consultations = UserConsultationsService.consultations(current_user)
   end
 
   def show
+    authorize @consultation
     breadcrumb @consultation.name, :consultation_path
   end
 
   def new
     @consultation = Consultation.new
+    authorize @consultation
   end
 
   def create
     @consultation = Consultation.new(consultation_params)
+    @consultation.consultation_users.build(user: current_user, role: "admin")
+    authorize @consultation
     if @consultation.save
       redirect_to consultation_submissions_path(@consultation)
     else
@@ -25,6 +30,7 @@ class ConsultationsController < ApplicationController
   end
 
   def export # rubocop:disable Metrics/MethodLength
+    authorize @consultation
     respond_to do |format|
       format.csv do
         case params[:type]
@@ -50,6 +56,6 @@ class ConsultationsController < ApplicationController
 
   def consultation_params
     params.require(:consultation)
-          .permit(:name, :consultation_type)
+          .permit(:name, :consultation_type, :description)
   end
 end

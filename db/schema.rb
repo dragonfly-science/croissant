@@ -36,6 +36,16 @@ ActiveRecord::Schema.define(version: 2020_02_19_225948) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "consultation_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "consultation_id"
+    t.integer "role", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["consultation_id"], name: "index_consultation_users_on_consultation_id"
+    t.index ["user_id"], name: "index_consultation_users_on_user_id"
+  end
+
   create_table "consultations", force: :cascade do |t|
     t.string "name", null: false
     t.integer "consultation_type", null: false
@@ -76,7 +86,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_225948) do
     t.string "query_type"
     t.string "anonymise"
     t.string "submitter_type"
-    t.string "file_hash"
     t.boolean "exemplar"
     t.boolean "maori_perspective"
     t.boolean "pacific_perspective"
@@ -85,6 +94,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_225948) do
     t.string "age_bracket"
     t.string "ethnicity"
     t.string "gender"
+    t.string "file_hash"
     t.index ["consultation_id"], name: "index_submissions_on_consultation_id"
   end
 

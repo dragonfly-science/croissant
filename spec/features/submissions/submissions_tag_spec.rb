@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.feature "Tagging a submission", js: true do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { FactoryBot.create(:user, role: "superadmin") }
   let!(:consultation) { FactoryBot.create(:consultation, :with_taxonomy_tags) }
   let!(:submission) do
     FactoryBot.create(:submission, :ready_to_tag, consultation: consultation,

@@ -1,0 +1,1 @@
+$(".js-user-results-list").replaceWith($("<%= escape_javascript(render "search_results", users: @users, consultation_id: @consultation.id) %>"));

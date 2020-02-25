@@ -65,4 +65,27 @@ RSpec.describe Consultation, type: :model do
       end
     end
   end
+
+  describe "#add_user" do
+    let(:user) { FactoryBot.create(:user) }
+    let(:consultation) { FactoryBot.create(:consultation) }
+
+    context "with no role provided" do
+      it "creates a new ConsultationUser with a role of viewer" do
+        consultation.add_user(user)
+        consultation_user = ConsultationUser.find_by(user: user, consultation: consultation)
+        expect(consultation_user).not_to eq(nil)
+        expect(consultation_user.role).to eq("viewer")
+      end
+    end
+
+    context "with a role provided" do
+      it "creates a new ConsultationUser with that role" do
+        consultation.add_user(user, "admin")
+        consultation_user = ConsultationUser.find_by(user: user, consultation: consultation)
+        expect(consultation_user).not_to eq(nil)
+        expect(consultation_user.role).to eq("admin")
+      end
+    end
+  end
 end

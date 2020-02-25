@@ -23,13 +23,16 @@ Rails.application.routes.draw do
   authenticate :user do
     namespace :admin do
       resources :users
-      put "users/:id/approve", to: "users#approve", as: :approve_user
-      put "users/:id/suspend", to: "users#suspend", as: :suspend_user
-      put "users/:id/reactivate", to: "users#reactivate", as: :reactivate_user
+      put  "users/:id/approve", to: "users#approve", as: :approve_user
+      put  "users/:id/suspend", to: "users#suspend", as: :suspend_user
+      put  "users/:id/reactivate", to: "users#reactivate", as: :reactivate_user
+      post "users/search", to: "users#search", as: :search_users
 
-      resources :consultations, only: %i[index]
-      put "consultations/:id/archive", to: "consultations#archive", as: :archive_consultation
-      put "consultations/:id/restore", to: "consultations#restore", as: :restore_consultation
+      resources :consultations, only: %i[index edit update]
+      put  "consultations/:id/archive", to: "consultations#archive", as: :archive_consultation
+      put  "consultations/:id/restore", to: "consultations#restore", as: :restore_consultation
+
+      resources :consultation_users, only: %i[create destroy]
     end
   end
 

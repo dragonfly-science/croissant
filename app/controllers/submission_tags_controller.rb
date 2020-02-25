@@ -4,7 +4,7 @@ class SubmissionTagsController < ApplicationController
 
   def create
     @submission_tag = @submission.add_tag(submission_tag_params.merge(tagger: current_user))
-
+    authorize @submission_tag
     if @submission_tag.errors.none?
       render json: @submission_tag, include: :tag
     else
@@ -30,5 +30,6 @@ class SubmissionTagsController < ApplicationController
 
   def set_submission_tag
     @submission_tag = SubmissionTag.find(params[:id])
+    authorize @submission_tag
   end
 end

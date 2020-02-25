@@ -1,0 +1,8 @@
+$("#error_explanation").remove()
+<% if @consultation_user.errors.any? %>
+  $("<%= escape_javascript(render "shared/error_messages", resource: @consultation_user) %>").insertBefore(".js-consultation-user-table");
+<% else %>
+  $(".js-consultation-user[data-consultation-user-id='<%= @consultation_user.id %>']").remove();
+  $(".js-consultation-user-success").remove();
+  $("<%= escape_javascript(render "success", user: @consultation_user.user, action_performed: "removed") %>").insertBefore(".js-consultation-user-table");
+<% end %>

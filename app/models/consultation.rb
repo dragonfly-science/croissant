@@ -2,6 +2,9 @@ class Consultation < ApplicationRecord
   has_one :taxonomy, dependent: :destroy
   has_many :submissions, dependent: :destroy
 
+  has_many :consultation_users, dependent: :destroy
+  has_many :users, through: :consultation_users
+
   after_initialize do |consultation|
     consultation.taxonomy ||= Taxonomy.new(consultation: consultation)
   end
@@ -24,5 +27,9 @@ class Consultation < ApplicationRecord
     event :restore do
       transition archived: :active
     end
+  end
+
+  def add_user(user, role="viewer")
+    ConsultationUser.create(user: user, consultation: self, role: role)
   end
 end

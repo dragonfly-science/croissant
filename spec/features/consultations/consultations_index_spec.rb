@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.feature "Consultations index page", js: true do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { FactoryBot.create(:user, role: "superadmin") }
   let!(:consultations) { FactoryBot.create_list(:consultation, 3) }
   before { sign_in(user) }
 

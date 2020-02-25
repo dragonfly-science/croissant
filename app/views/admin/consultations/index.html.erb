@@ -19,6 +19,7 @@
         <%= link_to "Archived?", admin_consultations_path(order: "state DESC"), class: "text-dark" %>
       </th>
       <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -37,6 +38,9 @@
             <%= link_to "Restore", admin_restore_consultation_path(consultation), method: :put,
                                    class:"btn btn-outline-primary" %>
           <% end %>
+        </td>
+        <td>
+          <%= link_to "Edit", edit_admin_consultation_path(consultation), class:"btn btn-primary" %>
         </td>
       </tr>
     <% end%>

@@ -30,6 +30,7 @@ class TaxonomiesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_taxonomy
     @taxonomy = Taxonomy.find(params[:id])
+    authorize @taxonomy
   end
 
   def upload_params

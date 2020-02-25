@@ -1,0 +1,6 @@
+<%= bootstrap_form_with model: @consultation, url: url, local: true do |f| %>
+  <%= f.text_field :name %><br>
+  <%= f.select :consultation_type, Consultation.consultation_types.keys %><br>
+  <%= f.text_field :description %><br>
+  <%= f.submit %>
+<% end %>

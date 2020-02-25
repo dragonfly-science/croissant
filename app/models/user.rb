@@ -4,10 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :consultation_users, dependent: :destroy
+  has_many :consultations, through: :consultation_users
   has_many :submission_tags, inverse_of: "tagger", foreign_key: "tagger_id", dependent: :nullify
 
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@]+@[^@]+\z/ }
   validates :role, presence: true
+
+  scope :search_by_email, ->(email) { where("email ILIKE ?", "%#{email}%") }
 
   enum role: {
     viewer: 0,
@@ -36,5 +40,9 @@ class User < ApplicationRecord
 
   def inactive_message
     active? ? super : :not_approved
+  end
+
+  def consultation_admin?
+    consultation_users.any?(&:admin?)
   end
 end

@@ -1,0 +1,25 @@
+<table class="table js-user-results-list">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">email</th>
+      <th scope="col">current state</th>
+      <th scope="col">consultation role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.each do |user| %>
+      <tr class="js-search-result-user" data-user-id="<%= user.id %>">
+        <th scope="row"><%= user.id %></th>
+        <td><%= user.email %></td>
+        <td><%= user.state %></td>
+        <td>
+          <%= bootstrap_form_with(url: admin_consultation_users_path(consultation_id: consultation_id, user_id: user), class:"mb-3 form-inline") do |f| %>
+            <%= f.select :role, options_for_select(ConsultationUser.roles.keys), {include_blank: true, hide_label: true, wrapper: false}, {class: "col-md-4 mr-2"}%>
+            <%= f.submit 'Add to consultation', class: 'btn btn-outline-primary' %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

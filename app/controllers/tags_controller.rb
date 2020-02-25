@@ -5,7 +5,7 @@ class TagsController < ApplicationController
   # POST taxonomies/:taxonomy_id/tags
   def create
     @tag = Tag.new(tag_params)
-
+    authorize @tag
     if @tag.save
       redirect_to taxonomy_url(@taxonomy), notice: "Tag was successfully created."
     else
@@ -24,6 +24,7 @@ class TagsController < ApplicationController
 
   def set_tag
     @tag = taxonomy.tags.find(params[:id])
+    authorize @tag
   end
 
   def taxonomy

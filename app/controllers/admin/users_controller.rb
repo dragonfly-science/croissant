@@ -1,6 +1,6 @@
 module Admin
-  class UsersController < ApplicationController
-    before_action :find_user, except: %i[index]
+  class UsersController < AdminController
+    before_action :find_user, except: %i[index search]
     breadcrumb "Admin", :root_path
     breadcrumb "Users", :admin_users_path, match: :exclusive
 
@@ -51,6 +51,15 @@ module Admin
         redirect_to admin_users_url(@user, notice: "#{@user.email} was reactivated")
       else
         redirect_back(notice: "Failed to reactivated #{@user.email}")
+      end
+    end
+
+    def search
+      authorize User
+      @consultation = Consultation.find(params[:consultation_id])
+      @users = User.search_by_email(params[:search]) - @consultation.users
+      respond_to do |format|
+        format.js
       end
     end
 

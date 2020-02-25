@@ -1,0 +1,9 @@
+$("#error_explanation").remove()
+<% if @consultation_user.errors.any? %>
+  $("<%= escape_javascript(render "shared/error_messages", resource: @consultation_user) %>").insertBefore(".js-user-results-list");
+<% else %>
+  $("tr[data-user-id='<%= @consultation_user.user.id %>']").remove();
+  $(".js-consultation-user-success").remove();
+  $("<%= escape_javascript(render "success", action_performed: "added", user: @consultation_user.user) %>").insertBefore(".js-consultation-user-table");
+  $("<%= escape_javascript(render "admin/consultations/consultation_user_list_item", consultation_user: @consultation_user) %>").appendTo(".js-consultation-user-list");
+<% end %>

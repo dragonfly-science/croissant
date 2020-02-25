@@ -7,6 +7,7 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions
   def index
+    authorize @consultation, :consultation_access?
     @submissions = @consultation.submissions
   end
 
@@ -17,6 +18,7 @@ class SubmissionsController < ApplicationController
 
   # POST /submissions
   def create
+    authorize @consultation, :consultation_write_access?
     creator = SubmissionCreator.new(create_submission_params: create_submission_params,
                                     file_upload_params: file_upload_params)
     creator.create!
@@ -84,13 +86,13 @@ class SubmissionsController < ApplicationController
 
   def set_submission
     submission_id = params[:id] || params[:submission_id]
-
     if @consultation.present?
       @submission = @consultation.submissions.find(submission_id)
     else
       @submission = Submission.find(submission_id)
       @consultation = @submission.consultation
     end
+    authorize @submission
   end
 
   def markup_submission

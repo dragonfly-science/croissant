@@ -10,7 +10,7 @@ RSpec.describe "Users", type: :request do
   describe "GET /admin/users" do
     before { get admin_users_path }
 
-    context "when signed in as an admin or super admin" do
+    context "when signed in as a super admin" do
       it "responds with an ok status" do
         expect(response).to have_http_status(:ok)
       end
@@ -219,6 +219,39 @@ RSpec.describe "Users", type: :request do
 
       it "responds with a not authorized error" do
         expect { put admin_user_path(user) }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+  end
+
+  # Admin users search
+  describe "POST /admin/users/search" do
+    let!(:user1) { FactoryBot.create(:user, email: "dave@flamingo.com") }
+    let!(:user2) { FactoryBot.create(:user, email: "dave.jenkins@example.com") }
+    let!(:user3) { FactoryBot.create(:user, email: "steve@rhinos.com") }
+    let!(:consultation) { FactoryBot.create(:consultation) }
+    before do
+      post admin_search_users_path(search: "dave", consultation_id: consultation.id, format: "js")
+    end
+
+    context "when signed in as a super admin" do
+      it "responds with an ok status" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "assigns a collection of users with emails matching the search term" do
+        expect(assigns(:users).to_a).to include(user1, user2)
+        expect(assigns(:users).to_a).not_to include(user3)
+      end
+
+      it "assigns a consultation" do
+      end
+    end
+
+    context "when signed in as any other user" do
+      before { user.update(role: "viewer") }
+
+      it "responds with a not authorized error" do
+        expect { get admin_users_path }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
   end

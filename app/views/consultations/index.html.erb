@@ -1,5 +1,10 @@
 <h1>Select a consultation</h1>
-<%= link_to 'or add a new consultation', new_consultation_path %>
+<% if policy(Consultation).new? %>
+  <%= link_to 'or add a new consultation', new_consultation_path %>
+<% end %>
+<% if current_user.superadmin? || current_user.consultation_admin? %>
+  <%= link_to 'Manage Consultations', admin_consultations_path, class: "btn btn-primary float-right mb-3" %>
+<% end %>
 <table class="table table-striped">
   <th>Name</th>
   <th>Type</th>

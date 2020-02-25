@@ -1,0 +1,7 @@
+<tr class="js-consultation-user" scope="row" data-consultation-user-id="<%= consultation_user.id %>">
+  <th scope="row"><%= consultation_user.user.id %></th>
+  <td><%= consultation_user.user.email %></td>
+  <td><%= consultation_user.role %></td>
+  <td><%= consultation_user.user.state %></td>
+  <td><%= link_to "Remove", admin_consultation_user_path(consultation_user), method: "delete", remote: true, class: "btn btn-outline-danger", data: { confirm: "Are you sure you want to remove #{consultation_user.user.email} from this consultation?" } %></td>
+</tr>

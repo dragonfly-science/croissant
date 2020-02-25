@@ -83,4 +83,15 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "#consultation_admin?" do
+    it "returns false if the user does not have an admin on any consultation" do
+      expect(user.consultation_admin?).to eq(false)
+    end
+
+    it "returns true if the user has an admin role on any consultation" do
+      FactoryBot.create(:consultation_user, user: user, role: "admin")
+      expect(user.consultation_admin?).to eq(true)
+    end
+  end
 end

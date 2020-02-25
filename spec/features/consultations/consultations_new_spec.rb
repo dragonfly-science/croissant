@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.feature "Consultations new page", js: true do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { FactoryBot.create(:user, role: "superadmin") }
   before do
     sign_in(user)
     visit new_consultation_path
