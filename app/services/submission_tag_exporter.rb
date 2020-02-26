@@ -5,7 +5,10 @@ class SubmissionTagExporter < CsvExportService
   end
 
   def items
-    SubmissionTag.joins(:submission).where(submissions: { consultation: @consultation }).all
+    SubmissionTag.joins(:submission)
+                 .merge(Submission.active)
+                 .where(submissions: { consultation: @consultation })
+                 .all
   end
 
   def columns

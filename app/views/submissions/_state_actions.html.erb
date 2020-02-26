@@ -10,3 +10,11 @@
   <%= link_to('Reject', reject_submission_path(submission), class: 'btn btn-outline-danger',
       method: :put, data: { confirm: 'Are you sure? This will allow tagging again.' }) %>
 <% end %>
+<% if submission.can_archive? && SubmissionPolicy.new(current_user, submission).mark_archived? %>
+  <%= link_to('Archive', archive_submission_path(submission), class: 'btn btn-outline-danger',
+      method: :put, data: { confirm: 'Are you sure? This hide the submission from non admin users.' }) %>
+<% end %>
+<% if submission.can_restore? && SubmissionPolicy.new(current_user, submission).mark_restored? %>
+  <%= link_to('Restore', restore_submission_path(submission), class: 'btn btn-outline-success',
+      method: :put, data: { confirm: 'Are you sure? This will allow non admin users to see the submission.' }) %>
+<% end %>

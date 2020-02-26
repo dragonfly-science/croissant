@@ -24,6 +24,8 @@ class Submission < ApplicationRecord
   delegate :filename, to: :file
   delegate :blank?, to: :text, prefix: true
 
+  scope :active, -> { where.not(state: "archived") }
+
   state_machine :state, initial: :incoming do
     event :process do
       transition incoming: :ready, unless: :text_blank?
@@ -38,8 +40,16 @@ class Submission < ApplicationRecord
       transition started: :finished
     end
 
+    event :archive do
+      transition %i[ready started] => :archived
+    end
+
     event :reject do
       transition finished: :started
+    end
+
+    event :restore do
+      transition archived: :started
     end
   end
 

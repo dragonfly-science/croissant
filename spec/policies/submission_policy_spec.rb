@@ -189,4 +189,46 @@ RSpec.describe SubmissionPolicy, type: :policy do
       expect(subject).to permit(user, submission)
     end
   end
+
+  permissions :mark_archived? do
+    it "permits superadmin users" do
+      user.update!(role: "superadmin")
+      expect(subject).to permit(user)
+    end
+
+    it "does not permit consultation users with the viewer or editor role" do
+      expect(subject).not_to permit(user, submission)
+    end
+
+    it "does not permit users with no access to the consultation" do
+      consultation_user.destroy
+      expect(subject).not_to permit(user, submission)
+    end
+
+    it "permits consultation admins" do
+      consultation_user.update!(role: "admin")
+      expect(subject).to permit(user, submission)
+    end
+  end
+
+  permissions :mark_restored? do
+    it "permits superadmin users" do
+      user.update!(role: "superadmin")
+      expect(subject).to permit(user)
+    end
+
+    it "does not permit consultation users with the viewer or editor role" do
+      expect(subject).not_to permit(user, submission)
+    end
+
+    it "does not permit users with no access to the consultation" do
+      consultation_user.destroy
+      expect(subject).not_to permit(user, submission)
+    end
+
+    it "permits consultation admins" do
+      consultation_user.update!(role: "admin")
+      expect(subject).to permit(user, submission)
+    end
+  end
 end

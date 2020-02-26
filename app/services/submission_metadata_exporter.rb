@@ -2,7 +2,7 @@ class SubmissionMetadataExporter < CsvExportService
   def initialize(consultation, character_limit: 32_000)
     @consultation = consultation
     @name = consultation.name
-    @submissions = @consultation.submissions
+    @submissions = @consultation.submissions.active
     @character_limit = character_limit
   end
 

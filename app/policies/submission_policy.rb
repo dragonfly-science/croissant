@@ -34,4 +34,18 @@ class SubmissionPolicy < ApplicationPolicy
   def mark_reject?
     user_has_consultation_access? && consultation_user_has_access?
   end
+
+  def mark_archived?
+    user_has_consultation_access? && user_is_consultation_admin?
+  end
+
+  def mark_restored?
+    user_has_consultation_access? && user_is_consultation_admin?
+  end
+
+  private
+
+  def user_is_consultation_admin?
+    user.superadmin? || consultation_user.admin?
+  end
 end

@@ -1,7 +1,8 @@
-class SubmissionsController < ApplicationController
+class SubmissionsController < ApplicationController # rubocop:disable Metrics/ClassLength
   before_action :consultation, only: %i[index create destroy tag]
   before_action :set_submission, only: %i[show destroy edit update tag
-                                          mark_process mark_complete mark_reject ]
+                                          mark_process mark_complete mark_reject
+                                          mark_archived mark_restored ]
   before_action :markup_submission, only: %i[show tag]
   before_action :submission_crumbs, only: %i[index show edit update tag]
 
@@ -79,6 +80,22 @@ class SubmissionsController < ApplicationController
       redirect_to submission_url(@submission, notice: "Submission has been rejected, can be tagged again")
     else
       redirect_back(notice: "Submission failed to reject")
+    end
+  end
+
+  def mark_archived
+    if @submission.archive!
+      redirect_to submission_url(@submission, notice: "Submission has been archived")
+    else
+      redirect_back(notice: "Failed to archive submission")
+    end
+  end
+
+  def mark_restored
+    if @submission.restore!
+      redirect_to submission_url(@submission, notice: "Submission has been restored")
+    else
+      redirect_back(notice: "Failed to restore submission")
     end
   end
 
