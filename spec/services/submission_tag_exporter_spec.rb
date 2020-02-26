@@ -39,13 +39,13 @@ RSpec.describe SubmissionTagExporter do
   it "includes the full number, name and ID for each tag" do
     csv = subject.export
     expect(csv).to include(
-      "#{submission1.id},#{tag1.id},00988_Anonymous.pdf,Bears,1,bear,0,4,#{tagger.email},#{st1.created_at}"
+      "#{submission1.id},#{st1.id},00988_Anonymous.pdf,Bears,1,bear,0,4,#{tagger.email},#{st1.created_at}"
     )
     expect(csv).to include(
-      "#{submission1.id},#{tag11.id},00988_Anonymous.pdf,Polar,1.1,polar,5,10,\"\",#{st2.created_at}"
+      "#{submission1.id},#{st2.id},00988_Anonymous.pdf,Polar,1.1,polar,5,10,\"\",#{st2.created_at}"
     )
-    expect(csv).to include("#{submission2.id},#{tag1.id},00988_Anonymous.pdf,Bears,1,roar,0,4,\"\",#{st3.created_at}")
-    expect(csv).to include("#{submission2.id},#{tag2.id},00988_Anonymous.pdf,Wolves,2,roar,0,4,\"\",#{st4.created_at}")
+    expect(csv).to include("#{submission2.id},#{st3.id},00988_Anonymous.pdf,Bears,1,roar,0,4,\"\",#{st3.created_at}")
+    expect(csv).to include("#{submission2.id},#{st4.id},00988_Anonymous.pdf,Wolves,2,roar,0,4,\"\",#{st4.created_at}")
   end
 
   it "includes the date and consultation name in the filename" do

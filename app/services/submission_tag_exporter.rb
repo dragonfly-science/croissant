@@ -11,7 +11,7 @@ class SubmissionTagExporter < CsvExportService
   def columns
     [
       CsvExportColumn.new(:submission_id, :submission_id),
-      CsvExportColumn.new(:tag_id, :tag_id),
+      CsvExportColumn.new(:tag_id, :id),
       CsvExportColumn.new(:submission_filename, :filename),
       CsvExportColumn.new(:tag_name, :name),
       CsvExportColumn.new(:tag_number, :full_number),
