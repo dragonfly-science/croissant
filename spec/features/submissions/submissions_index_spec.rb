@@ -24,9 +24,15 @@ RSpec.feature "Submissions index page", js: true do
     expect(page).to have_link("Archive", href: archive_submission_path(submissions.first))
   end
 
-  it "displays the restore button for an archived submission" do
+  it "does not show archived submissions by default" do
     submissions.first.update!(state: "archived")
     visit consultation_submissions_path(consultation)
+    expect(page).not_to have_link(submissions.first.name, href: submission_path(submissions.first))
+  end
+
+  it "displays the restore button for an archived submission" do
+    submissions.first.update!(state: "archived")
+    visit consultation_submissions_path(consultation, filter: { include_archived: true })
     expect(page).to have_link("Restore", href: restore_submission_path(submissions.first))
   end
 end

@@ -1,0 +1,43 @@
+<div class="card" id="filter-container">
+  <div class="card-header" id="filter-header"  data-toggle="collapse" data-target="#filter-body"
+  aria-expanded="<%= active_filters?(filter) ? 'true' : 'false' %>"
+  aria-controls="filter-body">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-success">
+        <%= render partial: 'shared/filter.svg', locals: { active: active_filters?(filter) } %>
+      </span>
+      <h5 class="mb-0">
+        Filter submissions
+      </h5>
+      <div class="css-chevron"></div>
+    </div>
+    <% if active_filters?(filter) %>
+    <div class="pt-2 d-flex justify-content-between align-items-center">
+      <span>
+        Filtering by
+        <% active_filter_names(filter).each_with_index do |filter_name, index| %>
+          <strong><%= filter_name.downcase %></strong><%= "," if index < filter.active_filters.length - 2 %>
+          <%= "and" if index == filter.active_filters.length - 2 %>
+        <% end %>
+      </span>
+      <span>
+        <%= filter.filtered_size %> of <%= filter.unfiltered_size %> submissions
+      </span>
+    </div>
+    <% end %>
+  </div>
+  <div id="filter-body" class="collapse <%= 'show' if active_filters?(filter) %>"
+       aria-labelledby="filter-header" data-parent="#filter-container">
+    <div class="card-body">
+      <%= bootstrap_form_for :filter, url: consultation_submissions_url(@consultation), method: 'GET' do |f| %>
+        <%= f.text_field :filename %>
+        <%= f.select :state, Submission::STATES, {include_blank: false}, { multiple: true } %>
+        <%= f.check_box :include_archived, label: 'Include archived submissions' %>
+        <div class="actions d-flex justify-content-between align-items-end">
+          <%= link_to('Clear', consultation_submissions_path(@consultation)) %>
+          <%= f.submit 'Filter', class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

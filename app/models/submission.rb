@@ -9,6 +9,8 @@ class Submission < ApplicationRecord
   SUBMISSION_FILE_TYPES = %w[application/pdf application/msword
                              application/vnd.openxmlformats-officedocument.wordprocessingml.document].freeze
 
+  STATES = %i[incoming ready started finished archived].freeze
+
   belongs_to :consultation
   has_one_attached :file
   has_many :submission_tags, dependent: :destroy
@@ -26,6 +28,9 @@ class Submission < ApplicationRecord
   delegate :blank?, to: :text, prefix: true
 
   scope :active, -> { where.not(state: "archived") }
+  scope :search_by_filename, lambda { |query|
+    joins(file_attachment: :blob).where("active_storage_blobs.filename ILIKE ?", "%#{query}%")
+  }
 
   state_machine :state, initial: :incoming do
     event :process do

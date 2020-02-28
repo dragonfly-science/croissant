@@ -8,5 +8,9 @@ FactoryBot.define do
       text { "Taggable submission text" }
       state { :ready }
     end
+    trait :finished do
+      text { "Taggable submission text" }
+      state { :finished }
+    end
   end
 end

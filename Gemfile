@@ -16,6 +16,7 @@ gem "devise"
 gem "pundit"
 gem "paper_trail" # audit log
 gem "loaf" # breadcrumbs
+gem "kaminari" # pagination
 
 gem "activestorage-validator"
 gem "image_processing", "~> 1.0"

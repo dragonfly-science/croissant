@@ -9,7 +9,8 @@ class SubmissionsController < ApplicationController # rubocop:disable Metrics/Cl
   # GET /submissions
   def index
     authorize @consultation, :consultation_access?
-    @submissions = @consultation.submissions
+    @filter = SubmissionFilter.new(@consultation.submissions, filter_params[:filter]&.to_hash)
+    @submissions = @filter.filter.order(:id).page(params[:page])
   end
 
   # GET /submissions/1
@@ -135,6 +136,10 @@ class SubmissionsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def file_upload_params
     params[:submission][:file]
+  end
+
+  def filter_params
+    params.permit(filter: [:filename, :include_archived, state: []])
   end
 
   def submission_crumbs

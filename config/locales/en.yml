@@ -36,6 +36,11 @@ en:
     type: "Consultation type"
     create:
       failure: "Failed to create consultation"
+  filter:
+    SubmissionFilter:
+      include_archived: "Include archived submissions"
+      state: "State"
+      filename: "Filename"
   submission:
     state:
       incoming: "Incoming"

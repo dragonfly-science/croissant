@@ -1,0 +1,10 @@
+<dl>
+  <dt>Filename</dt>
+  <dd><%= submission.filename %></dd>
+  <% Submission::METADATA_FIELDS.each do |fieldname| %>
+    <% if submission.send(fieldname.to_sym).present? %>
+      <dt><%= t(fieldname) %></dt>
+      <dd><%= submission.send(fieldname.to_sym) %></dd>
+    <% end %>
+  <% end %>
+</dl>

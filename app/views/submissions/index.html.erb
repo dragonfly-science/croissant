@@ -1,16 +1,17 @@
-<h1>Submissions</h1>
+<h1 class="pb-4">Submissions</h1>
 <section class="pb-4">
   <%= render 'form', submission: Submission.new %>
 </section>
 <section class="pb-4">
-  <h2>Select a submission</h2>
-
+  <%= render 'filter', filter: @filter %>
+</section>
+<section class="pb-4">
+  <%= render partial: 'pagination', locals: { submissions: @submissions, filter: @filter } %>
   <table class="table table-striped">
     <thead>
       <tr>
         <th>ID</th>
-        <th>Filename</th>
-        <th>Description</th>
+        <th>Metadata</th>
         <th>State</th>
         <th class="text-right">Actions</th>
         <th></th>
@@ -21,8 +22,9 @@
       <% @submissions.each do |submission| %>
         <tr>
           <td><%= link_to submission.id, submission %></td>
-          <td><%= link_to submission.filename, submission %></td>
-          <td><%= submission.description %></td>
+          <td>
+            <%= render partial: 'metadata', locals: { submission: submission } %>
+          </td>
           <td>
             <p><%= t("submission.state.#{submission.state}") %></p>
             <% unless submission.incoming? || submission.ready? %>
@@ -34,8 +36,6 @@
             <p><%= render partial: 'state_actions', locals: { submission: submission } %></p>
           </td>
           <td>
-          </td>
-          <td>
             <% if submission.can_delete? %>
               <%= link_to 'x', [@consultation, submission], method: :delete, class: 'text-danger',
               data: { confirm: 'Are you sure you want to delete this submission?' } %>
@@ -45,4 +45,5 @@
       <% end %>
     </tbody>
   </table>
+  <%= render partial: 'pagination', locals: { submissions: @submissions, filter: @filter } %>
 </section>

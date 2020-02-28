@@ -93,4 +93,12 @@ RSpec.describe Submission, type: :model do
       expect(submission.valid?).to eq(true)
     end
   end
+  describe "scopes" do
+    it "allows searching by filename" do
+      file = Rack::Test::UploadedFile.new("spec/support/example_files/single-page.pdf",
+                                          "application/pdf")
+      submission = FactoryBot.create(:submission, file: file)
+      expect(Submission.search_by_filename("single-page")).to eq([submission])
+    end
+  end
 end

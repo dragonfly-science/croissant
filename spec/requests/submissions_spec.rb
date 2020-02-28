@@ -22,7 +22,7 @@ RSpec.describe "Submissions", type: :request do
 
     it "assigns a list of submissions for the current consultation" do
       subject
-      expect(assigns(:submissions).to_a).to eq(consultation.submissions)
+      expect(assigns(:submissions).to_a).to match_array(consultation.submissions)
     end
   end
 

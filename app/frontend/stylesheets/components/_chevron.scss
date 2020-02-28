@@ -1,0 +1,14 @@
+.css-chevron {
+  border-bottom: 2px solid $secondary;
+  border-right: 2px solid $secondary;
+  height: 1em;
+  width: 1em;
+
+  [aria-expanded="true"] & {
+    transform: rotate(-135deg);
+  }
+
+  [aria-expanded="false"] & {
+    transform: rotate(45deg);
+  }
+}
