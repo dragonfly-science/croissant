@@ -1,4 +1,5 @@
 class Submission < ApplicationRecord
+  has_paper_trail
   METADATA_FIELDS = %i[description submitted_at channel source name submitter_type
                        email_address address phone_number query_type anonymise
                        exemplar maori_perspective pacific_perspective high_impact_stakeholder

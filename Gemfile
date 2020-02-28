@@ -14,6 +14,7 @@ gem "sidekiq", ">= 4.2.0"
 gem "webpacker", "~> 4.0"
 gem "devise"
 gem "pundit"
+gem "paper_trail" # audit log
 gem "loaf" # breadcrumbs
 
 gem "activestorage-validator"

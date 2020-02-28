@@ -1,4 +1,5 @@
 class ConsultationUser < ApplicationRecord
+  has_paper_trail
   belongs_to :consultation
   belongs_to :user
   validates :role, presence: true

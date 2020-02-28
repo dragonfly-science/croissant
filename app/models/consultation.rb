@@ -1,4 +1,5 @@
 class Consultation < ApplicationRecord
+  has_paper_trail
   has_one :taxonomy, dependent: :destroy
   has_many :submissions, dependent: :destroy
 

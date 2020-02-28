@@ -1,4 +1,5 @@
 class SubmissionTag < ApplicationRecord
+  has_paper_trail
   belongs_to :submission
   belongs_to :tag
   belongs_to :tagger, class_name: "User", foreign_key: "tagger_id",

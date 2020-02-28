@@ -1,4 +1,5 @@
 class Tag < ApplicationRecord
+  has_paper_trail
   belongs_to :taxonomy
 
   belongs_to :parent, class_name: "Tag", optional: true
