@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import SelectedSubmissionTags from './selected_submission_tags';
 
 class TaggedSubmissionText {
   constructor(selector) {
@@ -6,6 +7,9 @@ class TaggedSubmissionText {
       return;
     }
     this.submission = $(selector);
+    this.selectedSubmissionTags = new SelectedSubmissionTags(
+      '.js-selected-tags-container'
+    );
   }
 
   renderAllTags() {
@@ -101,6 +105,7 @@ class TaggedSubmissionText {
         }
       }
     }
+    this.selectedSubmissionTags.displaySubmissionTagDetailsOnClick();
   }
 
   buildTag(activeColours, activeTags) {
@@ -112,6 +117,9 @@ class TaggedSubmissionText {
     span.classList.add(`tagged--colour-${primaryColour}`);
     span.classList.add(`tagged--count-${activeTags.length}`);
     span.setAttribute('data-st-ids', activeTags);
+    span.setAttribute('tabindex', '0');
+    span.setAttribute('role', 'button');
+    span.setAttribute('aria-pressed', 'false');
     for (let c of secondaryColours) {
       span.classList.add(`tagged--secondary-colour-${c}`);
     }

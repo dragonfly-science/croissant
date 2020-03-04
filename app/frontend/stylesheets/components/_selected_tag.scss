@@ -1,0 +1,11 @@
+.selected-tag {
+  display: flex;
+  font-weight: bold;
+  padding: 0.5rem;
+
+  &__delete {
+    color: $danger;
+    margin-left: auto;
+    padding-left: 0.5rem;
+  }
+}

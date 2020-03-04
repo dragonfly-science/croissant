@@ -65,17 +65,35 @@ RSpec.feature "Tagging a submission", js: true do
     end
 
     context "when revisiting a submission with existing tags" do
+      let!(:submission_tag_one) do
+        FactoryBot.create(:submission_tag,
+                          submission: submission,
+                          tag: tags.first,
+                          tagger: user,
+                          start_char: 5,
+                          end_char: 18,
+                          text: "dogs and sheep")
+      end
+      let!(:submission_tag_two) do
+        FactoryBot.create(:submission_tag,
+                          submission: submission,
+                          tag: tags.third,
+                          tagger: user,
+                          start_char: 20,
+                          end_char: 31,
+                          text: "in the ocean")
+      end
       it "displays existing tags" do
-        highlight_selection(5, 18)
-        find(".submission-tag[data-tag-name='#{tags.first.name}']").click
-        # highlight_selection can run a little slow so we need to assert that tagging has completed
-        # before moving onto the next tag
-        expect(find(".tagged.tagged--colour-#{tags.first.colour_number}")).to have_text("dogs and sheep")
-        highlight_selection(20, 31)
-        find(".submission-tag[data-tag-id='#{tags.third.id}']").click
         visit consultation_submission_tag_path(consultation, submission)
-        expect(find(".tagged.tagged--colour-#{tags.first.colour_number}")).to have_text("dogs and sheep")
-        expect(find(".tagged.tagged--colour-#{tags.third.colour_number}")).to have_text("in the ocean")
+        expect(find(".js-tagged[data-st-ids='#{submission_tag_one.id}']")).to have_text("dogs and sheep")
+        expect(find(".js-tagged[data-st-ids='#{submission_tag_two.id}']")).to have_text("in the ocean")
+      end
+
+      it "displays existing tags attached to a piece of text when that text is selected" do
+        visit consultation_submission_tag_path(consultation, submission)
+        find(".js-tagged[data-st-ids='#{submission_tag_one.id}']").click
+        expect(find("#js-selected-tag-text")).to have_text("dogs and sheep")
+        expect(find(".js-submission-tag[data-st-id='#{submission_tag_one.id}']")).to_not be_nil
       end
     end
   end
