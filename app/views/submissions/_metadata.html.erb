@@ -1,6 +1,5 @@
 <dl>
-  <dt>Filename</dt>
-  <dd><%= submission.filename %></dd>
+  <dt><%= submission.title %></dt>
   <% Submission::METADATA_FIELDS.each do |fieldname| %>
     <% if submission.send(fieldname.to_sym).present? %>
       <dt><%= t(fieldname) %></dt>

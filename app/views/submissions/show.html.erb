@@ -19,13 +19,15 @@
         <% end %>
       <% end %>
     </dl>
-    <dl>
-      <dt>Filename</dt>
-      <dd><%= @submission.file.filename %></dd>
-      <dd><%= link_to "Download", rails_blob_path(@submission.file, disposition: 'attachment') %></dd>
-    </dl>
-    <% if @submission.file.previewable? %>
-      <%= image_tag @submission.file.preview(resize_to_limit:[200, 1200]), alt: 'Preview of file' %>
+    <% if @submission.file.attached? %>
+      <dl>
+        <dt>Filename</dt>
+        <dd><%= @submission.file.filename %></dd>
+        <dd><%= link_to "Download", rails_blob_path(@submission.file, disposition: 'attachment') %></dd>
+      </dl>
+      <% if @submission.file.previewable? %>
+        <%= image_tag @submission.file.preview(resize_to_limit:[200, 1200]), alt: 'Preview of file' %>
+      <% end %>
     <% end %>
     <% if @submission.submission_tags.any? %>
       <section>

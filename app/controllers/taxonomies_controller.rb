@@ -10,7 +10,7 @@ class TaxonomiesController < ApplicationController
     file = upload_params[:file]
     updater = TaxonomyUpdater.new(file, @taxonomy)
     if updater.valid?
-      updater.update_tags!
+      updater.import!
       flash_taxonomy_updater_notices(updater)
     else
       flash[:alert] = "Tags not updated. #{updater.validity_errors.join(", ")}"
@@ -24,7 +24,7 @@ class TaxonomiesController < ApplicationController
   def flash_taxonomy_updater_notices(updater)
     flash[:notice] = updater.results_notice
     flash[:alert] = updater.errors_notice
-    flash[:error_list] = updater.failed_tags.map(&:formatted_error_messages)
+    flash[:error_list] = updater.failed_items.map(&:formatted_error_messages)
   end
 
   # Use callbacks to share common setup or constraints between actions.

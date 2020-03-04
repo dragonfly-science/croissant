@@ -25,7 +25,7 @@ RSpec.describe TaxonomyUpdater do
     end
 
     it "updates tags that have an ID within the taxonomy in the CSV but have changed" do
-      subject.update_tags!
+      subject.import!
       expect(tag.reload.name).to eq("Animals")
       expect(tag.reload.description).to eq("Animals not elsewhere specified")
       expect(tag.reload.number).to eq("1")
@@ -33,7 +33,7 @@ RSpec.describe TaxonomyUpdater do
     it "does not update tags that are not in the taxonomy" do
       other_taxonomy = FactoryBot.create(:consultation).taxonomy
       tag = FactoryBot.create(:tag, taxonomy: other_taxonomy, name: "Living things")
-      subject.update_tags!
+      subject.import!
       expect(tag.reload.name).to eq("Living things")
     end
   end
@@ -43,18 +43,18 @@ RSpec.describe TaxonomyUpdater do
     tag = FactoryBot.create(:tag, taxonomy: taxonomy, number: "1", name: "animals",
                                   description: "Top-level tag for animals not described elsewhere")
 
-    subject.update_tags!
-    expect(subject.unchanged_tags.first.tag).to eq(tag)
+    subject.import!
+    expect(subject.unchanged_items.first.tag).to eq(tag)
   end
 
   it "creates new tags" do
-    subject.update_tags!
+    subject.import!
     animal_tag = taxonomy.tags.find_by(full_number: "1", name: "animals")
-    expect(subject.created_tags).to include(TagResult.new(:created, animal_tag))
+    expect(subject.created_items).to include(TagResult.new(:created, animal_tag))
   end
 
   it "infers the appropriate parent from the numbering" do
-    subject.update_tags!
+    subject.import!
     animal_tag = taxonomy.tags.find_by(full_number: "1", name: "animals")
     bear_tag = taxonomy.tags.find_by(full_number: "1.1", name: "bears")
     panda_tag = taxonomy.tags.find_by(full_number: "1.1.1", name: "panda")
@@ -71,7 +71,7 @@ RSpec.describe TaxonomyUpdater do
 
   it "does not delete tags that are missing from the file" do
     tag = FactoryBot.create(:tag, taxonomy: taxonomy, number: "9", name: "friends")
-    subject.update_tags!
+    subject.import!
     expect(taxonomy.tags).to include(tag)
   end
 
@@ -84,7 +84,7 @@ RSpec.describe TaxonomyUpdater do
     end
 
     it "does not proceed with updating tags" do
-      expect(subject.update_tags!).to eq(false)
+      expect(subject.import!).to eq(false)
     end
 
     it "has a list of validity errors" do
@@ -101,7 +101,7 @@ RSpec.describe TaxonomyUpdater do
     end
 
     it "does not proceed with updating tags" do
-      expect(subject.update_tags!).to eq(false)
+      expect(subject.import!).to eq(false)
     end
 
     it "has a list of validity errors" do
@@ -118,7 +118,7 @@ RSpec.describe TaxonomyUpdater do
     end
 
     it "does not proceed with updating tags" do
-      expect(subject.update_tags!).to eq(false)
+      expect(subject.import!).to eq(false)
     end
 
     it "has a list of validity errors" do

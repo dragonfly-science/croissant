@@ -11,7 +11,14 @@ class SubmissionCreator
   end
 
   def create!
-    @files.each do |file|
+    csv_files.each do |file|
+      importer = SubmissionCsvUpload.new(file, @create_params[:consultation])
+      importer.import!
+      @successful.concat(importer.created_items)
+      @unsuccessful.concat(importer.failed_items)
+    end
+
+    non_csv_files.each do |file|
       create_one(file)
     end
     @notice = message_for_multiple_submissions
@@ -19,14 +26,21 @@ class SubmissionCreator
 
   private
 
+  def csv_files
+    @files.select { |file| file.content_type == "text/csv" }
+  end
+
+  def non_csv_files
+    @files - csv_files
+  end
+
   def create_one(file)
     submission = Submission.new(@create_params)
     submission.file.attach(file)
     if submission.save
-      @successful << submission
+      @successful << SubmissionResult.new(:created, submission, file.original_filename)
     else
-      @unsuccessful << submission
-      @errors[file.original_filename] = submission.errors.full_messages.join(", ")
+      @unsuccessful << SubmissionResult.new(:failed, submission, file.original_filename)
     end
   end
 
@@ -34,8 +48,8 @@ class SubmissionCreator
     notice = ""
     notice += "Successfully created #{pluralize(successful.length, "submission")}." if @successful.any?
     notice += "Failed creating #{pluralize(unsuccessful.length, "submission")}:" if @unsuccessful.any?
-    errors.each do |key, value|
-      notice += "#{key}: #{value} "
+    @unsuccessful.each do |result|
+      notice += result.formatted_error_messages
     end
     notice
   end

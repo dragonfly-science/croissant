@@ -6,10 +6,12 @@
     <div class="row">
       <div class="col col-3">
         <h3>Metadata</h3>
-        <div class="pb-4">
-          <label>Original file</label>
-          <%= link_to @submission.file.filename, rails_blob_path(@submission.file, disposition: 'attachment') %>
-        </div>
+        <% if @submission.file.attached? %>
+          <div class="pb-4">
+            <label>Original file</label>
+            <%= link_to @submission.file.filename, rails_blob_path(@submission.file, disposition: 'attachment') %>
+          </div>
+        <% end %>
         <%= form.text_field :description %>
         <%= form.datetime_field :submitted_at %>
         <%= form.select :submitter_type, Submission::SUBMITTER_TYPES, include_blank: true %>

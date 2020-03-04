@@ -39,8 +39,8 @@ RSpec.describe SubmissionCreator do
       it "gives each submission the same metadata" do
         creator.create!
 
-        creator.successful.each do |submission|
-          expect(submission.description).to eq("Description")
+        creator.successful.each do |result|
+          expect(result.submission.description).to eq("Description")
         end
       end
     end

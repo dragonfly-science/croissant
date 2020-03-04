@@ -16,7 +16,7 @@ class Submission < ApplicationRecord
   has_many :submission_tags, dependent: :destroy
   has_many :tags, through: :submission_tags
 
-  validates :file, presence: true, blob: {
+  validates :file, blob: {
     content_type: SUBMISSION_FILE_TYPES
   }
 
@@ -24,7 +24,6 @@ class Submission < ApplicationRecord
 
   before_update :remove_forced_carriage_returns_from_text
 
-  delegate :filename, to: :file
   delegate :blank?, to: :text, prefix: true
 
   scope :active, -> { where.not(state: "archived") }
@@ -64,7 +63,7 @@ class Submission < ApplicationRecord
   end
 
   def can_edit?
-    incoming? && file.analyzed?
+    incoming? && (!file.attached? || file_analyzed?)
   end
 
   def raw_text
@@ -72,8 +71,12 @@ class Submission < ApplicationRecord
   end
 
   def populate_text_from_file_if_present
-    self.text = raw_text if file.analyzed? && text.blank?
+    self.text = raw_text if text.blank? && file_analyzed?
     save
+  end
+
+  def file_analyzed?
+    file.attached? && file.analyzed?
   end
 
   def add_tag(params)
@@ -81,6 +84,14 @@ class Submission < ApplicationRecord
 
     tag
     submission_tags.create(params)
+  end
+
+  def title
+    file.attached? ? filename : id
+  end
+
+  def filename
+    file.filename if file.attached?
   end
 
   private

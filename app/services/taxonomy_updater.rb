@@ -1,27 +1,17 @@
 require "csv"
 
-class TaxonomyUpdater
-  EXPECTED_HEADERS = %w[tag_id number name description].freeze
+class TaxonomyUpdater < CsvImportService
   def initialize(file, taxonomy)
     @file = file
     @taxonomy = taxonomy
     @results = []
   end
 
-  def valid?
-    validity_errors.empty?
+  def expected_headers
+    %w[tag_id number name description]
   end
 
-  def validity_errors
-    return ["Wrong format"] unless @file && @file.content_type == "text/csv"
-
-    error_list = []
-    error_list << "Wrong headers" unless headers == EXPECTED_HEADERS
-    error_list << "File empty" if csv.empty?
-    error_list
-  end
-
-  def update_tags!
+  def import!
     return false unless valid?
 
     results = []
@@ -29,34 +19,6 @@ class TaxonomyUpdater
       results << create_or_update_tag(row)
     end
     @results = results
-  end
-
-  def updated_tags
-    @results.select(&:updated?)
-  end
-
-  def created_tags
-    @results.select(&:created?)
-  end
-
-  def failed_tags
-    @results.select(&:failed?)
-  end
-
-  def unchanged_tags
-    @results.select(&:no_change?)
-  end
-
-  def results_notice
-    notice = ""
-    notice += "#{created_tags.length} tags created. " if created_tags.any?
-    notice += "#{updated_tags.length} tags updated. " if updated_tags.any?
-    notice += "No change to #{unchanged_tags.length} tags. " if unchanged_tags.any?
-    notice
-  end
-
-  def errors_notice
-    "#{failed_tags.length} tags failed to update." if failed_tags.any?
   end
 
   private
@@ -111,13 +73,5 @@ class TaxonomyUpdater
 
   def parent_tag(number)
     @taxonomy.tags.find_by(full_number: parent_number(number))
-  end
-
-  def csv
-    @csv ||= CSV.read(@file.open, headers: true)
-  end
-
-  def headers
-    csv.headers
   end
 end
