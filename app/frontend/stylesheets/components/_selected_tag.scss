@@ -9,4 +9,9 @@
     margin-left: auto;
     padding-left: 0.5rem;
   }
+
+  &__text {
+    border-left: 4px solid lighten($secondary, 20);
+    padding-left: 0.5em;
+  }
 }

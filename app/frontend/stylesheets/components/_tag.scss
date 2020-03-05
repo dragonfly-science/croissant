@@ -3,6 +3,11 @@
     align-self: center;
     border-color: lighten($secondary, 40);
     border-width: 2px;
+    padding: 0.5em;
+
+    &:active {
+      border-color: lighten($secondary, 20);
+    }
   }
   @include tag-colours(color, 1, "&--colour-");
 }

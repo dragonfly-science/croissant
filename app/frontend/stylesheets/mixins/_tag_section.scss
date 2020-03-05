@@ -1,0 +1,26 @@
+@mixin tag-section($direction, $top-height) {
+  height: calc(100vh - #{$top-height});
+  position: fixed;
+  #{$direction}: 0;
+  top: $top-height;
+
+  &__list-container {
+    border: 1px solid lighten($secondary, 40);
+    border-radius: 1em;
+    max-height: calc(100% - #{$top-height});
+    overflow: auto;
+  }
+
+  &__list {
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 4px;
+      box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+  }
+}

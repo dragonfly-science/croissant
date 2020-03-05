@@ -25,13 +25,14 @@ class SelectedSubmissionTags {
         tagNumber: tagNumber
       });
 
+      $('.js-submission-tag-container').removeClass('d-none');
       $('.js-selected-tags-container').append(submissionTag.build());
     }
 
     function bindSubmissionTagRemoval() {
       $('.js-submission-tag-remove').on('mouseup keydown', function(e) {
         if (e.type === 'mouseup' || e.keyCode === 13) {
-          let result = confirm('Are you sure you want to delete this tag?');
+          let result = confirm('Are you sure you want to unattach this tag?');
           if (result === true) {
             deleteSubmissionTag(this.dataset.stId);
           }

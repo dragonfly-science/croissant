@@ -19,9 +19,4 @@
       display: none;
     }
   }
-
-  &__tags-container {
-    max-height: calc(100% - 20rem);
-    overflow: auto;
-  }
 }
