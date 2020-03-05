@@ -4,11 +4,11 @@
   height: 1em;
   width: 1em;
 
-  [aria-expanded="true"]>& {
+  [aria-expanded="true"] & {
     transform: rotate(-135deg);
   }
 
-  [aria-expanded="false"]>& {
+  [aria-expanded="false"] & {
     transform: rotate(45deg);
   }
 }

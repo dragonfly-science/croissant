@@ -19,7 +19,8 @@
 </li>
 
 <% if tag.children.any? %>
-  <ul id="tag-group-<%= tag.id %>" class="col list-unstyled collapse" aria-expanded="false">
+  <ul id="tag-group-<%= tag.id %>"
+      class="col list-unstyled collapse">
     <% tag.children.each do |tag| %>
       <%= render partial: "submission_tag", locals: { tag_colour: tag.colour_number, tag: tag } %>
     <% end %>
