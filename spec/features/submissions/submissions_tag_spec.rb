@@ -95,6 +95,16 @@ RSpec.feature "Tagging a submission", js: true do
         expect(find("#js-selected-tag-text")).to have_text("dogs and sheep")
         expect(find(".js-submission-tag[data-st-id='#{submission_tag_one.id}']")).to_not be_nil
       end
+
+      it "removes tags from the page when a submission tag removal button is clicked" do
+        visit consultation_submission_tag_path(consultation, submission)
+        find(".js-tagged[data-st-ids='#{submission_tag_one.id}']").click
+        expect(find("#js-selected-tag-text")).to have_text("dogs and sheep")
+        find(".js-submission-tag-remove[data-st-id='#{submission_tag_one.id}']").click
+        page.driver.browser.switch_to.alert.accept
+        expect(page).not_to have_selector(".js-submission-tag[data-st-id='#{submission_tag_one.id}']")
+        expect(page).not_to have_selector(".js-tagged[data-st-ids='#{submission_tag_one.id}']")
+      end
     end
   end
 end

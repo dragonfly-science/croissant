@@ -1,4 +1,4 @@
-$("#error_explanation").remove()
+$("#tag_error_explanation").remove()
 <% if @consultation_user.errors.any? %>
   $("<%= escape_javascript(render "shared/error_messages", resource: @consultation_user) %>").insertBefore(".js-user-results-list");
 <% else %>

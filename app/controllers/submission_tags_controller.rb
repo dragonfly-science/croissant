@@ -14,8 +14,9 @@ class SubmissionTagsController < ApplicationController
   end
 
   def destroy
-    @submission_tag.destroy
-    redirect_to submission_url(@submission_tag.submission), notice: "Tag was successfully removed."
+    return destroy_success if @submission_tag.destroy
+
+    destroy_failure
   end
 
   def submission_tag_params
@@ -23,6 +24,28 @@ class SubmissionTagsController < ApplicationController
   end
 
   private
+
+  def destroy_success
+    respond_to do |format|
+      format.json do
+        render json: { submission_tag: @submission_tag }
+      end
+      format.html do
+        redirect_to submission_url(@submission_tag.submission), notice: "Tag was successfully removed."
+      end
+    end
+  end
+
+  def destroy_failure
+    respond_to do |format|
+      format.json do
+        render json: { errors: @submission_tag.errors.full_messages }, status: :internal_server_error
+      end
+      format.html do
+        redirect_to submission_url(@submission_tag.submission), alert: t("submission_tag.destroy.failure")
+      end
+    end
+  end
 
   def set_submission
     @submission = Submission.find(submission_tag_params[:submission_id])

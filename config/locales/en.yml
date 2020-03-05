@@ -47,6 +47,9 @@ en:
       ready: "Ready to tag"
       started: "Tagging started"
       finished: "Tagging completed"
+  submission_tag:
+    destroy:
+      failure: "Failed to destroy tag"
   user:
     update:
       failure: "Failed to update user"

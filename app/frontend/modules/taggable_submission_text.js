@@ -127,7 +127,7 @@ class TaggableSubmissionText {
       errors.forEach(error => {
         errorList.append(`<li>${error}</li>`);
       });
-      $('#error_explanation').append(errorList);
+      $('#tag_error_explanation').append(errorList);
     }
 
     function renderTag(submissionTagId, tagId, tagNumber, range) {

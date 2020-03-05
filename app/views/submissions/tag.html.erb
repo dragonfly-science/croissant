@@ -4,6 +4,11 @@
   <section class="col-3">
     <h4 class="mb-4">Submission Metadata</h4>
     <div class="submission__tags-container border border-secondary rounded p-2 position-fixed col-2">
+      <ul id="tag_removal_error_explanation" class="d-none pl-5 mb-3 alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </ul>
       <h4>Selected Tags for:</h4>
       <p id="js-selected-tag-text" class="text-primary font-italic pl-2"></p>
       <div class="js-selected-tags-container"></div>
@@ -21,7 +26,7 @@
 
   <section class="col-3 submission-taxonomy">
     <h4 class="mb-4">Consultation Taxonomy</h4>
-    <div id="error_explanation"></div>
+    <div id="tag_error_explanation"></div>
     <div class="submission-taxonomy__list-container">
       <ul class="list-group list-unstyled submission-taxonomy__list">
         <% @consultation.taxonomy.tags.top_level.each do |tag| %>
