@@ -1,6 +1,6 @@
 require "csv"
-
 class CsvImportService
+  include ActionView::Helpers::TextHelper
   def initialize(file)
     @file = file
     @results = []
