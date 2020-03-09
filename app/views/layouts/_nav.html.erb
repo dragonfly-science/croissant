@@ -9,23 +9,25 @@
   <div class="collapse navbar-collapse" id="top-level-nav-target">
     <ul class="navbar-nav ml-auto">
       <% if current_user %>
-        <li class="nav-item active">
-          <span class='nav-link'><%= current_user.email %></span>
-        </li>
         <% if current_user.admin? || current_user.superadmin? %>
-          <li class="dropdown show nav-item active">
-            <a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Admin
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <%= link_to("Users", admin_users_path, class: "nav-link dropdown-item")%>
-              <%= link_to("Consultations", admin_consultations_path, class: "nav-link dropdown-item")%>
-            </div>
-          </li>
-
+        <li class="dropdown show nav-item active">
+          <a class="dropdown-toggle nav-link" href="#" role="button" id="adminMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Admin
+          </a>
+          <div class="dropdown-menu" aria-labelledby="adminMenuLink">
+            <%= link_to("Users", admin_users_path, class: "nav-link dropdown-item")%>
+            <%= link_to("Consultations", admin_consultations_path, class: "nav-link dropdown-item")%>
+          </div>
+        </li>
         <% end %>
-        <li class="nav-item active">
-          <%= link_to('Log out', destroy_user_session_path, method: 'DELETE', class: 'nav-link') %>
+        <li class="dropdown show nav-item active">
+          <a class='dropdown-toggle nav-link' href="#" role="button" id="accountMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= current_user.email %>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="accountMenuLink">
+            <%= link_to('Change password', edit_user_registration_path, class: 'nav-link') %>
+            <%= link_to('Log out', destroy_user_session_path, method: 'DELETE', class: 'nav-link') %>
+          </div>
         </li>
       <% else %>
         <li class="nav-item active">
