@@ -5,7 +5,7 @@
 
 <section class="col list-group">
   <%= render partial: "tags/form", locals: {tag: Tag.new, taxonomy: @taxonomy} %>
-  <% @taxonomy.tags.top_level.each do |tag| %>
+  <% @taxonomy.tags.top_level.number_order.each do |tag| %>
     <div class="row align-items-start">
       <%= render partial: tag, locals: { tag_colour: tag.colour_number } %>
     </div>

@@ -27,7 +27,7 @@
     <div id="tag_error_explanation"></div>
     <div class="submission-taxonomy__list-container">
       <ul class="list-group list-unstyled submission-taxonomy__list">
-        <% @consultation.taxonomy.tags.top_level.each do |tag| %>
+        <% @consultation.taxonomy.tags.top_level.number_order.each do |tag| %>
         <%= render partial: "submission_tag", locals: { tag: tag, tag_colour: tag.colour_number } %>
         <% end %>
       </ul>

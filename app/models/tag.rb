@@ -15,7 +15,7 @@ class Tag < ApplicationRecord
   validates :number, uniqueness: { scope: %i[taxonomy parent_id] }
 
   scope :top_level, -> { where(parent_id: nil) }
-  scope :number_order, -> { order(:full_number) }
+  scope :number_order, -> { order(Arel.sql("string_to_array(full_number, '.')::int[]")) }
 
   def deletable?
     submissions.none?
