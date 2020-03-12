@@ -6,7 +6,7 @@ class Submission < ApplicationRecord
                        high_relevance_stakeholder age_bracket ethnicity gender].freeze
 
   SUBMITTER_TYPES = %w[individual group].freeze
-  SUBMISSION_FILE_TYPES = %w[application/pdf application/msword
+  SUBMISSION_FILE_TYPES = %w[application/pdf application/msword text/plain
                              application/vnd.openxmlformats-officedocument.wordprocessingml.document].freeze
 
   STATES = %i[incoming ready started finished archived].freeze

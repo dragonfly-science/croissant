@@ -18,6 +18,8 @@ gem "paper_trail" # audit log
 gem "loaf" # breadcrumbs
 gem "kaminari" # pagination
 
+gem "charlock_holmes" # encoding detection
+
 gem "activestorage-validator"
 gem "image_processing", "~> 1.0"
 gem "pdf-reader"

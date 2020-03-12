@@ -112,6 +112,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
+    charlock_holmes (0.7.7)
     childprocess (3.0.0)
     coderay (1.1.2)
     coercible (1.0.0)
@@ -395,6 +396,7 @@ DEPENDENCIES
   brakeman
   bundler-audit
   capybara (>= 2.15)
+  charlock_holmes
   devise
   dotenv-rails
   factory_bot_rails

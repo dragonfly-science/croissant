@@ -9,6 +9,14 @@ RSpec.describe Submission, type: :model do
       expect(submission.raw_text).to eq("Text on page 1")
     end
   end
+  context "for a txt upload" do
+    let(:file) { Rack::Test::UploadedFile.new("spec/support/example_files/short.txt", "text/plain") }
+    it "adds the text with the right encoding" do
+      submission = FactoryBot.create(:submission, file: file)
+      submission.file.analyze
+      expect(submission.raw_text).to include("kākāpō")
+    end
+  end
   it "only allows processing if there is text" do
     submission = FactoryBot.create(:submission, file: file)
     expect(submission.can_process?).to eq(false)
