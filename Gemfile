@@ -17,7 +17,7 @@ gem "pundit"
 gem "paper_trail" # audit log
 gem "loaf" # breadcrumbs
 gem "kaminari" # pagination
-
+gem "docx" # reading .docx files
 gem "charlock_holmes" # encoding detection
 
 gem "activestorage-validator"

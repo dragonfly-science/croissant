@@ -17,6 +17,17 @@ RSpec.describe Submission, type: :model do
       expect(submission.raw_text).to include("kākāpō")
     end
   end
+  context "for a docx upload" do
+    let(:file) do
+      Rack::Test::UploadedFile.new("spec/support/example_files/single-page.docx",
+                                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+    end
+    it "adds the text with the right encoding" do
+      submission = FactoryBot.create(:submission, file: file)
+      submission.file.analyze
+      expect(submission.raw_text).to eq("Text on page 1")
+    end
+  end
   it "only allows processing if there is text" do
     submission = FactoryBot.create(:submission, file: file)
     expect(submission.can_process?).to eq(false)
