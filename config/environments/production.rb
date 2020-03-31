@@ -89,6 +89,9 @@ Rails.application.configure do
       protocol: ENV["DEFAULT_URL_PROTOCOL"]
     }
     config.action_mailer.asset_host = ENV["MAILER_ASSET_HOST"]
+    config.action_mailer.default_options = {
+      from: ENV["MAIL_FROM"]
+    }
   end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
