@@ -2,6 +2,7 @@ class Consultation < ApplicationRecord
   has_paper_trail
   has_one :taxonomy, dependent: :destroy
   has_many :submissions, dependent: :destroy
+  has_many :surveys, dependent: :destroy
 
   has_many :consultation_users, dependent: :destroy
   has_many :users, through: :consultation_users

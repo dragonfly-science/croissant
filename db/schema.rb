@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_27_232102) do
+ActiveRecord::Schema.define(version: 2020_06_02_040823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,7 +86,6 @@ ActiveRecord::Schema.define(version: 2020_02_27_232102) do
     t.string "query_type"
     t.string "anonymise"
     t.string "submitter_type"
-    t.string "file_hash"
     t.boolean "exemplar"
     t.boolean "maori_perspective"
     t.boolean "pacific_perspective"
@@ -95,7 +94,36 @@ ActiveRecord::Schema.define(version: 2020_02_27_232102) do
     t.string "age_bracket"
     t.string "ethnicity"
     t.string "gender"
+    t.string "file_hash"
+    t.bigint "survey_id"
     t.index ["consultation_id"], name: "index_submissions_on_consultation_id"
+    t.index ["survey_id"], name: "index_submissions_on_survey_id"
+  end
+
+  create_table "survey_answers", force: :cascade do |t|
+    t.bigint "survey_question_id", null: false
+    t.bigint "submission_id", null: false
+    t.text "answer", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["submission_id"], name: "index_survey_answers_on_submission_id"
+    t.index ["survey_question_id"], name: "index_survey_answers_on_survey_question_id"
+  end
+
+  create_table "survey_questions", force: :cascade do |t|
+    t.bigint "survey_id", null: false
+    t.text "question", null: false
+    t.string "token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["survey_id"], name: "index_survey_questions_on_survey_id"
+  end
+
+  create_table "surveys", force: :cascade do |t|
+    t.bigint "consultation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["consultation_id"], name: "index_surveys_on_consultation_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -146,6 +174,11 @@ ActiveRecord::Schema.define(version: 2020_02_27_232102) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "submission_tags", "users", column: "tagger_id"
   add_foreign_key "submissions", "consultations"
+  add_foreign_key "submissions", "surveys"
+  add_foreign_key "survey_answers", "submissions"
+  add_foreign_key "survey_answers", "survey_questions"
+  add_foreign_key "survey_questions", "surveys"
+  add_foreign_key "surveys", "consultations"
   add_foreign_key "tags", "taxonomies"
   add_foreign_key "taxonomies", "consultations"
 end

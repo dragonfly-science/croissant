@@ -12,9 +12,11 @@ class Submission < ApplicationRecord
   STATES = %i[incoming ready started finished archived].freeze
 
   belongs_to :consultation
+  belongs_to :survey, optional: true
   has_one_attached :file
   has_many :submission_tags, dependent: :destroy
   has_many :tags, through: :submission_tags
+  has_many :survey_answers, dependent: :destroy
 
   validates :file, blob: {
     content_type: SUBMISSION_FILE_TYPES

@@ -12,5 +12,8 @@ FactoryBot.define do
       text { "Taggable submission text" }
       state { :finished }
     end
+    trait :with_survey do
+      survey
+    end
   end
 end
