@@ -49,7 +49,7 @@ RSpec.describe SubmissionFilter do
   context "filtering submissions by multiple states" do
     let(:params) { { state: %w[started finished] } }
     it "finds submissions with matching state only" do
-      expect(subject.filter.to_a).to eq([started_submission, finished_submission])
+      expect(subject.filter.to_a).to contain_exactly(started_submission, finished_submission)
     end
   end
   context "multiple filters" do
