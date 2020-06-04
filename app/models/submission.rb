@@ -96,6 +96,16 @@ class Submission < ApplicationRecord
     file.filename if file.attached?
   end
 
+  def concatenate_answers
+    all_concatenated_qas = ""
+    survey_answers.each do |answer|
+      all_concatenated_qas << answer.concatenate_with_question
+    end
+
+    self.text = all_concatenated_qas
+    save!
+  end
+
   private
 
   def remove_forced_carriage_returns_from_text

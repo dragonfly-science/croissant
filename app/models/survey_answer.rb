@@ -5,4 +5,8 @@ class SurveyAnswer < ApplicationRecord
   belongs_to :submission
 
   validates :answer, presence: true
+
+  def concatenate_with_question
+    "****#{survey_question.token}****#{answer}\n"
+  end
 end

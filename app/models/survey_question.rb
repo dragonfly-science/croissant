@@ -1,7 +1,6 @@
 class SurveyQuestion < ApplicationRecord
-  has_paper_trail
-
   after_create :populate_question_token
+  has_paper_trail
 
   belongs_to :survey
   has_many :survey_answers, dependent: :destroy
@@ -10,5 +9,6 @@ class SurveyQuestion < ApplicationRecord
 
   def populate_question_token
     self.token = "SQ_#{survey_id}_#{id}"
+    save!
   end
 end
