@@ -13,7 +13,7 @@ RSpec.feature "Consultations index page", js: true do
 
   it "renders consultation names and types" do
     expect(page).to have_content(consultations.first.name)
-    expect(page).to have_content(consultations.first.consultation_type)
+    expect(page).to have_content(consultations.first.consultation_type.capitalize)
   end
 
   it "renders links to each consultations show page" do

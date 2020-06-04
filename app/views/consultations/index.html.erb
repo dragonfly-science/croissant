@@ -1,9 +1,9 @@
 <h1>Select a consultation</h1>
 <% if policy(Consultation).new? %>
-  <%= link_to 'or add a new consultation', new_consultation_path %>
+  <%= link_to 'Add a new consultation', new_consultation_path, class: "btn btn-primary mb-3" %>
 <% end %>
 <% if current_user.superadmin? || current_user.consultation_admin? %>
-  <%= link_to 'Manage Consultations', admin_consultations_path, class: "btn btn-primary float-right mb-3" %>
+  <%= link_to 'Manage consultations', admin_consultations_path, class: "btn-secondary btn float-right mb-3" %>
 <% end %>
 <table class="table table-striped">
   <th>Name</th>
@@ -12,7 +12,7 @@
   <% @consultations.each do |consultation| %>
     <tr>
       <td><%= link_to consultation.name, consultation_submissions_path(consultation) %></td>
-      <td><%= consultation.consultation_type %></td>
+      <td class="text-capitalize"><%= consultation.consultation_type %></td>
       <td><%= consultation.description %></td>
     </tr>
   <% end %>
