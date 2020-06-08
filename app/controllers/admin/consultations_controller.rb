@@ -1,7 +1,7 @@
 module Admin
   class ConsultationsController < AdminController
     before_action :find_consultation, only: %i[edit update archive restore]
-    breadcrumb "Admin", :root_path
+    breadcrumb "Manage", :root_path
     breadcrumb "Consultations", :admin_consultations_path, match: :exclusive
 
     def index

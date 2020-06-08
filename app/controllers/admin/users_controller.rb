@@ -1,7 +1,7 @@
 module Admin
   class UsersController < AdminController
     before_action :find_user, except: %i[index search]
-    breadcrumb "Admin", :root_path
+    breadcrumb "Manage", :root_path
     breadcrumb "Users", :admin_users_path, match: :exclusive
 
     def index

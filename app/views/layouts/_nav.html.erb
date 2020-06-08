@@ -12,7 +12,7 @@
         <% if current_user.admin? || current_user.superadmin? %>
         <li class="dropdown show nav-item active">
           <a class="dropdown-toggle nav-link" href="#" role="button" id="adminMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Admin
+            Manage
           </a>
           <div class="dropdown-menu" aria-labelledby="adminMenuLink">
             <%= link_to("Users", admin_users_path, class: "nav-link dropdown-item")%>

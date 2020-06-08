@@ -1,8 +1,13 @@
 <%= bootstrap_form_with(model: @submission, url: @submission, local: true) do |form| %>
   <%= render "shared/error_messages", resource: @submission %>
 
-  <h2>Process submission</h2>
+  <h1>Submission details</h1>
   <section>
+    <div class="row">
+      <div class="col">
+        <%= link_to 'Back', consultation_submissions_path(@submission.consultation), class: "btn btn-sm btn-outline-secondary" %>
+      </div>
+    </div>
     <div class="row">
       <div class="col col-3">
         <h3>Metadata</h3>
