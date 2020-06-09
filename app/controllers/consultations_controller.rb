@@ -29,7 +29,7 @@ class ConsultationsController < ApplicationController
     end
   end
 
-  def export # rubocop:disable Metrics/MethodLength
+  def export # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
     authorize @consultation
     respond_to do |format|
       format.csv do
@@ -40,6 +40,8 @@ class ConsultationsController < ApplicationController
           exporter = SubmissionTagExporter.new(@consultation)
         when "submissions"
           exporter = SubmissionMetadataExporter.new(@consultation)
+        when "survey_questions"
+          exporter = SurveyQuestionExporter.new(@consultation)
         else
           fail ActionController::BadRequest
         end
