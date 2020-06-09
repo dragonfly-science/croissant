@@ -16,6 +16,7 @@ class SubmissionMetadataExporter < CsvExportService
       CsvExportColumn.new(:submission_id, :id),
       CsvExportColumn.new(:filename, :filename),
       CsvExportColumn.new(:part_number, :part_number),
+      CsvExportColumn.new(:survey_id, :survey_id),
       CsvExportColumn.new(:text, :text),
       CsvExportColumn.new(:state, :state),
       CsvExportColumn.new(:loaded_by, "")

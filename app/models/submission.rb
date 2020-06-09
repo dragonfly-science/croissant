@@ -106,6 +106,10 @@ class Submission < ApplicationRecord
     save!
   end
 
+  def survey_id
+    survey&.id
+  end
+
   private
 
   def remove_forced_carriage_returns_from_text
