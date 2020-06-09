@@ -1,12 +1,8 @@
-<div class="row export-import">
-  <div class="col export-import__export p-4 justify-content-end">
-    <%= link_to('⤴️ Export', consultation_export_path(taxonomy.consultation, type: 'taxonomy', format: :csv), class: 'btn btn-info btn-block') %>
-  </div>
-  <div class="col export-import__import p-4 justify-content-end">
-    <button type="button" class="btn btn-block btn-info" data-toggle="modal" data-target="#upload_taxonomy_modal">
-      ⤵️ Import
-    </button>
-  </div>
+<div>
+  <%= link_to('⤴️ Export', consultation_export_path(taxonomy.consultation, type: 'taxonomy', format: :csv), class: 'btn btn-info') %>
+  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#upload_taxonomy_modal">
+    ⤵️ Import
+  </button>
 </div>
 <div class="modal fade" id="upload_taxonomy_modal">
   <div class="modal-dialog" role="document">

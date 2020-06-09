@@ -3,11 +3,13 @@
 </h2>
 <%= render partial: "export_import", locals: { taxonomy: @taxonomy } %>
 
+<div>
 <section class="col list-group">
   <%= render partial: "tags/form", locals: {tag: Tag.new, taxonomy: @taxonomy} %>
   <% @taxonomy.tags.top_level.number_order.each do |tag| %>
-    <div class="row align-items-start">
+    <div class="row align-items-start ml-0">
       <%= render partial: tag, locals: { tag_colour: tag.colour_number } %>
     </div>
   <% end %>
 </section>
+</div>
