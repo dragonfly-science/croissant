@@ -1,8 +1,6 @@
 <h1><%= @consultation.name %></h1>
-<p>Export:</p>
-<ul>
-  <li><%= link_to('Taxonomy', consultation_export_path(@consultation, type: 'taxonomy', format: :csv)) %></li>
-  <li><%= link_to('Submissions', consultation_export_path(@consultation, type: 'submissions', format: :csv)) %></li>
-  <li><%= link_to('Tags', consultation_export_path(@consultation, type: 'tags', format: :csv)) %></li>
-  <li><%= link_to('Survey Questions', consultation_export_path(@consultation, type: 'survey_questions', format: :csv)) %></li>
-</ul>
+<p>The following are available to download as CSV files:</p>
+  <%= link_to('Taxonomy ⤵️', consultation_export_path(@consultation, type: 'taxonomy', format: :csv), class: 'btn btn-info') %>
+  <%= link_to('Submissions ⤵️', consultation_export_path(@consultation, type: 'submissions', format: :csv), class: 'btn btn-info') %>
+  <%= link_to('Tags ⤵️', consultation_export_path(@consultation, type: 'tags', format: :csv), class: 'btn btn-info') %>
+  <%= link_to('Survey Questions ⤵️', consultation_export_path(@consultation, type: 'survey_questions', format: :csv), class: 'btn btn-info') %>
