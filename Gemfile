@@ -32,6 +32,8 @@ gem "rack-canonical-host", "~> 0.2.3"
 
 gem "bootstrap_form", "~> 4.0"
 
+gem "roo", "~> 2.8.0" # xlsx converter
+
 group :development do
   gem "bundler-audit", require: false
   gem "brakeman", require: false

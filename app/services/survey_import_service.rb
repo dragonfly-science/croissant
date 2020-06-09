@@ -1,4 +1,6 @@
 require "csv"
+require "roo"
+
 class SurveyImportService < CsvImportService
   def initialize(file, consultation)
     @file = file
@@ -23,9 +25,9 @@ class SurveyImportService < CsvImportService
       # create a survey for the file
       survey = create_survey
       # create a survey question for each header
-      create_survey_questions(survey, headers)
+      questions = create_survey_questions(survey, headers)
       # create a submission for each row
-      create_submission_and_answers(survey)
+      create_submission_and_answers(survey, questions)
     end
   end
 
@@ -40,9 +42,11 @@ class SurveyImportService < CsvImportService
   end
 
   def create_survey_questions(survey, headers)
+    questions = []
     headers.each do |header|
-      create_survey_question(survey, header)
+      questions << create_survey_question(survey, header)
     end
+    questions
   end
 
   def create_survey_question(survey, question)
@@ -54,25 +58,27 @@ class SurveyImportService < CsvImportService
     end
   end
 
-  def create_submission_and_answers(survey) # rubocop:disable Metrics/MethodLength
-    q_a_pairs = []
+  def create_submission_and_answers(survey, questions) # rubocop:disable Metrics/MethodLength
     submission = nil
-    csv.each do |row|
-      headers.each do |header|
-        answer = row.fetch(header)
-        question = survey.survey_questions.find_by(question: header)
 
-        q_a_pairs << { answer: answer, survey_question: question }
+    @csv.each do |row|
+      q_a_pairs = []
+
+      questions.each do |sq|
+        answer = row.fetch(sq.question)
+        next if answer.nil?
+
+        q_a_pairs << { answer: answer, survey_question: sq }
       end
 
       submission = create_submission(survey)
-    end
 
-    # create a survey answer for each row and question
-    q_a_pairs.each do |pair|
-      create_survey_answer(pair[:answer], pair[:survey_question], submission)
+      q_a_pairs.each do |pair|
+        create_survey_answer(pair[:answer], pair[:survey_question], submission)
+      end
+
+      submission.concatenate_answers
     end
-    submission.concatenate_answers
   end
 
   def create_submission(survey)
@@ -104,8 +110,22 @@ class SurveyImportService < CsvImportService
 
   private
 
-  # TODO: convert xlsx files to CSV
   def csv
+    if @file.content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      csv_filepath = xlsx_to_csv(@file)
+      @csv ||= CSV.read(csv_filepath, headers: true)
+    end
+
     @csv ||= CSV.read(@file.open, headers: true)
+  end
+
+  def xlsx_to_csv(file)
+    csv_filename = File.basename(file.original_filename, File.extname(file))
+
+    xlsx = Roo::Spreadsheet.open(file)
+    xlsx.parse(clean: true)
+    xlsx.to_csv("./tmp/#{csv_filename}.csv")
+
+    Rails.root.join("tmp/#{csv_filename}.csv")
   end
 end
