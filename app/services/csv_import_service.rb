@@ -85,7 +85,11 @@ class CsvImportService
   private
 
   def csv
-    @csv ||= CSV.read(@file.open, headers: true)
+    @csv ||= CSV.read(@file.open, headers: true, encoding: detected_encoding[:encoding])
+  end
+
+  def detected_encoding
+    CharlockHolmes::EncodingDetector.detect(@file.read)
   end
 
   def headers

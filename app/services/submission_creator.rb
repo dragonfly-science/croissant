@@ -48,8 +48,10 @@ class SubmissionCreator
     notice = ""
     notice += "Successfully created #{pluralize(successful.length, "submission")}." if @successful.any?
     notice += "Failed creating #{pluralize(unsuccessful.length, "submission")}:" if @unsuccessful.any?
-    @unsuccessful.each do |result|
-      notice += result.formatted_error_messages
+    if @unsuccessful.length <= 20
+      @unsuccessful.each do |result|
+        notice += result.formatted_error_messages
+      end
     end
     notice
   end

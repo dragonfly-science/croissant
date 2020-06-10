@@ -20,16 +20,13 @@ class SubmissionCsvUpload < CsvImportService
   end
 
   def import!
-    results = []
     @incomplete_rows = []
 
     csv.each do |row|
-      results << submission_from_rows(@incomplete_rows) if @incomplete_rows.any? && row["part_number"].to_i <= 1
+      @results << submission_from_rows(@incomplete_rows) if @incomplete_rows.any? && row["part_number"].to_i <= 1
       @incomplete_rows << row
     end
-    results << submission_from_rows(@incomplete_rows)
-
-    @results
+    @results << submission_from_rows(@incomplete_rows)
   end
 
   def submission_from_rows(rows)
