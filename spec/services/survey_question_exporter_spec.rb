@@ -27,4 +27,14 @@ RSpec.describe SurveyQuestionExporter do
   it "includes the date and consultation name in the filename" do
     expect(subject.filename).to eq("#{Time.zone.today.iso8601}-test-consultation-survey-questions.csv")
   end
+
+  context "when the question contains a comma" do
+    it "adds '' around the question" do
+      survey_question_3 = FactoryBot.create(:survey_question,
+                                            survey: survey_1,
+                                            question: "Do you like questions with, commas?")
+      csv = subject.export
+      expect(csv).to include("#{survey_1.id},\"#{survey_question_3.question}\",#{survey_question_3.token}")
+    end
+  end
 end
