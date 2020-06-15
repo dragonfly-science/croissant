@@ -1,7 +1,7 @@
 <div>
-  <%= link_to('⤴️ Export', consultation_export_path(taxonomy.consultation, type: 'taxonomy', format: :csv), class: 'btn btn-info') %>
+  <%= link_to('Export ⤵️', consultation_export_path(taxonomy.consultation, type: 'taxonomy', format: :csv), class: 'btn btn-info') %>
   <button type="button" class="btn btn-info" data-toggle="modal" data-target="#upload_taxonomy_modal">
-    ⤵️ Import
+    Import ⤴️
   </button>
 </div>
 <div class="modal fade" id="upload_taxonomy_modal">
