@@ -30,7 +30,15 @@ class Submission < ApplicationRecord
 
   scope :active, -> { where.not(state: "archived") }
   scope :search_by_filename, lambda { |query|
-    joins(file_attachment: :blob).where("active_storage_blobs.filename ILIKE ?", "%#{query}%")
+    Submission
+      .left_outer_joins(
+        survey: [original_file_attachment: :blob],
+        file_attachment: :blob
+      ).where(
+        "active_storage_blobs.filename ILIKE :query OR "\
+        "blobs_active_storage_attachments.filename ILIKE :query",
+        query: "%#{query}%"
+      )
   }
 
   state_machine :state, initial: :incoming do
@@ -89,10 +97,14 @@ class Submission < ApplicationRecord
   end
 
   def title
+    return survey.filename if survey && survey.filename
+
     file.attached? ? filename : id
   end
 
   def filename
+    return survey.filename if survey && survey.filename
+
     file.filename if file.attached?
   end
 

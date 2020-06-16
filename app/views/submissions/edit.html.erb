@@ -17,6 +17,12 @@
             <%= link_to @submission.file.filename, rails_blob_path(@submission.file, disposition: 'attachment') %>
           </div>
         <% end %>
+        <% if @submission.survey&.original_file&.attached? %>
+          <div class="pb-4">
+            <label>Original file</label>
+            <%= link_to @submission.filename, rails_blob_path(@submission.survey.original_file, disposition: 'attachment') %>
+          </div>
+        <% end %>
         <%= form.text_field :description %>
         <%= form.datetime_field :submitted_at %>
         <%= form.select :submitter_type, Submission::SUBMITTER_TYPES, include_blank: true %>

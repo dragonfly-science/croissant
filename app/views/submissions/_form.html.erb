@@ -17,7 +17,8 @@
       <%= bootstrap_form_with(model: submission, url: [@consultation, submission], local: true) do |form| %>
         <%= render "shared/error_messages", resource: submission %>
         <div class="lead">
-          <p>Select one or more files to add new submissions. Files should be either:</p>
+          <p>Select one or more files to add new submissions.</p>
+          <p>Files should be either:</p>
           <ul>
             <li>CSVs in the same format as the export CSV (one submission per row)</li>
             <li>PDF, DOCX or TXT files (one submission per file)</li>

@@ -30,7 +30,7 @@ RSpec.describe SubmissionMetadataExporter do
 
   it "includes the full number, name and ID for each tag" do
     csv = subject.export
-    expect(csv).to include("#{submission1.id},00988_Anonymous.pdf,1,#{survey.id},"\
+    expect(csv).to include("#{submission1.id},#{submission1.filename},1,#{survey.id},"\
                            "#{submission1.text},#{submission1.state},\"\",")
     expect(csv).to include("#{submission2.id},00988_Anonymous.pdf,1,\"\","\
                            "#{submission2.text},#{submission2.state},\"\",")

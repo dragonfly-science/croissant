@@ -1,7 +1,9 @@
 require "csv"
 require "roo"
 
-class SurveyImportService < CsvImportService
+class SurveyImportService < CsvImportService # rubocop:disable Metrics/ClassLength
+  attr_accessor :notice
+
   def initialize(file, consultation)
     @file = file
     @consultation = consultation
@@ -21,19 +23,26 @@ class SurveyImportService < CsvImportService
   end
 
   def import!
-    ActiveRecord::Base.transaction do
-      # create a survey for the file
-      survey = create_survey
-      # create a survey question for each header
-      questions = create_survey_questions(survey, headers)
-      # create a submission for each row
-      create_submission_and_answers(survey, questions)
+    begin
+      ActiveRecord::Base.transaction do
+        # create a survey for the file
+        survey = create_survey
+        # create a survey question for each header
+        questions = create_survey_questions(survey, headers)
+        # create a submission for each row
+        create_submission_and_answers(survey, questions)
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      @errors << e.message
     end
+
+    @notice = message_for_result
   end
 
   def create_survey
     survey = Survey.new(consultation: @consultation)
-    survey.original_file.attach(@file)
+
+    survey.original_file.attach(@file.blob)
     if survey.save!
       survey
     else
@@ -43,7 +52,8 @@ class SurveyImportService < CsvImportService
 
   def create_survey_questions(survey, headers)
     questions = []
-    headers.each do |header|
+
+    headers.reject(&:nil?).each do |header|
       questions << create_survey_question(survey, header)
     end
     questions
@@ -113,19 +123,28 @@ class SurveyImportService < CsvImportService
   def csv
     if @file.content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       csv_filepath = xlsx_to_csv(@file)
-      @csv ||= CSV.read(csv_filepath, headers: true)
+      @csv = CSV.read(csv_filepath, headers: true)
+    else
+      @csv = CSV.parse(@file.download, headers: true)
     end
-
-    @csv ||= CSV.read(@file.open, headers: true)
   end
 
   def xlsx_to_csv(file)
-    csv_filename = File.basename(file.original_filename, File.extname(file))
+    csv_filename = File.basename(file.filename.to_s, File.extname(file.filename.to_s))
 
-    xlsx = Roo::Spreadsheet.open(file)
+    path = ActiveStorage::Blob.service.send(:path_for, file.key)
+    xlsx = Roo::Spreadsheet.open(path, extension: "xlsx")
     xlsx.parse(clean: true)
     xlsx.to_csv("./tmp/#{csv_filename}.csv")
 
     Rails.root.join("tmp/#{csv_filename}.csv")
+  end
+
+  def message_for_result
+    @notice = if @errors.empty?
+                "Successfully uploaded survey"
+              else
+                @errors
+              end
   end
 end

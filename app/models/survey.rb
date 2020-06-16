@@ -12,4 +12,10 @@ class Survey < ApplicationRecord
   validates :original_file, blob: {
     content_type: SURVEY_FILE_TYPES
   }
+
+  def filename
+    return original_file.filename if original_file&.attached?
+
+    nil
+  end
 end

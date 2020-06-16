@@ -3,6 +3,9 @@
   <%= render 'form', submission: Submission.new %>
 </section>
 <section class="pb-4">
+  <%= render 'surveys/form', survey: Survey.new %>
+</section>
+<section class="pb-4">
   <%= render 'filter', filter: @filter %>
 </section>
 <section class="pb-4">
@@ -12,6 +15,7 @@
       <tr>
         <th>ID</th>
         <th>Metadata</th>
+        <th>Survey ID</th>
         <th>State</th>
         <th class="text-right">Actions</th>
         <th></th>
@@ -25,6 +29,7 @@
           <td>
             <%= render partial: 'metadata', locals: { submission: submission } %>
           </td>
+          <td><%= submission&.survey&.id %></td>
           <td>
             <p><%= t("submission.state.#{submission.state}") %></p>
             <% unless submission.incoming? || submission.ready? %>

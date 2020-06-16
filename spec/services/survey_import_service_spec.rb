@@ -1,16 +1,24 @@
 require "rails_helper"
 
 RSpec.describe SurveyImportService do
-  let!(:consultation) { FactoryBot.create(:consultation) }
-  let!(:file_csv) { Rack::Test::UploadedFile.new("spec/support/example_files/survey_upload.csv", "text/csv") }
+  let!(:survey_import_1) { FactoryBot.create(:survey_import) }
+
   let!(:file_csv_2) { Rack::Test::UploadedFile.new("spec/support/example_files/survey_upload_2.csv", "text/csv") }
+  let!(:survey_import_2) do
+    FactoryBot.create(:survey_import, consultation: survey_import_1.consultation, file: file_csv_2)
+  end
+
   let!(:file_xlsx) do
     Rack::Test::UploadedFile.new("spec/support/example_files/ex_xlxs.xlsx",
                                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
   end
 
+  let!(:survey_import_3) do
+    FactoryBot.create(:survey_import, consultation: survey_import_1.consultation, file: file_xlsx)
+  end
+
   context "when the file is of type csv" do
-    subject { SurveyImportService.new(file_csv, consultation) }
+    subject { SurveyImportService.new(survey_import_1.file, survey_import_1.consultation) }
     it "is valid" do
       expect(subject.valid?).to eq(true)
     end
@@ -29,7 +37,7 @@ RSpec.describe SurveyImportService do
 
     it "creates submissions within the consultation" do
       subject.import!
-      expect(consultation.submissions.count).to eq(4)
+      expect(survey_import_1.consultation.submissions.count).to eq(4)
     end
 
     it "creates survey answers" do
@@ -38,7 +46,7 @@ RSpec.describe SurveyImportService do
 
     it "creates submissions with a concatenated question and answer as text" do
       subject.import!
-      expect(consultation.submissions.last.text).to include(
+      expect(survey_import_1.consultation.submissions.last.text).to include(
         "****SQ_#{Survey.last.id}_#{SurveyQuestion.first.id}****Nope\n")
     end
 
@@ -49,7 +57,7 @@ RSpec.describe SurveyImportService do
           expect(Survey.count).to eq(1)
           expect(SurveyAnswer.count).to eq(12)
           expect(Survey.last.survey_questions.first.question).to eq("question_1")
-          SurveyImportService.new(file_csv_2, consultation).import!
+          SurveyImportService.new(survey_import_2.file, survey_import_2.consultation).import!
           expect(Survey.count).to eq(2)
           expect(SurveyAnswer.count).to eq(13)
           expect(Survey.last.survey_questions.first.question).to eq("question_1")
@@ -59,7 +67,7 @@ RSpec.describe SurveyImportService do
   end
 
   context "when the file is of type xlsx" do
-    subject { SurveyImportService.new(file_xlsx, consultation) }
+    subject { SurveyImportService.new(survey_import_3.file, survey_import_3.consultation) }
 
     it "is valid" do
       expect(subject.valid?).to eq(true)
@@ -79,7 +87,7 @@ RSpec.describe SurveyImportService do
 
     it "creates submissions within the consultation" do
       subject.import!
-      expect(consultation.submissions.count).to eq(2)
+      expect(survey_import_3.consultation.submissions.count).to eq(2)
     end
 
     it "creates survey answers" do
@@ -88,7 +96,7 @@ RSpec.describe SurveyImportService do
 
     it "creates submissions with a concatenated question and answer as text" do
       subject.import!
-      expect(consultation.submissions.last.text).to include(
+      expect(survey_import_3.consultation.submissions.last.text).to include(
         "****SQ_#{Survey.last.id}_#{SurveyQuestion.first.id}****No\n")
     end
   end

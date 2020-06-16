@@ -3,6 +3,7 @@ class Consultation < ApplicationRecord
   has_one :taxonomy, dependent: :destroy
   has_many :submissions, dependent: :destroy
   has_many :surveys, dependent: :destroy
+  has_many :survey_imports, dependent: :destroy
 
   has_many :consultation_users, dependent: :destroy
   has_many :users, through: :consultation_users

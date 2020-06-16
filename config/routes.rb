@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :submissions, only: %i[index new create destroy] do
       get "/tag", to: "submissions#tag"
     end
+    resources :surveys, only: %i[new create]
     get "/export", to: "consultations#export"
     resources :submissions, only: %i[show edit update], shallow: true
   end
@@ -66,9 +67,9 @@ Rails.application.routes.draw do
   # If you want the Sidekiq web console in production environments you need to
   # put it behind some authentication first.
   #
-  if defined?(Sidekiq::Web) && Rails.env.development?
-    mount Sidekiq::Web => "/sidekiq" # Sidekiq monitoring console
+  if Rails.env.development?
     require "sidekiq/web"
+    mount Sidekiq::Web => "/sidekiq" # Sidekiq monitoring console
   end
 
   root "consultations#index"

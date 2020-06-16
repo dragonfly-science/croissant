@@ -27,6 +27,16 @@
         <%= image_tag @submission.file.preview(resize_to_limit:[200, 1200]), alt: 'Preview of file' %>
       <% end %>
     <% end %>
+    <% if @submission.survey&.original_file&.attached? %>
+      <dl>
+        <dt>Filename (Survey)</dt>
+        <dd><%= @submission.survey.original_file.filename %></dd>
+        <dd><%= link_to "Download", rails_blob_path(@submission.survey.original_file, disposition: 'attachment') %></dd>
+      </dl>
+      <% if @submission.survey.original_file.previewable? %>
+        <%= image_tag @submission.survey.original_file.preview(resize_to_limit:[200, 1200]), alt: 'Preview of file' %>
+      <% end %>
+    <% end %>
     <% if @submission.submission_tags.any? %>
       <section>
         <h3>Tags</h3>

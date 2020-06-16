@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_02_040823) do
+ActiveRecord::Schema.define(version: 2020_06_11_040052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,13 @@ ActiveRecord::Schema.define(version: 2020_06_02_040823) do
     t.index ["survey_question_id"], name: "index_survey_answers_on_survey_question_id"
   end
 
+  create_table "survey_imports", force: :cascade do |t|
+    t.bigint "consultation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["consultation_id"], name: "index_survey_imports_on_consultation_id"
+  end
+
   create_table "survey_questions", force: :cascade do |t|
     t.bigint "survey_id", null: false
     t.text "question", null: false
@@ -177,6 +184,7 @@ ActiveRecord::Schema.define(version: 2020_06_02_040823) do
   add_foreign_key "submissions", "surveys"
   add_foreign_key "survey_answers", "submissions"
   add_foreign_key "survey_answers", "survey_questions"
+  add_foreign_key "survey_imports", "consultations"
   add_foreign_key "survey_questions", "surveys"
   add_foreign_key "surveys", "consultations"
   add_foreign_key "tags", "taxonomies"

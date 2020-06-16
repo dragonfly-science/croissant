@@ -40,3 +40,6 @@ yarn-debug.log*
 /.envrc
 /config/master.key
 /.env
+
+# ignore rubocop diffs
+/.rubocop-https---bitbucket-org-rabidtech-rabid-dotfiles-raw-master--rubocop-yml

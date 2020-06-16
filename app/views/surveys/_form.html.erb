@@ -1,0 +1,39 @@
+<div class="card" id="form-container-survey">
+  <div class="card-header d-flex justify-content-between align-items-center"
+       id="headingSurvey"
+       data-toggle="collapse"
+       data-target="#survey-upload-body"
+       aria-expanded="false"
+       aria-controls="survey-upload-body">
+    <%= render partial: 'shared/plus_survey.svg' %>
+    <h5 class="mb-0">
+      Add new survey responses
+    </h5>
+    <div class="css-chevron"></div>
+  </div>
+  <div id="survey-upload-body" class="collapse"
+       aria-labelledby="headingSurvey" data-parent="#form-container-survey">
+    <div class="card-body">
+      <%= bootstrap_form_with(model: survey, url: [@consultation, survey], local: true) do |form| %>
+        <%= render "shared/error_messages", resource: survey %>
+        <div class="lead">
+          <p>Select a file to add a new survey response.</p>
+          <p>Files should be either:</p>
+          <ul>
+            <li>CSV</li>
+            <li>XLSX</li>
+          </ul>
+        </div>
+        <div class="row">
+          <div class="col col-sm-4">
+            <%= form.file_field :file, accept: survey_upload_file_types, hide_label: true %>
+          </div>
+        </div>
+
+        <div class="actions">
+          <%= form.submit "Upload" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
