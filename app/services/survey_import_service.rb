@@ -39,6 +39,8 @@ class SurveyImportService < CsvImportService # rubocop:disable Metrics/ClassLeng
     @notice = message_for_result
   end
 
+  private
+
   def create_survey
     survey = Survey.new(consultation: @consultation)
 
@@ -53,6 +55,12 @@ class SurveyImportService < CsvImportService # rubocop:disable Metrics/ClassLeng
   def create_survey_questions(survey, headers)
     questions = []
 
+    headers = combine_survey_monkey_headers(@csv.first) if survey_monkey?
+
+    create_questions_from_headers(headers, questions, survey)
+  end
+
+  def create_questions_from_headers(headers, questions, survey)
     headers.reject(&:nil?).each do |header|
       questions << create_survey_question(survey, header)
     end
@@ -68,18 +76,12 @@ class SurveyImportService < CsvImportService # rubocop:disable Metrics/ClassLeng
     end
   end
 
-  def create_submission_and_answers(survey, questions) # rubocop:disable Metrics/MethodLength
-    submission = nil
-
-    @csv.each do |row|
+  def create_submission_and_answers(survey, questions)
+    @csv.each_with_index do |row, index|
       q_a_pairs = []
+      next if survey_monkey? && index == 0
 
-      questions.each do |sq|
-        answer = row.fetch(sq.question)
-        next if answer.nil?
-
-        q_a_pairs << { answer: answer, survey_question: sq }
-      end
+      populate_q_a_pairs(row, questions, q_a_pairs)
 
       submission = create_submission(survey)
 
@@ -88,6 +90,15 @@ class SurveyImportService < CsvImportService # rubocop:disable Metrics/ClassLeng
       end
 
       submission.concatenate_answers
+    end
+  end
+
+  def populate_q_a_pairs(row, questions, q_a_pairs)
+    questions.each_with_index do |sq, sq_index|
+      answer = row.values_at(sq_index).first
+      next if answer.nil?
+
+      q_a_pairs << { answer: answer, survey_question: sq }
     end
   end
 
@@ -118,7 +129,30 @@ class SurveyImportService < CsvImportService # rubocop:disable Metrics/ClassLeng
     end
   end
 
-  private
+  def survey_monkey?
+    headers.include?("Respondent ID" && "Collector ID")
+  end
+
+  def combine_survey_monkey_headers(first_row_object)
+    current_header = ""
+
+    first_row_object.map do |col|
+      current_header = col.first if col.first
+      current_header = value_encode(current_header)
+
+      if col.last
+        second_header = col.last
+        second_header = value_encode(second_header)
+        "#{current_header} - #{second_header}"
+      else
+        current_header
+      end
+    end
+  end
+
+  def value_encode(value)
+    value.encode("UTF-8", "binary", invalid: :replace, undef: :replace, replace: "").force_encoding("utf-8")
+  end
 
   def csv
     if @file.content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
