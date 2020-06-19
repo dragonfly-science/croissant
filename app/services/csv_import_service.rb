@@ -106,6 +106,7 @@ class CsvImportService
     notices << "#{pluralized_items(updated_items.length)} updated" if updated_items.any?
     notices << "#{pluralized_items(created_items.length)} created" if created_items.any?
     notices << "No change to #{pluralized_items(unchanged_items.length)}" if unchanged_items.any?
+    notices
   end
   # rubocop:enable Metrics/AbcSize
 end
