@@ -1,4 +1,4 @@
-version: "2"
+version: "3.4"
 x-services:
   rails: &rails
     build: .
@@ -11,6 +11,7 @@ x-services:
       - bundle:/usr/local/bundle
       - node_modules:/usr/src/app/node_modules
       - .:/usr/src/app
+      - box:/box
     tty: true
     stdin_open: true
 services:
@@ -18,20 +19,31 @@ services:
     image: postgres
     volumes:
       - pgdata:/var/lib/postgresql
+    env_file:
+      - .env
   app:
     <<: *rails
     links:
       - db
-      - webpacker
+      # - webpacker
     environment:
       WEBPACKER_DEV_SERVER_HOST: webpacker
     ports:
       - "3000:3000"
-    command: "bash -c 'rm -rf tmp/pid/server.pid && rails s --binding 0.0.0.0'"
-  webpacker:
-    <<: *rails
-    command: "./bin/webpack-dev-server"
+    command: "bash -c '\
+      bundle check || bundle install && \
+      rm -rf tmp/pid/server.pid && \
+      bundle exec rails s --binding 0.0.0.0\
+      '"
+  # webpacker:
+  #   <<: *rails
+  #   command: "./bin/webpack-dev-server"
+  box:
+    image: busybox
+    volumes:
+      - /box
 volumes:
   pgdata:
   bundle:
   node_modules:
+  box:

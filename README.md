@@ -72,3 +72,34 @@ bundle exec sidekiq
 bundle exec rspec spec
 npm run lighthouse-spec
 ```
+
+## Docker
+
+### Build the containers
+
+```zsh
+docker-compose
+```
+
+### Prime the database
+
+Create a new `POSTGRES_PASSWORD` in `.env`, the first time the container is
+started it will assign this password to the PostgreSQL database.
+
+Add this same password in `database.yml`
+
+### Run the setup script
+
+```zsh
+docker-compose run app bin/setup
+```
+
+### Whitelist yourself
+
+```zsh
+docker-compose up
+```
+
+Visit http://localhost:3000
+
+Copy `config.hosts << "xxxxxx"` to `development.rb`

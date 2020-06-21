@@ -1,14 +1,13 @@
 # Pull from the latest Ruby version
 # We don't use slim or alpine variants as we invariably need build tooling, which
 # the base image includes for us.
-FROM ruby
+FROM ruby:2.7
 
 # Avoid issues with file encoding in Ruby by setting these two environment variables
 # This tells the underlying OS to expect UTF-8 encoding (e.g. UTF-8 encoding in the US language)
 ENV LANG=C \
     LC_ALL=C.UTF-8 \
     PORT=3000
-
 
 # Curl is installed to make it possible to set up PPAs below - it is
 # removed further down.
@@ -27,7 +26,7 @@ RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable 
 # We also clean out system files we don't need to reduce image size:
 #   * /usr/share/man - manual pages
 #   * /usr/share/locales - we don't need to support multiple languages at the OS level
-#   * /var/cache/apt/arhives - we don't need to hold onto deb packages once they're installed
+#   * /var/cache/apt/archives - we don't need to hold onto deb packages once they're installed
 RUN apt-get update -qq &&\
     apt-get upgrade -y &&\
     apt-get install -y google-chrome-stable libpq-dev nodejs --no-install-recommends &&\
@@ -50,16 +49,15 @@ RUN mkdir -p /usr/src/app/node_modules
 
 # Create a non-privileged deploy user, and add all application code as this user.
 RUN adduser --disabled-password --gecos "" deploy && chown -R deploy:deploy /usr/src/app
-VOLUME /usr/src/app/node_modules
-VOLUME /usr/local/bundle
+# VOLUME /usr/src/app/node_modules
+# VOLUME /usr/local/bundle
 USER deploy
 
 # Add just the dependency manifests before installing.
 # This reduces the chance that bundler or NPM will get a cold cache because some kind of application file changed.
-ADD Gemfile* package.json yarn.lock /usr/src/app/
+ADD .ruby-version Gemfile* package.json yarn.lock /usr/src/app/
 WORKDIR /usr/src/app
-RUN bundle check || bundle install &&\
-    yarn check || yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile
 
 # Add all application code to /usr/src/app and set this as the working directory
 # of the container
