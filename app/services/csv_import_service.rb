@@ -1,6 +1,18 @@
 require "csv"
 class CsvImportService
   include ActionView::Helpers::TextHelper
+  # CSV file uploads may come in many different MIME types
+  # https://christianwood.net/csv-file-upload-validation/#tldr
+  VALID_FILE_TYPES = %i[text/plain
+                        text/x-csv
+                        application/vnd.ms-excel
+                        application/csv
+                        application/x-csv
+                        text/csv
+                        text/comma-separated-values
+                        text/x-comma-separated-values
+                        text/tab-separated-values].freeze
+
   def initialize(file)
     @file = file
     @results = []
@@ -42,7 +54,7 @@ class CsvImportService
   end
 
   def validity_errors
-    return ["Wrong format"] unless @file && @file.content_type == "text/csv"
+    return ["Wrong format"] unless @file && VALID_FILE_TYPES.include?(@file.content_type)
 
     error_list = []
     error_list << "Wrong headers" unless contains_expected_headers? && only_contains_expected_or_optional_headers?
