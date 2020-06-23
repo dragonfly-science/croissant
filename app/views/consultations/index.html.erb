@@ -1,6 +1,6 @@
-<h1>Select a consultation</h1>
+<h1>Consultations</h1>
 <% if policy(Consultation).new? %>
-  <%= link_to 'Add a new consultation', new_consultation_path, class: "btn btn-primary mb-3" %>
+  <%= link_to 'New consultation', new_consultation_path, class: "btn btn-primary mb-3" %>
 <% end %>
 <% if current_user.superadmin? || current_user.consultation_admin? %>
   <%= link_to 'Manage consultations', admin_consultations_path, class: "btn-secondary btn float-right mb-3" %>

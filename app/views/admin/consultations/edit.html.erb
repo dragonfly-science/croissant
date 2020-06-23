@@ -1,25 +1,26 @@
 <%= render "shared/error_messages", resource: @consultation %>
-<h1>Edit <%= @consultation.name %></h1>
+<h1>Edit consultation</h1>
+<h2>Consultation details</h2>
 <%= render "consultations/form", url: ["admin", @consultation] %><br>
 
-<h1>Add users to consultation</h1>
+<h2>Add users to consultation</h2>
 <%= bootstrap_form_with(url: admin_search_users_path, class:"mb-3") do |f| %>
   <%= f.text_field :search, label: "Search for existing users by email",
-                            placeholder: "Enter a user email here", hide_label: true,
+                            placeholder: "User email", hide_label: true,
                             class: "col-8 d-inline align-middle", wrapper: false %>
   <%= f.hidden_field :consultation_id, value: @consultation.id %>
   <%= f.submit "Search", class: "btn btn-success col-2 align-middle"%>
 <% end %>
 <table class="table js-user-results-list"></table>
 
-<h1><%= @consultation.name %> users</h1>
+<h2>Users</h2>
 <table class="table js-consultation-user-table">
   <caption>List of users for <%= @consultation.name %></caption>
   <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">email</th>
-      <th scope="col">consultation role</th>
+      <th scope="col">role</th>
       <th scope="col">current state</th>
       <th></th>
     </tr>
