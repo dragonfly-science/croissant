@@ -3,7 +3,7 @@ class CsvImportService
   include ActionView::Helpers::TextHelper
   # CSV file uploads may come in many different MIME types
   # https://christianwood.net/csv-file-upload-validation/#tldr
-  VALID_FILE_TYPES = %i[text/plain
+  VALID_FILE_TYPES = %w[text/plain
                         text/x-csv
                         application/vnd.ms-excel
                         application/csv
