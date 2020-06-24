@@ -6,6 +6,15 @@
       Croissant
     </title>
 
+    <script>
+      var ua = window.navigator.userAgent;
+      var isIE = /MSIE|Trident/.test(ua) || window.document.documentMode;
+
+      if ( isIE ) {
+        alert("Croissant doesn't work well in Internet Explorer, try Chrome or Firefox instead.")
+      }
+    </script>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
