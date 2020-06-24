@@ -1,3 +1,8 @@
+<div class="row mb-2">
+  <div class="col">
+    <%= render partial: "submission_navigation", locals: { id: @submission.id } %>
+  </div>
+</div>
 <div class="row">
   <div class="col text-right">
     <%= render partial: 'edit_actions', locals: { submission: @submission } %>
