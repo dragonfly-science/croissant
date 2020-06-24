@@ -14,7 +14,7 @@
   </section>
 
   <section class="col-6 offset-3">
-    <%= render partial: "submission_navigation", locals: { id: @submission.id } %>
+    <%= render partial: "submission_navigation", locals: { submission: @submission } %>
     <h4 class="mb-4"><%= @submission.name %></h4>
     <div class="submission__taggable-text shadow p-3 js-taggable-submission-text"
          data-submission-id="<%= @submission.id %>"
