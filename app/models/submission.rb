@@ -1,4 +1,4 @@
-class Submission < ApplicationRecord
+class Submission < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_paper_trail
   METADATA_FIELDS = %i[description submitted_at channel source name submitter_type
                        email_address address phone_number query_type anonymise
@@ -123,6 +123,22 @@ class Submission < ApplicationRecord
 
   def survey_id
     survey&.id
+  end
+
+  def next
+    consultation.submissions.find_by("id > ?", id)
+  end
+
+  def prev
+    consultation.submissions.find_by("id < ?", id)
+  end
+
+  def first
+    consultation.submissions.active.order(:created_at).first
+  end
+
+  def last
+    consultation.submissions.active.order(:created_at).last
   end
 
   private
