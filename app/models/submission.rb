@@ -135,7 +135,7 @@ class Submission < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def last
-    consultation.submissions.last
+    consultation.submissions.active.order(:created_at).last
   end
 
   private
