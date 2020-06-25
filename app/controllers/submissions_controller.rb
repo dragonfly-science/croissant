@@ -40,6 +40,10 @@ class SubmissionsController < ApplicationController # rubocop:disable Metrics/Cl
     @submission_tags = @submission.submission_tags
   end
 
+  def goto
+    redirect_to consultation_submission_tag_path(params[:goto_consultation_id], params[:goto_submission_id])
+  end
+
   # GET /submissions/1/edit
   def edit
     breadcrumb "Submission #{@submission.id}", submission_path(@submission)

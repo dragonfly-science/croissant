@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :consultations, only: %i[index show new create] do
     resources :submissions, only: %i[index new create destroy] do
       get "/tag", to: "submissions#tag"
+      get "/goto", to: "submissions#goto"
     end
     resources :surveys, only: %i[new create]
     get "/export", to: "consultations#export"
