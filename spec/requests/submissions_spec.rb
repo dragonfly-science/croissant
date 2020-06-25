@@ -77,7 +77,7 @@ RSpec.describe "Submissions", type: :request do
   end
 
   describe "#tag" do
-    let!(:tags) { FactoryBot.create_list(:submission_tag, 3, submission: submission) }
+    let!(:tags) { FactoryBot.create_list(:submission_tag, 3, taggable: submission) }
 
     before do
       get consultation_submission_tag_path(submission.consultation, submission)
@@ -88,7 +88,26 @@ RSpec.describe "Submissions", type: :request do
     end
 
     it "assigns a list of existing submission tags for the current submission" do
-      expect(assigns(:submission_tags).to_a).to eq(tags)
+      expect(assigns(:submission_tags).to_a).to match_array(tags)
+    end
+
+    context "when the submission has survey answers" do
+      let(:survey_answer) do
+        FactoryBot.create(:survey_answer, answer: "My favourite animals: dogs", submission: submission)
+      end
+      let!(:sa_tags) { FactoryBot.create_list(:submission_tag, 3, taggable: survey_answer) }
+
+      before do
+        get consultation_submission_tag_path(submission.consultation, submission)
+      end
+
+      it "responds with an ok status" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "assigns a list of existing submission tags for the current submission" do
+        expect(submission.survey_answers.first.submission_tags.to_a).to match_array(sa_tags)
+      end
     end
   end
 

@@ -14,10 +14,13 @@ class TaggableSubmissionText {
       const range = selection.getRangeAt(0);
 
       try {
+        const answerId =
+          selection.anchorNode.parentElement.parentElement.dataset
+            .surveyAnswerId;
         const [
           selectionStart,
           selectionEnd
-        ] = getFirstAndLastCharactersForSelection(selection);
+        ] = getFirstAndLastCharactersForSelection(selection, answerId);
         const text = selection.toString();
         const startChar = Math.min(selectionStart, selectionEnd);
         const endChar = Math.max(selectionStart, selectionEnd);
@@ -30,7 +33,8 @@ class TaggableSubmissionText {
             tag_id: tagId,
             start_char: startChar,
             end_char: endChar,
-            text: text
+            text: text,
+            answer_id: answerId
           }
         };
 
@@ -40,7 +44,7 @@ class TaggableSubmissionText {
       }
     }
 
-    function getFirstAndLastCharactersForSelection(selection) {
+    function getFirstAndLastCharactersForSelection(selection, answerId) {
       const selectionAnchorIsTextContainer =
         selection.anchorNode.id === 'jsSubmissionText';
       let firstTagCharacter = 0;
@@ -77,8 +81,15 @@ class TaggableSubmissionText {
       // that characters can be added to the beginning and end of the character count in a few different ways.
       // To resolve that we check the string's index inside the larger body of text starting from
       // the first tag character calculated then use that and the selection's length to figure out the end position.
-      const bodyText = $('.js-taggable-submission-text')[0].dataset
-        .submissionText;
+      let bodyText;
+      if (answerId) {
+        bodyText =
+          selection.anchorNode.parentElement.parentElement.dataset
+            .submissionText;
+      } else {
+        bodyText = $('.js-taggable-submission-text')[0].dataset.submissionText;
+      }
+
       const selectionText = selection.toString();
       firstTagCharacter = bodyText.indexOf(
         selectionText,

@@ -5,7 +5,7 @@ RSpec.describe SubmissionTagPolicy, type: :policy do
   let(:submission_tag) { FactoryBot.create(:submission_tag, tagger: user) }
   let(:consultation_user) do
     FactoryBot.create(:consultation_user, user: user,
-                                          consultation: submission_tag.submission.consultation)
+                                          consultation: submission_tag.taggable.consultation)
   end
   subject { SubmissionTagPolicy }
 

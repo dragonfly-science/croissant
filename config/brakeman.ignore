@@ -7,7 +7,7 @@
       "check_name": "PermitAttributes",
       "message": "Potentially dangerous key allowed for mass assignment",
       "file": "app/controllers/admin/users_controller.rb",
-      "line": 61,
+      "line": 73,
       "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
       "code": "params.require(:user).permit(:role)",
       "render_path": null,
@@ -52,6 +52,88 @@
       "note": ""
     },
     {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "49bedfc150937af6cb62f18883bc6fe40befb47dd6c958d178a09144e2849b0e",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/submissions/_survey_answer.html.erb",
+      "line": 3,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "tagged_survey_answer(SubmissionTagMarkupService.new((@consultation.submissions.find((params[:id] or params[:submission_id])) or Submission.find((params[:id] or params[:submission_id])))).markup_survey_answers, survey_answer)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "SubmissionsController",
+          "method": "show",
+          "line": 19,
+          "file": "app/controllers/submissions_controller.rb",
+          "rendered": {
+            "name": "submissions/show",
+            "file": "app/views/submissions/show.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "submissions/show",
+          "line": 64,
+          "file": "app/views/submissions/show.html.erb",
+          "rendered": {
+            "name": "submissions/_survey_answer",
+            "file": "app/views/submissions/_survey_answer.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "submissions/_survey_answer"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "9284daa2ef2bb37c5b527f1c8d33544af340400f47f65df41c0ee24275aaf436",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/submissions/_survey_answer_tag.html.erb",
+      "line": 9,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "tagged_survey_answer(SubmissionTagMarkupService.new((@consultation.submissions.find((params[:id] or params[:submission_id])) or Submission.find((params[:id] or params[:submission_id])))).markup_survey_answers, survey_answer)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "SubmissionsController",
+          "method": "tag",
+          "line": 41,
+          "file": "app/controllers/submissions_controller.rb",
+          "rendered": {
+            "name": "submissions/tag",
+            "file": "app/views/submissions/tag.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "submissions/tag",
+          "line": 20,
+          "file": "app/views/submissions/tag.html.erb",
+          "rendered": {
+            "name": "submissions/_survey_answer_tag",
+            "file": "app/views/submissions/_survey_answer_tag.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "submissions/_survey_answer_tag"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
       "warning_type": "Mass Assignment",
       "warning_code": 105,
       "fingerprint": "98c3bd3d242c92dbc71d4f0e717255b57d7d94d6a9f122301b4e715738bd4f02",
@@ -78,7 +160,7 @@
       "check_name": "CrossSiteScripting",
       "message": "Unescaped parameter value",
       "file": "app/views/submissions/tag.html.erb",
-      "line": 13,
+      "line": 26,
       "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
       "code": "SubmissionTagMarkupService.new((@consultation.submissions.find((params[:id] or params[:submission_id])) or Submission.find((params[:id] or params[:submission_id])))).markup",
       "render_path": [
@@ -86,7 +168,7 @@
           "type": "controller",
           "class": "SubmissionsController",
           "method": "tag",
-          "line": 33,
+          "line": 41,
           "file": "app/controllers/submissions_controller.rb",
           "rendered": {
             "name": "submissions/tag",
@@ -140,7 +222,7 @@
       "check_name": "CrossSiteScripting",
       "message": "Unescaped parameter value",
       "file": "app/views/submissions/show.html.erb",
-      "line": 44,
+      "line": 70,
       "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
       "code": "SubmissionTagMarkupService.new((@consultation.submissions.find((params[:id] or params[:submission_id])) or Submission.find((params[:id] or params[:submission_id])))).markup",
       "render_path": [
@@ -148,7 +230,7 @@
           "type": "controller",
           "class": "SubmissionsController",
           "method": "show",
-          "line": 15,
+          "line": 19,
           "file": "app/controllers/submissions_controller.rb",
           "rendered": {
             "name": "submissions/show",
@@ -165,6 +247,6 @@
       "note": ""
     }
   ],
-  "updated": "2020-02-11 14:06:55 +1300",
+  "updated": "2020-06-25 12:38:38 +1200",
   "brakeman_version": "4.7.2"
 }

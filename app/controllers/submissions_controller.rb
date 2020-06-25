@@ -118,6 +118,7 @@ class SubmissionsController < ApplicationController # rubocop:disable Metrics/Cl
 
     markup_service = SubmissionTagMarkupService.new(@submission)
     @marked_up_text = markup_service.markup
+    @marked_up_sa = markup_service.markup_survey_answers unless @submission.survey_answers.empty?
   end
 
   def consultation

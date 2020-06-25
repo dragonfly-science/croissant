@@ -8,6 +8,11 @@ class SubmissionTagPolicy < ApplicationPolicy
   end
 
   def consultation_user
-    ConsultationUser.find_by(user: user, consultation: record.submission.consultation)
+    consultation = if record.taggable_type == "Submission"
+                     record.taggable.consultation
+                   else
+                     record.taggable&.submission&.consultation
+                   end
+    ConsultationUser.find_by(user: user, consultation: consultation)
   end
 end

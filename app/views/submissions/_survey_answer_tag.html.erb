@@ -1,0 +1,10 @@
+<strong>
+  <%= survey_answer.survey_question.question %>
+</strong>
+
+<div class="submission__taggable-text shadow p-3 mb-2 js-taggable-submission-text"
+    data-submission-id="<%= @submission.id %>"
+    data-submission-text="<%= survey_answer.answer %>"
+    data-survey-answer-id="<%= survey_answer.id %>">
+  <div class="js-tagged-submission" id="jsSubmissionText"><%= tagged_survey_answer(@marked_up_sa, survey_answer).html_safe %></div>
+</div>

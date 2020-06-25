@@ -45,23 +45,40 @@
         <% end %>
       </section>
     <% end %>
+    <% if @submission.survey_answers.any? %>
+      <section>
+        <h3>Tags</h3>
+        <% @submission.survey_answers.each do |survey_answer| %>
+          <% survey_answer.submission_tags.order(:start_char).each do |st| %>
+          <%= render partial: 'tag_with_text', locals: { submission_tag: st } %>
+          <% end %>
+        <% end %>
+      </section>
+    <% end %>
   </div>
   <div class="col">
     <div>
-      <% if @submission.text.present? %>
+      <% if @submission.survey_answers.any? %>
         <h3>Submission text</h3>
-        <section class="submission__taggable-text">
-          <div class="js-tagged-submission"><%= @marked_up_text.html_safe %></div>
-        </section>
-      <% else %>
-        <h4>Raw text</h4>
-        <% if @submission.can_process? %>
-          <%= link_to('Edit', edit_submission_path(@submission), class: 'btn btn-primary') %>
+        <% @submission.survey_answers.each do |survey_answer| %>
+          <%= render partial: 'survey_answer', locals: { survey_answer: survey_answer } %>
         <% end %>
-        <% if @submission.file.analyzed? %>
-          <%= simple_format(@submission.raw_text) %>
+      <% else %>
+        <% if @submission.text.present? %>
+        <h3>Submission text</h3>
+          <section class="submission__taggable-text">
+            <div class="js-tagged-submission"><%= @marked_up_text.html_safe %></div>
+          </section>
         <% else %>
-          <p>This submission hasn't been converted to text yet - check back later</p>
+          <h4>Raw text</h4>
+          <% if @submission.can_process? %>
+            <%= link_to('Edit', edit_submission_path(@submission), class: 'btn btn-primary') %>
+          <% end %>
+          <% if @submission.file.analyzed? %>
+            <%= simple_format(@submission.raw_text) %>
+          <% else %>
+            <p>This submission hasn't been converted to text yet - check back later</p>
+          <% end %>
         <% end %>
       <% end %>
     </div>

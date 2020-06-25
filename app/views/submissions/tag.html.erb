@@ -15,11 +15,17 @@
 
   <section class="col-6 offset-3">
     <h4 class="mb-4"><%= @submission.name %></h4>
-    <div class="submission__taggable-text shadow p-3 js-taggable-submission-text"
-         data-submission-id="<%= @submission.id %>"
-         data-submission-text="<%= @submission.text %>">
-     <div class="js-tagged-submission" id="jsSubmissionText"><%= @marked_up_text.html_safe %></div>
-    </div>
+    <% if @submission.survey_answers.any? %>
+      <% @submission.survey_answers.each do |survey_answer| %>
+        <%= render partial: 'survey_answer_tag', locals: { survey_answer: survey_answer } %>
+      <% end %>
+    <% else %>
+      <div class="submission__taggable-text shadow p-3 js-taggable-submission-text"
+           data-submission-id="<%= @submission.id %>"
+           data-submission-text="<%= @submission.text %>">
+       <div class="js-tagged-submission" id="jsSubmissionText"><%= @marked_up_text.html_safe %></div>
+      </div>
+    <% end %>
   </section>
 
   <section class="col-3 submission-taxonomy">

@@ -47,9 +47,17 @@
         <% if @submission.incoming? %>
           <%= form.text_area :text, class: 'tall-textarea' %>
         <% else %>
-          <div class="tall-scrolling-area">
-            <%= simple_format(@submission.text) %>
-          </div>
+          <% if @submission.survey_answers.any? %>
+            <div class="tall-scrolling-area">
+              <% @submission.survey_answers.each do |survey_answer| %>
+                <%= render partial: 'survey_answer_text', locals: { survey_answer: survey_answer } %>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="tall-scrolling-area">
+              <%= simple_format(@submission.text) %>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>

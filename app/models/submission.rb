@@ -14,8 +14,8 @@ class Submission < ApplicationRecord
   belongs_to :consultation
   belongs_to :survey, optional: true
   has_one_attached :file
-  has_many :submission_tags, dependent: :destroy
-  has_many :tags, through: :submission_tags
+  has_many :submission_tags, as: :taggable, dependent: :destroy
+  has_many :tags, through: :taggable
   has_many :survey_answers, dependent: :destroy
 
   validates :file, blob: {
@@ -91,6 +91,9 @@ class Submission < ApplicationRecord
 
   def add_tag(params)
     return false unless can_tag?
+
+    params.delete("submission_id")
+    params[:taggable] = self
 
     tag
     submission_tags.create(params)

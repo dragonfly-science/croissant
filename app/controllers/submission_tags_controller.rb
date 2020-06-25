@@ -1,9 +1,9 @@
 class SubmissionTagsController < ApplicationController
   before_action :set_submission_tag, only: :destroy
-  before_action :set_submission, only: :create
+  before_action :set_taggable, only: :create
 
   def create
-    @submission_tag = @submission.add_tag(submission_tag_params.merge(tagger: current_user))
+    @submission_tag = @taggable.add_tag(submission_tag_params.merge(tagger: current_user))
     authorize @submission_tag
     if @submission_tag.errors.none?
       render json: @submission_tag, include: :tag
@@ -20,7 +20,9 @@ class SubmissionTagsController < ApplicationController
   end
 
   def submission_tag_params
-    params.require(:submission_tag).permit(:submission_id, :tag_id, :start_char, :end_char, :text, :tagger_id)
+    params.require(:submission_tag).permit(:submission_id, :tag_id, :start_char,
+                                           :end_char, :text, :tagger_id, :taggable_id,
+                                           :taggable_type, :answer_id)
   end
 
   private
@@ -31,7 +33,7 @@ class SubmissionTagsController < ApplicationController
         render json: { submission_tag: @submission_tag }
       end
       format.html do
-        redirect_to submission_url(@submission_tag.submission), notice: "Tag was successfully removed."
+        redirect_to submission_url(@submission_tag.submission_id), notice: "Tag was successfully removed."
       end
     end
   end
@@ -42,13 +44,17 @@ class SubmissionTagsController < ApplicationController
         render json: { errors: @submission_tag.errors.full_messages }, status: :internal_server_error
       end
       format.html do
-        redirect_to submission_url(@submission_tag.submission), alert: t("submission_tag.destroy.failure")
+        redirect_to submission_url(@submission_tag.submission_id), alert: t("submission_tag.destroy.failure")
       end
     end
   end
 
-  def set_submission
-    @submission = Submission.find(submission_tag_params[:submission_id])
+  def set_taggable
+    @taggable = if submission_tag_params[:answer_id]
+                  SurveyAnswer.find(submission_tag_params[:answer_id])
+                else
+                  Submission.find(submission_tag_params[:submission_id])
+                end
   end
 
   def set_submission_tag

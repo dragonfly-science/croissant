@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_11_040052) do
+ActiveRecord::Schema.define(version: 2020_06_17_230505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,7 +56,6 @@ ActiveRecord::Schema.define(version: 2020_06_11_040052) do
   end
 
   create_table "submission_tags", force: :cascade do |t|
-    t.bigint "submission_id"
     t.bigint "tag_id"
     t.integer "start_char"
     t.integer "end_char"
@@ -64,8 +63,10 @@ ActiveRecord::Schema.define(version: 2020_06_11_040052) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "text"
     t.bigint "tagger_id"
-    t.index ["submission_id"], name: "index_submission_tags_on_submission_id"
+    t.string "taggable_type"
+    t.bigint "taggable_id"
     t.index ["tag_id"], name: "index_submission_tags_on_tag_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_submission_tags_on_taggable_type_and_taggable_id"
     t.index ["tagger_id"], name: "index_submission_tags_on_tagger_id"
   end
 

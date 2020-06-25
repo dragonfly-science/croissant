@@ -6,7 +6,7 @@ class Tag < ApplicationRecord
   has_many :children, class_name: "Tag", foreign_key: "parent_id",
                       inverse_of: :parent, dependent: :destroy
   has_many :submission_tags, dependent: :destroy
-  has_many :submissions, through: :submission_tags
+  has_many :submissions, through: :submission_tags, source: :taggable, source_type: "Submission"
 
   before_create :create_number
   before_destroy :check_deletability, prepend: true
