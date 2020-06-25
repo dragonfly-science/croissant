@@ -16,7 +16,7 @@
     <input name="goto_submission_id" type="number" min="<%= submission.first.id %>" max="<%= submission.last.id %>" value="<%= submission.id %>" class="form-control" id="inputSubmissionId">
     <input name="goto_consultation_id" type="hidden" value="<%= submission.consultation.id %>">
     <div class="input-group-append">
-      <a title="Go to next submission" class="btn <%= submission.next ? "" : "disabled" %>" href="<%= submission.next ? consultation_submission_tag_path(submission.next.consultation, submission.next) : "#" %>">
+      <a title="Go to next submission" class="btn <%= submission.next ? "" : "disabled" %>" href="<%= submission.next ? consultation_submission_tag_path(submission.consultation, submission.next) : "#" %>">
         <svg id="i-caret-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
           <path d="M10 30 L26 16 10 2 Z" />
         </svg>
