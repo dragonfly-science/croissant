@@ -24,7 +24,7 @@ little bit more expansive in its browser support.
 | **Resource**        | **URL**                                                                                      |
 | ------------------- | -------------------------------------------------------------------------------------------- |
 | Backlog URL         | [Trello](https://trello.com/b/76mWPkzx/croissant-papa-korero)                                |
-| CI URL              | [Travis](https://travis-ci.org/croissant-mfe/croissant/)                              |
+| CI URL              | [Travis](https://travis-ci.org/croissant-mfe/croissant/)                                     |
 | Google Drive folder | [Google Drive](https://drive.google.com/drive/u/0/folders/1HzhqcG_frJknxaQJYjUIllmMGyS7K3mc) |
 
 ## People Involved
