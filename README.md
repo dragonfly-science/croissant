@@ -24,7 +24,7 @@ little bit more expansive in its browser support.
 | **Resource**        | **URL**                                                                                      |
 | ------------------- | -------------------------------------------------------------------------------------------- |
 | Backlog URL         | [Trello](https://trello.com/b/76mWPkzx/croissant-papa-korero)                                |
-| CI URL              | [Travis](https://travis-ci.org/ServiceInnovationLab/croissant/)                              |
+| CI URL              | [Travis](https://travis-ci.org/croissant-mfe/croissant/)                              |
 | Google Drive folder | [Google Drive](https://drive.google.com/drive/u/0/folders/1HzhqcG_frJknxaQJYjUIllmMGyS7K3mc) |
 
 ## People Involved
@@ -51,7 +51,7 @@ Before running this app and its tests locally you will need:
 
 ### Running the app
 
-1. Clone the project: `git@github.com:ServiceInnovationLab/croissant.git`
+1. Clone the project: `git@github.com:croissant-mfe/croissant.git`
 2. Run the setup script: `./bin/setup`
 
 Then run the following commands:
