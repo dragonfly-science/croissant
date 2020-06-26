@@ -1,7 +1,7 @@
 <% if submission.can_edit? %>
   <%= link_to('Edit', edit_submission_path(submission), class: 'btn btn-info btn-sm') %>
 <% else %>
-  <%= link_to('Edit metadata', edit_submission_path(submission), class: 'btn btn-secondary btn-sm') %>
+  <%= link_to('Edit submission details', edit_submission_path(submission), class: 'btn btn-secondary btn-sm') %>
 <% end %>
 <% if submission.can_tag? %>
   <%= link_to('Tag', consultation_submission_tag_path(submission.consultation, submission), class: "btn btn-primary btn-sm") %>
