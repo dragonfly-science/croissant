@@ -4,8 +4,8 @@ cache:
   bundler: true
   yarn: true
 services:
-  - postgresql
-  - redis
+- postgresql
+- redis
 branches:
   only:
   - main
@@ -40,8 +40,8 @@ before_script:
 script:
 - bin/ci-run
 after_script:
-  - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT -t simplecov --id
-    $CC_TEST_REPORTER_ID"
+- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT -t simplecov --id
+  $CC_TEST_REPORTER_ID"
 deploy:
   provider: heroku
   cleanup: false
@@ -57,4 +57,4 @@ deploy:
   - bundle exec rake assets:precompile
   - restart
   api_key:
-    secure: "KQiyxhokmQXSAZ7wXAogle3Dyopdhn/3rpxMmhSp2PJGXugkRY67qLm2wA0x76oon6d9EtCZBlK0DXOrQEMpM/Ike22vD5qgSuViOQoC6mXRAWqlmO2ngsdWJu2cQfw8AfmlwQVGCEtBaNjNQdByBwdpd9Fcc0cSg/v83Xs74dzH7DEyZ1i+MZOJj2VVdKpGv7oA0hYLz8Xf+YAGsnsljd5aU3pSimSLlr7MmHtgvhv1t1FlrJ5AacKFEysPROGDV/cBw4x3b5kWuQBoQKPwg/9c5DW0q7VQKdDK99NAHd/cyO9t5b78td82VaDOKP5jY/vjG4XviiKA7XPnbfbtixyOpNnfILlnHbLrlDlYMHiFjBlqCILl3hrnSfP7ebgwD3lSvpO/EJjoiWpPfH1NoJSDdqMjcw13EREe95kwZpZLEkemR1vFYkQHJuYP4/BmzS18iBMzPAUo6XrJCxc/oGdtw1MVyxbvKiZrZxYHKHGcfJMXOBd6w7QHYGDbLrARZMfOeK9XLgXLCg4o4EyI5Dc0jpSc5Y5ntxHRwqvcGuUhBfvcSnhhYtUH71FZJotZO7nqcocWATGFCDkr5RjAZFYCx3BlIWaC9LGqwGmHs3Wo7/7HcplJ1MLVnCPl4qCGbUM6q4ote3Bj931d8hypUdvI+YoHSIWFTRC8bA057UQ="
+    secure: BXHK13ob+pkGK5zrxLfahfJE3qVkuqSswSIUo9nVmWqADE/Mrp7BXeuO6N6uZLTmrt8mxUJYjGZipe8wCuSBIfp6m5ofXU4wAqJ2TQEehVkq3XxP7rGEYIzZqtyugdtz1wB9eDMLLZEy6cJNMNTtDPgJuIBpYGfVt6GuNGJxEkDivSAyAMDiEw6MLYVtQUloNZlsNWT1ynyQmnwxwG4GHqAeJ03/86n1bfTwtetvUmQRddz3hn+BDJjsKb8a8ETmqcjfZ8sFBzVi2ovbcydsvi5nNd9sRtn6jeblBp2zcYLlpGKLCEoSICGaXqvb+Cq0KSn/dVpk6k5YvQ4Pe2rpt4u2dYkSl0ux17cJkTWiwB2E0zPT52hboJkS0D79QxYc+KMxrnCFqZhov1vQKmrOPbXh/Q0+jYmiMuPinbQvIXkh5JUQnd+DwOhwwb+TkxfNawEeGw3iqjSGdrae0c75p1S25E+wSxvoD+TUFzLQh34mNIg6Pz8QeobGp9Fexw7FzJ8A2B0L+xhRng94+SwxXETVLI4Qll+NKMxr3+nPDMi+N/pHTupSLajrlmBHHhYmu7EEnFGqt4udeyr6hJ1EA4Um3hdzO8S4Z0ZQm3AyH9AVp0+y9kfJ/3dBg/tUYK0mnEYps/5f1JAC0KHy32/gECrefHwarQ018GwkEmdoN3A=
