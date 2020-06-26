@@ -48,7 +48,7 @@ deploy:
   on:
     repo: croissant-mfe/croissant
   app:
-    master: croissant-tagging
+    main: croissant-tagging
   run:
   - bundle install
   - yarn install
