@@ -10,6 +10,7 @@ module Admin
     end
 
     def edit
+      breadcrumb @consultation.name, edit_admin_consultation_url(@consultation)
       authorize @consultation
     end
 
