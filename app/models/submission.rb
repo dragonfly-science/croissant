@@ -126,11 +126,11 @@ class Submission < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def next
-    consultation.submissions.find_by("id > ?", id)
+    consultation.submissions.active.order(:created_at).find_by("id > ?", id)
   end
 
   def prev
-    consultation.submissions.find_by("id < ?", id)
+    consultation.submissions.active.order(:created_at).find_by("id < ?", id)
   end
 
   def first

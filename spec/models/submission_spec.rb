@@ -120,4 +120,66 @@ RSpec.describe Submission, type: :model do
       expect(Submission.search_by_filename("single-page")).to eq([submission])
     end
   end
+  describe "navigation" do
+    let!(:consultation) { FactoryBot.create(:consultation, :with_taxonomy_tags) }
+    let!(:submissions) do
+      FactoryBot.create_list(:submission, 25, :ready_to_tag, consultation: consultation,
+                                                             text: "cows dogs and sheep in the ocean riding waves")
+    end
+    let!(:other_consultation) { FactoryBot.create(:consultation, :with_taxonomy_tags) }
+    let!(:other_submissions) do
+      FactoryBot.create_list(:submission, 25, :ready_to_tag, consultation: other_consultation,
+                                                             text: "other submission")
+    end
+    describe "first" do
+      it "returns the first record for the consulation" do
+        second_record = consultation.submissions.second
+        expect(second_record.first).to eq(consultation.submissions.first)
+      end
+      it "doesn't return a record from another consultation" do
+        expect(other_consultation.submissions.first).not_to eq(consultation.submissions.first)
+      end
+    end
+    describe "prev" do
+      it "returns the previous record for the consulation" do
+        first_record = consultation.submissions.first
+        second_record = consultation.submissions.second
+        expect(second_record.prev).to eq(first_record)
+      end
+      it "doesn't go back beyond the first one" do
+        first_record = consultation.submissions.first
+        expect(first_record.prev).to eq(nil)
+      end
+      it "doesn't return a record from another consultation" do
+        second_record = consultation.submissions.second
+        other_second_record = other_consultation.submissions.second
+        expect(second_record.prev).not_to eq(other_second_record.prev)
+      end
+    end
+    describe "next" do
+      it "returns the next record for the consulation" do
+        first_record = consultation.submissions.first
+        second_record = consultation.submissions.second
+        expect(first_record.next).to eq(second_record)
+      end
+      it "doesn't go beyond the last one" do
+        first_record = consultation.submissions.last
+        expect(first_record.next).to eq(nil)
+      end
+      it "doesn't return a record from another consultation" do
+        second_record = consultation.submissions.second
+        other_second_record = other_consultation.submissions.second
+        expect(second_record.next).not_to eq(other_second_record.next)
+      end
+    end
+    describe "last" do
+      it "returns the last record for the consulation" do
+        record = consultation.submissions.second
+        expect(record.last).to eq(consultation.submissions.last)
+      end
+      it "doesn't return a record from another consultation" do
+        expect(other_consultation.submissions.last).not_to eq(consultation.submissions.last)
+      end
+    end
+  end
 end
