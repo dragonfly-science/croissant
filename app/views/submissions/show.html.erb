@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col mb-3">
     <%= render partial: "submission_navigation", locals: {
-      first_url: submission_path(@submission.first(%w[ready started])),
-      prev_url: @submission.prev(%w[ready started]) ? submission_path(@submission.prev(%w[ready started])) : "#",
-      next_url: @submission.next(%w[ready started]) ? submission_path(@submission.next(%w[ready started])) : "#",
-      last_url: submission_path(@submission.last(%w[ready started])),
-      has_prev: @submission.prev(%w[ready started]),
-      has_next: @submission.next(%w[ready started]),
+      first_url: submission_path(@submission.first(%w[incoming ready started finished])),
+      prev_url: @submission.prev(%w[incoming ready started finished]) ? submission_path(@submission.prev(%w[incoming ready started finished])) : "#",
+      next_url: @submission.next(%w[incoming ready started finished]) ? submission_path(@submission.next(%w[incoming ready started finished])) : "#",
+      last_url: submission_path(@submission.last(%w[incoming ready started finished])),
+      has_prev: @submission.prev(%w[incoming ready started finished]),
+      has_next: @submission.next(%w[incoming ready started finished]),
       submission_id: @submission.id
     } %>
     </div>
