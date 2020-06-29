@@ -29,6 +29,7 @@ class Submission < ApplicationRecord # rubocop:disable Metrics/ClassLength
   delegate :blank?, to: :text, prefix: true
 
   scope :active, -> { where.not(state: "archived") }
+  scope :navigable, -> { where(state: %w[ready started]) }
   scope :search_by_filename, lambda { |query|
     Submission
       .left_outer_joins(
@@ -126,19 +127,19 @@ class Submission < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def next
-    consultation.submissions.active.order(:created_at).find_by("id > ?", id)
+    consultation.submissions.navigable.order(:created_at).find_by("id > ?", id)
   end
 
   def prev
-    consultation.submissions.active.order(:created_at).find_by("id < ?", id)
+    consultation.submissions.navigable.order(:created_at).find_by("id < ?", id)
   end
 
   def first
-    consultation.submissions.active.order(:created_at).first
+    consultation.submissions.navigable.order(:created_at).first
   end
 
   def last
-    consultation.submissions.active.order(:created_at).last
+    consultation.submissions.navigable.order(:created_at).last
   end
 
   private
