@@ -124,7 +124,6 @@ class Submission < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def survey_id
     survey&.id
   end
-  scope :navigable, -> { where(state: %w[ready started]) }
 
   def next(states)
     consultation.submissions.where(state: states).order(:created_at).find_by("id > ?", id)
