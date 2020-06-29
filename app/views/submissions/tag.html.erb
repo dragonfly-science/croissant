@@ -15,10 +15,10 @@
 
   <section class="col-6 offset-3">
     <%= render partial: "submission_navigation", locals: {
-      first_url: consultation_submission_tag_path(@submission.consultation, @submission.first)
-      next_url: consultation_submission_tag_path(@submission.consultation, @submission.prev)
-      next_url: consultation_submission_tag_path(@submission.consultation, @submission.next)
-      last_url: consultation_submission_tag_path(@submission.consultation, @submission.last)
+      first_url: consultation_submission_tag_path(@submission.consultation, @submission.first(%w[ready started]))
+      next_url: consultation_submission_tag_path(@submission.consultation, @submission.prev(%w[ready started]))
+      next_url: consultation_submission_tag_path(@submission.consultation, @submission.next(%w[ready started]))
+      last_url: consultation_submission_tag_path(@submission.consultation, @submission.last(%w[ready started]))
       submission: @submission
       } %>
     <h4 class="mb-4"><%= @submission.name %></h4>
