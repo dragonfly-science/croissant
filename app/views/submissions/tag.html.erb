@@ -14,7 +14,13 @@
   </section>
 
   <section class="col-6 offset-3">
-    <%= render partial: "submission_navigation", locals: { submission: @submission } %>
+    <%= render partial: "submission_navigation", locals: {
+      first_url: consultation_submission_tag_path(@submission.consultation, @submission.first)
+      next_url: consultation_submission_tag_path(@submission.consultation, @submission.prev)
+      next_url: consultation_submission_tag_path(@submission.consultation, @submission.next)
+      last_url: consultation_submission_tag_path(@submission.consultation, @submission.last)
+      submission: @submission
+      } %>
     <h4 class="mb-4"><%= @submission.name %></h4>
     <% if @submission.survey_answers.any? %>
       <% @submission.survey_answers.each do |survey_answer| %>
