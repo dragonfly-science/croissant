@@ -40,8 +40,14 @@ class SubmissionsController < ApplicationController # rubocop:disable Metrics/Cl
     @submission_tags = @submission.submission_tags
   end
 
-  def goto
-    redirect_to consultation_submission_tag_path(params[:goto_consultation_id], params[:goto_submission_id])
+  def goto # rubocop:disable Metrics/AbcSize
+    consultation = Consultation.find(params[:consultation_id])
+    submission_id = if consultation.submissions.exists?(id: params[:goto_submission_id])
+                      params[:goto_submission_id]
+                    else
+                      params[:submission_id]
+                    end
+    redirect_to consultation_submission_tag_path(params[:consultation_id], submission_id)
   end
 
   # GET /submissions/1/edit
