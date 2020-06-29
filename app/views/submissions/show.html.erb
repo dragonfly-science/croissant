@@ -1,5 +1,18 @@
 <div class="row">
-  <div class="col text-right">
+  <div class="col mb-3">
+    <%= render partial: "submission_navigation", locals: {
+      first_url: submission_path(@submission.first(%w[ready started])),
+      prev_url: @submission.prev(%w[ready started]) ? submission_path(@submission.prev(%w[ready started])) : "#",
+      next_url: @submission.next(%w[ready started]) ? submission_path(@submission.next(%w[ready started])) : "#",
+      last_url: submission_path(@submission.last(%w[ready started])),
+      has_prev: @submission.prev(%w[ready started]),
+      has_next: @submission.next(%w[ready started]),
+      submission_id: @submission.id
+    } %>
+    </div>
+  </div>
+<div class="row">
+  <div class="col text-center">
     <%= render partial: 'edit_actions', locals: { submission: @submission } %>
     <%= render partial: 'state_actions', locals: { submission: @submission } %>
     <%= link_to 'Back to submissions', consultation_submissions_path(@submission.consultation), class: "btn btn-sm btn-outline-secondary"%>
