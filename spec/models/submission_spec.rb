@@ -131,12 +131,29 @@ RSpec.describe Submission, type: :model do
       FactoryBot.create_list(:submission, 25, :ready_to_tag, consultation: other_consultation,
                                                              text: "other submission")
     end
+    let!(:many_states_consultation) { FactoryBot.create(:consultation, :with_taxonomy_tags) }
+    let!(:submission_for_tagging) do
+      FactoryBot.create_list(:submission, 50, :ready_to_tag, consultation: many_states_consultation,
+                                                             text: "tag me")
+    end
+    let!(:submissions_for_showing) do
+      FactoryBot.create_list(:submission, 50, :finished, consultation: many_states_consultation,
+                                                         text: "show me")
+    end
     describe "first" do
       it "returns the first record for the consulation" do
         second_record = consultation.submissions.second
         expect(second_record.first(%w[ready started])).to eq(consultation.submissions.first)
       end
-      xit "doesn't return a record from another consultation" do
+      it "doesn't return a record from another consultation" do
+        record = consultation.submissions.second
+        other_record = other_consultation.submissions.second
+        expect(record.first(%w[ready started])).not_to eq(other_record.first(%w[ready started]))
+      end
+      it "navigates within the supplied filters" do
+        record = many_states_consultation.submissions.forty_two
+        expect(record.first(%w[ready started])).not_to eq(record.first(%w[incoming finished]))
+        expect(record.first(%w[finished archived])).to eq(record.first(%w[finished]))
       end
     end
     describe "prev" do
@@ -154,6 +171,11 @@ RSpec.describe Submission, type: :model do
         other_second_record = other_consultation.submissions.second
         expect(second_record.prev(%w[ready started])).not_to eq(other_second_record.prev(%w[ready started]))
       end
+      it "navigates within the supplied filters" do
+        record = many_states_consultation.submissions.forty_two
+        expect(record.prev(%w[ready started])).not_to eq(record.prev(%w[incoming finished]))
+        expect(record.prev(%w[finished archived])).to eq(record.prev(%w[finished]))
+      end
     end
     describe "next" do
       it "returns the next record for the consulation" do
@@ -170,13 +192,26 @@ RSpec.describe Submission, type: :model do
         other_second_record = other_consultation.submissions.second
         expect(second_record.next(%w[ready started])).not_to eq(other_second_record.next(%w[ready started]))
       end
+      it "navigates within the supplied filters" do
+        record = many_states_consultation.submissions.forty_two
+        expect(record.next(%w[ready started])).not_to eq(record.next(%w[incoming finished]))
+        expect(record.next(%w[finished archived])).to eq(record.next(%w[finished]))
+      end
     end
     describe "last" do
       it "returns the last record for the consulation" do
         record = consultation.submissions.second
         expect(record.last(%w[ready started])).to eq(consultation.submissions.last)
       end
-      xit "doesn't return a record from another consultation" do
+      it "doesn't return a record from another consultation" do
+        record = consultation.submissions.second
+        other_record = other_consultation.submissions.second
+        expect(record.last(%w[ready started])).not_to eq(other_record.last(%w[ready started]))
+      end
+      it "navigates within the supplied filters" do
+        record = many_states_consultation.submissions.forty_two
+        expect(record.last(%w[ready started])).not_to eq(record.last(%w[incoming finished]))
+        expect(record.last(%w[finished archived])).to eq(record.last(%w[finished]))
       end
     end
   end
