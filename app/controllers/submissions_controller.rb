@@ -40,14 +40,14 @@ class SubmissionsController < ApplicationController # rubocop:disable Metrics/Cl
     @submission_tags = @submission.submission_tags
   end
 
-  def goto # rubocop:disable Metrics/AbcSize
+  def goto
     consultation = Consultation.find(params[:consultation_id])
     submission_id = if consultation.submissions.exists?(id: params[:goto_submission_id])
                       params[:goto_submission_id]
                     else
                       params[:submission_id]
                     end
-    redirect_to consultation_submission_tag_path(params[:consultation_id], submission_id)
+    redirect_to path_for_goto(params, submission_id)
   end
 
   # GET /submissions/1/edit
@@ -112,16 +112,8 @@ class SubmissionsController < ApplicationController # rubocop:disable Metrics/Cl
 
   private
 
-  def submission_id_from_route
-    if params[:id] == "goto"
-      params[:goto_submission_id]
-    else
-      params[:id] || params[:submission_id]
-    end
-  end
-
   def set_submission
-    submission_id = submission_id_from_route
+    submission_id = params[:id] || params[:submission_id]
     if @consultation.present?
       @submission = @consultation.submissions.find(submission_id)
     else
@@ -155,6 +147,17 @@ class SubmissionsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def file_upload_params
     params[:submission][:file]
+  end
+
+  def path_for_goto(params, submission_id)
+    case params[:destination]
+    when "tag"
+      consultation_submission_tag_path(params[:consultation_id], submission_id)
+    when "show"
+      submission_path(submission_id)
+    else
+      submission_path(submission_id)
+    end
   end
 
   def filter_params

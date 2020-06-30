@@ -7,7 +7,8 @@
       last_url: submission_path(@submission.last(%w[incoming ready started finished])),
       has_prev: @submission.prev(%w[incoming ready started finished]),
       has_next: @submission.next(%w[incoming ready started finished]),
-      submission_id: @submission.id
+      submission: @submission,
+      destination: "show"
     } %>
     </div>
   </div>

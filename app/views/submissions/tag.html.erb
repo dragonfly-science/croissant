@@ -21,7 +21,8 @@
       last_url: consultation_submission_tag_path(@submission.consultation, @submission.last(%w[ready started])),
       has_prev: @submission.prev(%w[ready started]),
       has_next: @submission.next(%w[ready started]),
-      submission_id: @submission.id
+      submission: @submission,
+      destination: "tag"
     } %>
     <h4 class="mb-4"><%= @submission.name %></h4>
     <% if @submission.survey_answers.any? %>

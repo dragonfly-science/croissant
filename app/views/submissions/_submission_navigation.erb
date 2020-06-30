@@ -1,4 +1,5 @@
-<form method="get" action="goto" data-testid="submission-navigation">
+<%= form_with(url: consultation_submission_goto_path(consultation_id: submission.consultation.id, submission_id: submission.id), method: 'get', local: true, html: {"data-testid": "submission-navigation"}) do %>
+  <input type="hidden" value="<%= destination %>" name="destination">
   <div class="input-group">
     <div class="input-group-prepend">
       <a data-testid="nav-first" title="Go to first submission" class="btn <%= has_prev ? "" : "disabled" %>" href="<%= first_url %>">
@@ -13,7 +14,7 @@
       </a>
       <label class="input-group-text" for="inputSubmissionId">ID</label>
     </div>
-    <input name="goto_submission_id" type="number" value="<%= submission_id %>" class="form-control" id="inputSubmissionId">
+    <input name="goto_submission_id" type="number" value="<%= submission.id %>" class="form-control" id="inputSubmissionId">
     <div class="input-group-append">
       <a data-testid="nav-next" title="Go to next submission" class="btn <%= has_next ? "" : "disabled" %>" href="<%= next_url %>">
         <svg id="i-caret-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
@@ -27,5 +28,4 @@
       </a>
     </div>
   </div>
-</form>
-
+<% end %>
