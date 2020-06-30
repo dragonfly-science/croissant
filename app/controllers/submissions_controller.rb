@@ -112,8 +112,16 @@ class SubmissionsController < ApplicationController # rubocop:disable Metrics/Cl
 
   private
 
+  def submission_id_from_route
+    if params[:id] == "goto"
+      params[:goto_submission_id]
+    else
+      params[:id] || params[:submission_id]
+    end
+  end
+
   def set_submission
-    submission_id = params[:id] || params[:submission_id]
+    submission_id = submission_id_from_route
     if @consultation.present?
       @submission = @consultation.submissions.find(submission_id)
     else
