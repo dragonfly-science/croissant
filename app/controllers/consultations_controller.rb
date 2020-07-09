@@ -5,11 +5,26 @@ class ConsultationsController < ApplicationController
   def index
     authorize Consultation
     @consultations = UserConsultationsService.consultations(current_user)
+    respond_to do |format|
+      format.json { render json: {consultations: @consultations} }
+      format.html
+    end
   end
 
   def show
     authorize @consultation
-    breadcrumb @consultation.name, :consultation_path
+    respond_to do |format|
+      format.json do
+        render json: {
+                 consultation: @consultation,
+                 taxonomy: @consultation.taxonomy,
+                 tags: @consultation.taxonomy.tags
+               }
+      end
+      format.html do
+        breadcrumb @consultation.name, :consultation_path
+      end
+    end
   end
 
   def new

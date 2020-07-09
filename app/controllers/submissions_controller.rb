@@ -15,7 +15,15 @@ class SubmissionsController < ApplicationController # rubocop:disable Metrics/Cl
 
   # GET /submissions/1
   def show
-    breadcrumb "Submission #{@submission.id}", :submission_path
+    respond_to do |format|
+      format.json do
+        @submission_tags = @submission.submission_tags
+        render json: {submission: @submission, submission_tags: @submission_tags}
+      end
+      format.html do
+        breadcrumb "Submission #{@submission.id}", :submission_path
+      end
+    end
   end
 
   # POST /submissions
