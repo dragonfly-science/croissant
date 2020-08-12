@@ -1,0 +1,59 @@
+version: "3.4"
+x-services:
+  rails: &rails
+    build: .
+    env_file:
+      - example.env
+    volumes:
+      - bundle:/usr/local/bundle
+      - node_modules:/usr/src/app/node_modules
+      - .:/usr/src/app
+      - box:/box
+      - ./config/database.dev.yml:/usr/src/app/config/database.yml
+    tty: true
+    stdin_open: true
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=croissant
+    volumes:
+      - pgdata:/var/lib/postgresql
+  redis:
+    image: redis
+    ports:
+      - 6379
+  app:
+    hostname: localhost
+    <<: *rails
+    links:
+      - db
+      - redis
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: webpacker
+    ports:
+      - "3000:3000"
+    command: "bash -c '\
+      rm -rf tmp/pid/server.pid && \
+      bundle exec rails s --binding 0.0.0.0\
+      '"
+  sidekiq:
+    <<: *rails
+    links:
+      - db
+      - redis
+    depends_on:
+      - app
+    environment:
+      REDIS_URL: redis://redis:6379/11
+    command:
+      bundle exec sidekiq -C config/sidekiq.yml
+  box:
+    image: busybox
+    volumes:
+      - /box
+volumes:
+  pgdata:
+  bundle:
+  node_modules:
+  box:

@@ -103,3 +103,18 @@ docker-compose up
 Visit http://localhost:3000
 
 Copy `config.hosts << "xxxxxx"` to `development.rb`
+
+
+## Development with docker-compose
+
+```zsh
+
+docker-compose -f docker-compose-dev.yml build --build-arg DEPLOY=root
+docker-compose -f docker-compose-dev.yml up
+docker exec -ti croissant_app_1 bin/rake tmp:create
+docker exec -ti croissant_app_1 bin/rake db:create
+docker exec -ti croissant_app_1 bin/rake db:migrate
+docker exec -ti croissant_app_1 bin/rake db:seed:dev
+```
+
+Visit http://localhost:3000

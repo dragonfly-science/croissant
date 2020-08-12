@@ -51,7 +51,8 @@ RUN mkdir -p /usr/src/app/node_modules
 RUN adduser --disabled-password --gecos "" deploy && chown -R deploy:deploy /usr/src/app
 # VOLUME /usr/src/app/node_modules
 # VOLUME /usr/local/bundle
-USER deploy
+ARG DEPLOY=deploy
+USER $DEPLOY
 
 # Add just the dependency manifests before installing.
 # This reduces the chance that bundler or NPM will get a cold cache because some kind of application file changed.
